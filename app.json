@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Lunarr",
+    "slug": "Lunarr",
+    "scheme": "lunarr",
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
