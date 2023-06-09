@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 
 interface SignupData {
   displayName: string;
@@ -54,8 +54,9 @@ const SignUp: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Create an Account</Text>
+      <Stack.Screen options={{ title: "Signup - Lunarr" }} />
 
+      <Text style={styles.title}>Create an Account</Text>
       <View style={styles.form}>
         <TextInput
           style={styles.input}

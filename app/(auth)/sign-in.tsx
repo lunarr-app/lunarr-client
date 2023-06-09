@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useAuth } from "../../context/auth";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 
 const SignIn: React.FC = () => {
   const { signIn } = useAuth();
@@ -27,6 +27,8 @@ const SignIn: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{ title: "Login - Lunarr" }} />
+
       <Text style={styles.title}>Welcome to Lunarr</Text>
       <View style={styles.form}>
         <TextInput
