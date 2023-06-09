@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   View,
-  Image,
+  ImageBackground,
   Text,
   TextInput,
   TouchableOpacity,
@@ -27,61 +27,59 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen options={{ title: "Login - Lunarr" }} />
+    <ImageBackground
+      source={require("../../assets/images/background_login.jpg")}
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <Stack.Screen options={{ title: "Login - Lunarr" }} />
 
-      <Image
-        source={require("../../assets/images/logo.png")}
-        style={styles.logo}
-        resizeMode="cover"
-      />
+        <Text style={styles.title}>Welcome to Lunarr</Text>
+        <View style={styles.form}>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+            placeholderTextColor="#fff"
+          />
 
-      <Text style={styles.title}>Welcome to Lunarr</Text>
-      <View style={styles.form}>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-          placeholderTextColor="#ccc"
-        />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            placeholderTextColor="#fff"
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          placeholderTextColor="#ccc"
-        />
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Sign In</Text>
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.signupText}>
-        Don't have an account?{" "}
-        <Text style={styles.signupLink} onPress={handleSignup}>
-          Signup
+        <Text style={styles.signupText}>
+          New to Lunarr?{" "}
+          <Text style={styles.signupLink} onPress={handleSignup}>
+            Sign up now
+          </Text>
         </Text>
-      </Text>
-    </View>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: "100%",
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#262833", // Dark background color
-  },
-  logo: {
-    width: "100%",
-    maxWidth: 300,
-    height: 100,
-    marginBottom: 16,
+    backgroundColor: "rgba(0, 0, 0, 0.6)", // Semi-transparent background overlay
   },
   title: {
     fontSize: 32,
@@ -96,17 +94,17 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    height: 40,
-    backgroundColor: "#444", // Dark input background color
-    borderRadius: 8,
+    height: 50,
+    backgroundColor: "rgba(255, 255, 255, 0.3)", // Semi-transparent input background color
+    borderRadius: 4,
     paddingHorizontal: 16,
     marginBottom: 16,
     color: "#fff", // White text color
   },
   button: {
-    backgroundColor: "#2196F3",
-    borderRadius: 8,
-    paddingVertical: 12,
+    backgroundColor: "#e50914", // Red color for the button
+    borderRadius: 4,
+    paddingVertical: 16,
     paddingHorizontal: 24,
     marginBottom: 16,
   },
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
     color: "#fff", // White text color
   },
   signupLink: {
-    color: "#2196F3",
+    color: "#e50914", // Red color for the link
     fontWeight: "bold",
     textDecorationLine: "underline",
   },
