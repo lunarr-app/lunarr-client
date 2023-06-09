@@ -23,7 +23,7 @@ const SignIn: React.FC = () => {
   };
 
   const handleSignup = () => {
-    router.push("/sign-up");
+    router.push("/signup");
   };
 
   return (

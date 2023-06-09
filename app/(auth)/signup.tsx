@@ -45,12 +45,12 @@ const SignUp: React.FC = () => {
 
     // After successful signup, navigate to the login page
     setTimeout(() => {
-      router.push("/sign-in");
+      router.push("/login");
     }, 2000);
   };
 
   const handleLogin = () => {
-    router.push("/sign-in");
+    router.push("/login");
   };
 
   return (
