@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   View,
+  Image,
   Text,
   TextInput,
   TouchableOpacity,
@@ -29,6 +30,12 @@ const SignIn: React.FC = () => {
     <View style={styles.container}>
       <Stack.Screen options={{ title: "Login - Lunarr" }} />
 
+      <Image
+        source={require("../../assets/images/logo.png")}
+        style={styles.logo}
+        resizeMode="cover"
+      />
+
       <Text style={styles.title}>Welcome to Lunarr</Text>
       <View style={styles.form}>
         <TextInput
@@ -36,6 +43,7 @@ const SignIn: React.FC = () => {
           placeholder="Username"
           value={username}
           onChangeText={setUsername}
+          placeholderTextColor="#ccc"
         />
 
         <TextInput
@@ -44,6 +52,7 @@ const SignIn: React.FC = () => {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
+          placeholderTextColor="#ccc"
         />
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
@@ -66,26 +75,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#262833", // Dark background color
+  },
+  logo: {
+    width: "100%",
+    maxWidth: 300,
+    height: 100,
+    marginBottom: 16,
   },
   title: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#333",
+    color: "#fff", // White text color
     marginBottom: 40,
   },
   form: {
     width: "80%",
     alignItems: "center",
-    maxWidth: 400, // maximum width for the login container
+    maxWidth: 400, // Maximum width for the login container
   },
   input: {
     width: "100%",
     height: 40,
-    backgroundColor: "#fff",
+    backgroundColor: "#444", // Dark input background color
     borderRadius: 8,
     paddingHorizontal: 16,
     marginBottom: 16,
+    color: "#fff", // White text color
   },
   button: {
     backgroundColor: "#2196F3",
@@ -102,7 +118,7 @@ const styles = StyleSheet.create({
   },
   signupText: {
     fontSize: 14,
-    color: "#333",
+    color: "#fff", // White text color
   },
   signupLink: {
     color: "#2196F3",

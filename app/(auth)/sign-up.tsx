@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   View,
+  Image,
   Text,
   TextInput,
   TouchableOpacity,
@@ -56,6 +57,12 @@ const SignUp: React.FC = () => {
     <View style={styles.container}>
       <Stack.Screen options={{ title: "Signup - Lunarr" }} />
 
+      <Image
+        source={require("../../assets/images/logo.png")}
+        style={styles.logo}
+        resizeMode="cover"
+      />
+
       <Text style={styles.title}>Create an Account</Text>
       <View style={styles.form}>
         <TextInput
@@ -63,6 +70,7 @@ const SignUp: React.FC = () => {
           placeholder="Display Name"
           value={displayName}
           onChangeText={setDisplayName}
+          placeholderTextColor="#ccc"
         />
 
         <TextInput
@@ -70,14 +78,16 @@ const SignUp: React.FC = () => {
           placeholder="Username"
           value={username}
           onChangeText={setUsername}
+          placeholderTextColor="#ccc"
         />
 
         <TextInput
+          secureTextEntry
           style={styles.input}
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
-          secureTextEntry
+          placeholderTextColor="#ccc"
         />
 
         <View style={styles.genderContainer}>
@@ -146,23 +156,31 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#262833",
+  },
+  logo: {
+    width: "100%",
+    maxWidth: 300,
+    height: 100,
+    marginBottom: 16,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
+    color: "#fff",
     marginBottom: 16,
   },
   form: {
     width: "90%",
-    maxWidth: 500, // maximum width for the signup container
+    maxWidth: 500, // Maximum width for the signup container
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: "#444",
     borderRadius: 8,
     paddingHorizontal: 16,
     marginBottom: 16,
     height: 40,
+    color: "#fff",
   },
   genderContainer: {
     flexDirection: "row",
@@ -171,6 +189,7 @@ const styles = StyleSheet.create({
   },
   genderLabel: {
     marginRight: 8,
+    color: "#fff",
   },
   genderButtonsContainer: {
     flexDirection: "row",
@@ -180,7 +199,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderRadius: 8,
     marginRight: 8,
-    backgroundColor: "#ccc",
+    backgroundColor: "#555",
   },
   genderButtonActive: {
     backgroundColor: "#6495ED",
@@ -211,11 +230,11 @@ const styles = StyleSheet.create({
   loginText: {
     marginTop: 16,
     fontSize: 14,
-    color: "#333",
+    color: "#fff",
     textAlign: "center",
   },
   loginLink: {
-    color: "#2196F3",
+    color: "#6495ED",
     fontWeight: "bold",
     textDecorationLine: "underline",
   },
