@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "gen:swag": "npx swagger-typescript-api -p http://127.0.0.1:3000/swagger/doc.json -o ./backend -n lunarr.ts --responses --disableProxy"
   },
   "dependencies": {
     "expo": "^48.0.19",
