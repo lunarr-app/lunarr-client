@@ -7,12 +7,10 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useAuth } from "../../context/auth";
 import { Stack, useRouter } from "expo-router";
 import { LunarrApi } from "@backend/api";
 
 const SignIn: React.FC = () => {
-  const { signIn } = useAuth();
   const router = useRouter();
 
   const [username, setUsername] = useState("");
@@ -39,7 +37,7 @@ const SignIn: React.FC = () => {
 
       // After successful login, navigate to the home page
       setTimeout(() => {
-        signIn();
+        // To-do
       }, 2000);
     } catch (err: any) {
       setErrorMessage(err.response?.data?.message || err.message);

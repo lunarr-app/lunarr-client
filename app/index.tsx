@@ -6,19 +6,15 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { useAuth } from "../context/auth";
 
 const HomePage: React.FC = () => {
-  const { signOut } = useAuth();
   const router = useRouter();
 
   const handleLogin = () => {
-    signOut();
     router.push("/login");
   };
 
   const handleSignup = () => {
-    signOut();
     router.push("/signup");
   };
 
