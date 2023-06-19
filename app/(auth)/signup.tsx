@@ -8,19 +8,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { Stack, useRouter } from "expo-router";
-
-interface SignupData {
-  displayName: string;
-  username: string;
-  password: string;
-  gender: string;
-}
+import { LunarrApi } from "../../backend";
 
 const SignUp: React.FC = () => {
   const router = useRouter();
 
-  const [displayName, setDisplayName] = useState("");
+  const [displayname, setDisplayname] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
 
@@ -28,25 +23,30 @@ const SignUp: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     setIsLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
 
-    const signupData: SignupData = {
-      displayName,
-      username,
-      password,
-      gender,
-    };
+    try {
+      const { data } = await LunarrApi.auth.signupCreate({
+        displayname,
+        username,
+        email,
+        password,
+        sex: (gender as any) || "unknown",
+      });
+      setSuccessMessage(data.message as string);
 
-    // Perform signup logic here, such as calling an API to register the user
-    // Use the signupData object to send the required data
+      // After successful signup, navigate to the login page
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+    } catch (err: any) {
+      setErrorMessage(err.response?.data?.message || err.message);
+    }
 
-    // After successful signup, navigate to the login page
-    setTimeout(() => {
-      router.push("/login");
-    }, 2000);
+    setIsLoading(false);
   };
 
   const handleLogin = () => {
@@ -67,8 +67,8 @@ const SignUp: React.FC = () => {
           <TextInput
             style={styles.input}
             placeholder="Display Name"
-            value={displayName}
-            onChangeText={setDisplayName}
+            value={displayname}
+            onChangeText={setDisplayname}
             placeholderTextColor="#ccc"
           />
 
@@ -81,12 +81,22 @@ const SignUp: React.FC = () => {
           />
 
           <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            placeholderTextColor="#ccc"
+            keyboardType="email-address"
+          />
+
+          <TextInput
             secureTextEntry
             style={styles.input}
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
             placeholderTextColor="#ccc"
+            keyboardType="visible-password"
           />
 
           <View style={styles.genderContainer}>
@@ -111,16 +121,6 @@ const SignUp: React.FC = () => {
                 onPress={() => setGender("female")}
               >
                 <Text style={styles.genderButtonText}>Female</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={[
-                  styles.genderButton,
-                  gender === "unknown" && styles.genderButtonActive,
-                ]}
-                onPress={() => setGender("unknown")}
-              >
-                <Text style={styles.genderButtonText}>Unknown</Text>
               </TouchableOpacity>
             </View>
           </View>
