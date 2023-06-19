@@ -6,11 +6,11 @@ module.exports = function (api) {
       [
         "module-resolver",
         {
-          root: ["."],
+          root: ["./"],
           alias: {
             "@backend": "./backend",
-            "@components": ["./components"],
-            "@helpers": ["./helpers"],
+            "@components": "./components",
+            "@helpers": "./helpers",
             "@store": "./store",
           },
         },
