@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useAuth } from "../../context/auth";
 import { Stack, useRouter } from "expo-router";
+import { LunarrApi } from "@backend/api";
 
 const SignIn: React.FC = () => {
   const { signIn } = useAuth();
@@ -17,9 +18,34 @@ const SignIn: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    signIn();
-    // perform any additional login logic here
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleLogin = async () => {
+    setIsLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const { data } = await LunarrApi.auth.loginCreate({
+        username,
+        password,
+      });
+      if (!data.api_key) {
+        throw new Error("Invalid credentials");
+      }
+      setSuccessMessage("Successfully logged in");
+
+      // After successful login, navigate to the home page
+      setTimeout(() => {
+        signIn();
+      }, 2000);
+    } catch (err: any) {
+      setErrorMessage(err.response?.data?.message || err.message);
+    }
+
+    setIsLoading(false);
   };
 
   const handleSignup = () => {
@@ -54,9 +80,25 @@ const SignIn: React.FC = () => {
             placeholderTextColor="#fff"
           />
 
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Sign In</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleLogin}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Text style={styles.buttonText}>Signing In...</Text>
+            ) : (
+              <Text style={styles.buttonText}>Sign In</Text>
+            )}
           </TouchableOpacity>
+
+          {errorMessage ? (
+            <Text style={styles.errorText}>{errorMessage}</Text>
+          ) : null}
+
+          {successMessage ? (
+            <Text style={styles.successText}>{successMessage}</Text>
+          ) : null}
         </View>
 
         <Text style={styles.signupText}>
@@ -113,6 +155,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  errorText: {
+    color: "#f00", // Red error text color
+    marginBottom: 16,
+  },
+  successText: {
+    color: "#0f0", // Green success text color
+    marginBottom: 16,
   },
   signupText: {
     fontSize: 14,
