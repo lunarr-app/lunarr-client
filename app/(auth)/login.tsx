@@ -10,7 +10,7 @@ import {
 import { Stack, useRouter } from "expo-router";
 import { LunarrApi } from "@backend/api";
 import { useAtom } from "jotai";
-import { userAtom } from "../../store/user";
+import { userAtom } from "@store/user";
 
 const SignIn: React.FC = () => {
   const router = useRouter();
