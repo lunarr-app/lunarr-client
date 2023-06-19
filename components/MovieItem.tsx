@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { getImageURL } from "../helpers/tmdb";
+import { getImageURL } from "@helpers/tmdb";
 import type { ModelsMovieMetadata } from "@backend/api/lunarr";
 
 interface MovieItemProps {

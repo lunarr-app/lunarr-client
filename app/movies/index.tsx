@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MovieItem from "@components/MovieItem";
 import { LunarrApi } from "@backend/api";
-import MovieItem from ".././../components/MovieItem";
 import type { ModelsMovieWithFiles } from "@backend/api/lunarr";
 
 const MoviePage: React.FC = () => {

@@ -5,6 +5,8 @@
     "baseUrl": ".",
     "paths": {
       "@backend/*": ["backend/*"],
+      "@components/*": ["components/*"],
+      "@helpers/*": ["helpers/*"],
       "@store/*": ["store/*"]
     }
   },
