@@ -9,9 +9,12 @@ import {
 } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { LunarrApi } from "@backend/api";
+import { useAtom } from "jotai";
+import { userAtom } from "../../store/user";
 
 const SignIn: React.FC = () => {
   const router = useRouter();
+  const [_, setUser] = useAtom(userAtom);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -35,9 +38,17 @@ const SignIn: React.FC = () => {
       }
       setSuccessMessage("Successfully logged in");
 
-      // After successful login, navigate to the home page
+      // Get user account
+      const { data: useraccount } = await LunarrApi.api.usersMeList({
+        headers: {
+          "x-api-key": data.api_key,
+        },
+      });
+      setUser(useraccount);
+
       setTimeout(() => {
-        // To-do
+        // Set user in state
+        router.push("/");
       }, 2000);
     } catch (err: any) {
       setErrorMessage(err.response?.data?.message || err.message);
