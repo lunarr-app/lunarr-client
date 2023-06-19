@@ -63,7 +63,7 @@ const SignIn: React.FC = () => {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/background_login.jpg")}
+      source={require("../../assets/images/background_login.png")}
       style={styles.background}
       resizeMode="cover"
     >
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.6)", // Semi-transparent background overlay
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   title: {
     fontSize: 32,
