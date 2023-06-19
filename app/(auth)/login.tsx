@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { LunarrApi } from "@backend/api";
+import { LunarrApi, setApiKeyHeader } from "@backend/api";
 import { useAtom } from "jotai";
 import { userAtom } from "@store/user";
 
@@ -36,14 +36,11 @@ const SignIn: React.FC = () => {
       if (!data.api_key) {
         throw new Error("Invalid credentials");
       }
+      setApiKeyHeader(data.api_key);
       setSuccessMessage("Successfully logged in");
 
       // Get user account
-      const { data: useraccount } = await LunarrApi.api.usersMeList({
-        headers: {
-          "x-api-key": data.api_key,
-        },
-      });
+      const { data: useraccount } = await LunarrApi.api.usersMeList();
       setUser(useraccount);
 
       setTimeout(() => {
