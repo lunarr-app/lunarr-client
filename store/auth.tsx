@@ -4,16 +4,23 @@ import { useAtom } from "jotai";
 import { userAtom } from "./user";
 import { clearApiKeyHeader, setApiKeyHeader } from "@backend/api";
 
+const authRoute = "(auth)";
+const protectedRoutes = ["movies"];
+
 export const useProtectedRoute = () => {
   const [user] = useAtom(userAtom);
   const segments = useSegments();
   const router = useRouter();
 
   useEffect(() => {
-    const inAuthGroup = segments[0] === "(auth)";
+    const segment = segments[0];
 
-    if (!user && !inAuthGroup) {
-      router.replace("/");
+    if (!user && protectedRoutes.includes(segment)) {
+      router.replace("/login");
+    }
+
+    if (user && segment === authRoute) {
+      router.replace("/movies");
     }
   }, [user, segments, router]);
 
