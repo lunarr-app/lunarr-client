@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { LunarrApi } from "../../backend";
+import { LunarrApi } from "@backend/api";
 
 const SignUp: React.FC = () => {
   const router = useRouter();
