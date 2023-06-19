@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
@@ -25,6 +25,8 @@ const HomePage: React.FC = () => {
       resizeMode="cover"
     >
       <View style={styles.container}>
+        <Stack.Screen options={{ title: "Lunarr" }} />
+
         <View style={styles.content}>
           <Text style={styles.title}>Welcome to Lunarr!</Text>
         </View>
