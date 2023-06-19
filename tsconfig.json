@@ -4,7 +4,7 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@backend/api": ["backend/api"]
+      "@backend/*": ["backend/*"]
     }
   },
 }
