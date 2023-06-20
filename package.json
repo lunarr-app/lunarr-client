@@ -10,6 +10,7 @@
     "gen:swag": "npx swagger-typescript-api -p http://127.0.0.1:3000/swagger/doc.json -o ./backend/api -n lunarr.ts --responses --axios --disableProxy"
   },
   "dependencies": {
+    "@react-navigation/drawer": "^6.6.2",
     "axios": "^1.4.0",
     "expo": "^48.0.19",
     "expo-constants": "~14.2.1",

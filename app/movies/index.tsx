@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   Button,
 } from "react-native";
+import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MovieItem from "@components/MovieItem";
 import { LunarrApi } from "@backend/api";
@@ -46,6 +47,13 @@ const MoviePage: React.FC = () => {
   return (
     <View style={styles.container}>
       <SafeAreaView edges={["left", "right"]} style={styles.container}>
+        <Stack.Screen
+          options={{
+            title: "Movies",
+            headerShown: true,
+          }}
+        />
+
         {loading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="blue" />
