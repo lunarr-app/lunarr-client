@@ -8,7 +8,11 @@ import {
   StyleSheet,
 } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { LunarrApi, setApiKeyHeader } from "@backend/api";
+import {
+  LunarrApi,
+  setApiKeyHeader,
+  setBaseUrl as addBaseUrl,
+} from "@backend/api";
 import { useAtom } from "jotai";
 import { userAtom } from "@store/user";
 
@@ -18,6 +22,7 @@ const SignIn: React.FC = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [baseUrl, setBaseUrl] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -29,6 +34,10 @@ const SignIn: React.FC = () => {
     setSuccessMessage("");
 
     try {
+      if (baseUrl) {
+        addBaseUrl(baseUrl);
+      }
+
       const { data } = await LunarrApi.auth.loginCreate({
         username,
         password,
@@ -69,6 +78,15 @@ const SignIn: React.FC = () => {
 
         <Text style={styles.title}>Welcome to Lunarr</Text>
         <View style={styles.form}>
+          <TextInput
+            style={styles.input}
+            placeholder="Base URL"
+            value={baseUrl}
+            onChangeText={setBaseUrl}
+            placeholderTextColor="#ccc"
+            keyboardType="url"
+          />
+
           <TextInput
             style={styles.input}
             placeholder="Username"

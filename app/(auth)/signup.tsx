@@ -8,7 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import { LunarrApi } from "@backend/api";
+import { LunarrApi, setBaseUrl as addBaseUrl } from "@backend/api";
 
 const SignUp: React.FC = () => {
   const router = useRouter();
@@ -18,6 +18,7 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
+  const [baseUrl, setBaseUrl] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -29,6 +30,10 @@ const SignUp: React.FC = () => {
     setSuccessMessage("");
 
     try {
+      if (baseUrl) {
+        addBaseUrl(baseUrl);
+      }
+
       const { data } = await LunarrApi.auth.signupCreate({
         displayname,
         username,
@@ -64,6 +69,15 @@ const SignUp: React.FC = () => {
 
         <Text style={styles.title}>Create an Account</Text>
         <View style={styles.form}>
+          <TextInput
+            style={styles.input}
+            placeholder="Base URL"
+            value={baseUrl}
+            onChangeText={setBaseUrl}
+            placeholderTextColor="#ccc"
+            keyboardType="url"
+          />
+
           <TextInput
             style={styles.input}
             placeholder="Display Name"
