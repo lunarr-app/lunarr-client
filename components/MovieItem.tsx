@@ -1,11 +1,12 @@
 import { useState } from "react";
 import {
-  Image,
+  ImageBackground,
   Text,
   View,
   TouchableOpacity,
   StyleSheet,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { getPosterURL, TMDBImageWidthPoster } from "@helpers/tmdb";
 import type { ModelsMovieMetadata } from "@backend/api/lunarr";
@@ -17,6 +18,16 @@ interface MovieItemProps {
 
 export default function MovieItem({ movie, width }: MovieItemProps) {
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  const handleImageLoad = () => {
+    setLoading(false);
+  };
+
+  const handleImageError = () => {
+    setError(true);
+    setLoading(false);
+  };
 
   return (
     <TouchableOpacity
@@ -25,14 +36,18 @@ export default function MovieItem({ movie, width }: MovieItemProps) {
         Alert.alert("To-do");
       }}
     >
-      <Image
+      <ImageBackground
         style={[styles.image, { width, height: width * 1.5 }]}
         source={{
           uri: getPosterURL(movie.poster_path, width),
         }}
         resizeMode="cover"
-        onLoadEnd={() => setLoading(false)}
-      />
+        onLoad={handleImageLoad}
+        onError={handleImageError}
+      >
+        {loading && <ActivityIndicator size="large" color="#ccc" />}
+        {error && <Text style={styles.errorText}>Image Not Available</Text>}
+      </ImageBackground>
 
       <View style={styles.titleContainer}>
         <Text style={styles.title} numberOfLines={1}>
@@ -50,13 +65,14 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 5,
+    backgroundColor: "#f5f5f5",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  imageProgress: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+  errorText: {
+    fontSize: 12,
+    color: "gray",
+    textAlign: "center",
   },
   titleContainer: {
     paddingHorizontal: 5,
