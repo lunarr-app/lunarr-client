@@ -1,16 +1,15 @@
 import { Slot } from "expo-router";
 import { useProtectedRoute } from "@store/auth";
-import { ThemeProvider, DarkTheme } from "@react-navigation/native";
+import { ThemeProvider, DarkTheme as NavigationDarkTheme } from "@react-navigation/native";
+import { Provider as PaperProvider, MD3DarkTheme } from "react-native-paper";
 
 // Customize the DarkTheme
-const CustomDarkTheme = {
-  ...DarkTheme,
+const CombinedDarkTheme = {
+  ...NavigationDarkTheme,
+  ...MD3DarkTheme,
   colors: {
-    ...DarkTheme.colors,
-    background: "#1f1f1f", // Dark background color
-    card: "#252525", // Dark card background color
-    text: "#ffffff", // White text color
-    border: "#999999", // Gray border color
+    ...NavigationDarkTheme.colors,
+    ...MD3DarkTheme.colors,
   },
 };
 
@@ -18,8 +17,10 @@ export default function Root() {
   useProtectedRoute();
 
   return (
-    <ThemeProvider value={CustomDarkTheme}>
-      <Slot />
-    </ThemeProvider>
+    <PaperProvider theme={CombinedDarkTheme}>
+      <ThemeProvider value={CombinedDarkTheme}>
+        <Slot />
+      </ThemeProvider>
+    </PaperProvider>
   );
 }
