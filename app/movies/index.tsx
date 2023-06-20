@@ -1,16 +1,8 @@
 import { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Dimensions,
-  Text,
-  ActivityIndicator,
-  Button,
-} from "react-native";
+import { View, StyleSheet, Text, ActivityIndicator, Button } from "react-native";
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import MovieItem from "@components/MovieItem";
+import MovieList from "@components/MovieList";
 import { LunarrApi } from "@backend/api";
 import type { ModelsMovieWithFiles } from "@backend/api/lunarr";
 
@@ -18,8 +10,6 @@ const MoviePage: React.FC = () => {
   const [results, setResults] = useState<ModelsMovieWithFiles[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-
-  const screenWidth = Dimensions.get("window").width;
 
   useEffect(() => {
     fetchMovies();
@@ -61,9 +51,7 @@ const MoviePage: React.FC = () => {
           </View>
         ) : errorMessage ? (
           <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>
-              Oops! Something went wrong {":("}
-            </Text>
+            <Text style={styles.errorText}>Oops! Something went wrong {":("}</Text>
             <Text style={styles.errorMessage}>{errorMessage}</Text>
             <Button title="Retry" onPress={fetchMovies} />
           </View>
@@ -72,15 +60,7 @@ const MoviePage: React.FC = () => {
             <Text style={styles.emptyText}>No movies available.</Text>
           </View>
         ) : (
-          <FlatList
-            data={results}
-            numColumns={Math.round(screenWidth / 154)}
-            keyExtractor={(item) => item.tmdb_id!.toString()}
-            renderItem={({ item }) => (
-              <MovieItem width={154} movie={item.metadata!} />
-            )}
-            contentContainerStyle={styles.list}
-          />
+          <MovieList title="Latest Movies" movies={results} width={154} />
         )}
       </SafeAreaView>
     </View>
@@ -90,9 +70,6 @@ const MoviePage: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  list: {
-    paddingTop: 8,
   },
   loadingContainer: {
     flex: 1,

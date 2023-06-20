@@ -1,13 +1,6 @@
 import { useState } from "react";
-import {
-  ImageBackground,
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
+import { ImageBackground, Text, View, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import { useTheme } from "@react-navigation/native";
 import { getPosterURL, TMDBImageWidthPoster } from "@helpers/tmdb";
 import type { ModelsMovieMetadata } from "@backend/api/lunarr";
 
@@ -19,6 +12,8 @@ interface MovieItemProps {
 export default function MovieItem({ movie, width }: MovieItemProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const theme = useTheme();
 
   const handleImageLoad = () => {
     setLoading(false);
@@ -50,7 +45,7 @@ export default function MovieItem({ movie, width }: MovieItemProps) {
       </ImageBackground>
 
       <View style={styles.titleContainer}>
-        <Text style={styles.title} numberOfLines={1}>
+        <Text style={[styles.title, { color: theme.colors.text }]} numberOfLines={1}>
           {movie.title}
         </Text>
         <Text style={styles.year}>{movie.release_date?.split("-")[0]}</Text>
