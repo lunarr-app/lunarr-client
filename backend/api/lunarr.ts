@@ -313,6 +313,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * @default 20
          */
         limit?: number;
+        /** Search by movie title */
+        title?: string;
+        /** Search by movie release year */
+        year?: string;
       },
       params: RequestParams = {},
     ) =>
