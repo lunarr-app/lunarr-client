@@ -7,12 +7,12 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { getImageURL } from "@helpers/tmdb";
+import { getPosterURL, TMDBImageWidthPoster } from "@helpers/tmdb";
 import type { ModelsMovieMetadata } from "@backend/api/lunarr";
 
 interface MovieItemProps {
   movie: ModelsMovieMetadata;
-  width: number;
+  width: TMDBImageWidthPoster;
 }
 
 export default function MovieItem({ movie, width }: MovieItemProps) {
@@ -28,7 +28,7 @@ export default function MovieItem({ movie, width }: MovieItemProps) {
       <Image
         style={[styles.image, { width, height: width * 1.5 }]}
         source={{
-          uri: getImageURL(movie.poster_path!, width),
+          uri: getPosterURL(movie.poster_path, width),
         }}
         resizeMode="cover"
         onLoadEnd={() => setLoading(false)}
