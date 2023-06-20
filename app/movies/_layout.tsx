@@ -1,16 +1,21 @@
 import { View, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { List, Divider, Avatar, Text } from "react-native-paper";
 import { useTheme } from "@react-navigation/native";
 import { createDrawerNavigator, DrawerNavigationOptions } from "@react-navigation/drawer";
 import { withLayoutContext } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { List, Divider } from "react-native-paper";
+import { useAtom } from "jotai";
+import { userAtom } from "@store/user";
+import { getGravatarFromEmail } from "@helpers/avatar";
 
 const { Navigator } = createDrawerNavigator();
 
 const Drawer = withLayoutContext<DrawerNavigationOptions, typeof Navigator>(Navigator);
 
 export default function Layout() {
+  const [user] = useAtom(userAtom);
+
   const theme = useTheme();
 
   return (
@@ -26,10 +31,22 @@ export default function Layout() {
           </View>
           <Divider style={styles.divider} />
 
+          <View style={styles.userContainer}>
+            <Avatar.Image source={{ uri: getGravatarFromEmail(user?.email!) }} size={48} />
+            <View style={styles.userTextContainer}>
+              <Text style={styles.userDisplayName}>{user?.displayname}</Text>
+              <Text style={styles.userRole}>{user?.role}</Text>
+            </View>
+          </View>
+          <Divider style={styles.divider} />
+
           <List.Item title="Movies" left={(props) => <List.Icon {...props} icon="movie" />} />
           <Divider style={styles.divider} />
 
           <List.Item title="TV Shows" left={(props) => <List.Icon {...props} icon="television" />} />
+          <Divider style={styles.divider} />
+
+          <List.Item title="Settings" left={(props) => <List.Icon {...props} icon="cog" />} />
           <Divider style={styles.divider} />
         </SafeAreaView>
       )}
@@ -71,5 +88,21 @@ const styles = StyleSheet.create({
   },
   divider: {
     marginHorizontal: 10,
+  },
+  userContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+  },
+  userTextContainer: {
+    marginLeft: 12,
+  },
+  userDisplayName: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  userRole: {
+    fontSize: 14,
+    color: "gray",
   },
 });
