@@ -302,21 +302,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @response `500` `SchemaErrorResponse` Internal Server Error
      */
     moviesList: (
-      query?: {
+      query: {
         /**
          * Page number
          * @default 1
          */
-        page?: number;
+        page: number;
         /**
          * Number of movies per page
          * @default 20
          */
-        limit?: number;
+        limit: number;
         /** Search by movie title */
         title?: string;
         /** Search by movie release year */
         year?: string;
+        /**
+         * Sort by: recent, latest, popular
+         * @default ""recent""
+         */
+        sortBy?: string;
       },
       params: RequestParams = {},
     ) =>
