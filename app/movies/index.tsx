@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, StyleSheet, ActivityIndicator, Button } from "react-native";
+import { View, ScrollView, StyleSheet, ActivityIndicator, Button } from "react-native";
 import { Text } from "react-native-paper";
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,8 +7,14 @@ import MovieList from "@components/MovieList";
 import { LunarrApi } from "@backend/api";
 import type { ModelsMovieWithFiles } from "@backend/api/lunarr";
 
+interface ResultsProps {
+  recent: ModelsMovieWithFiles[];
+  latest: ModelsMovieWithFiles[];
+  popular: ModelsMovieWithFiles[];
+}
+
 const MoviePage: React.FC = () => {
-  const [results, setResults] = useState<ModelsMovieWithFiles[]>([]);
+  const [results, setResults] = useState<ResultsProps | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -16,28 +22,44 @@ const MoviePage: React.FC = () => {
     fetchMovies();
   }, []);
 
-  const fetchMovies = () => {
+  const fetchMovies = async () => {
     setLoading(true);
     setErrorMessage("");
 
-    LunarrApi.api
-      .moviesList({
-        page: 1,
-        limit: 100,
-      })
-      .then((resp) => {
-        setResults(resp.data.results || []);
-        setLoading(false);
-      })
-      .catch((err: any) => {
-        setErrorMessage(err.response?.data?.message || err.message);
-        setLoading(false);
+    try {
+      const [recent, latest, popular] = await Promise.all([
+        LunarrApi.api.moviesList({
+          page: 1,
+          limit: 20,
+          sortBy: "recent",
+        }),
+        LunarrApi.api.moviesList({
+          page: 1,
+          limit: 20,
+          sortBy: "latest",
+        }),
+        LunarrApi.api.moviesList({
+          page: 1,
+          limit: 20,
+          sortBy: "popular",
+        }),
+      ]);
+
+      setResults({
+        recent: recent.data.results || [],
+        latest: latest.data.results || [],
+        popular: popular.data.results || [],
       });
+      setLoading(false);
+    } catch (err: any) {
+      setErrorMessage(err.response?.data?.message || err.message);
+      setLoading(false);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <SafeAreaView edges={["left", "right"]} style={styles.container}>
+      <SafeAreaView edges={["left", "right", "bottom"]} style={styles.container}>
         <Stack.Screen
           options={{
             title: "Movies",
@@ -56,12 +78,16 @@ const MoviePage: React.FC = () => {
             <Text style={styles.errorMessage}>{errorMessage}</Text>
             <Button title="Retry" onPress={fetchMovies} />
           </View>
-        ) : results.length === 0 ? (
+        ) : results ? (
+          <ScrollView>
+            <MovieList title="Recently Added" movies={results.recent} width={154} />
+            <MovieList title="Latest Releases" movies={results.latest} width={154} />
+            <MovieList title="Most Popular" movies={results.popular} width={154} />
+          </ScrollView>
+        ) : (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>No movies available.</Text>
           </View>
-        ) : (
-          <MovieList title="Latest Movies" movies={results} width={154} />
         )}
       </SafeAreaView>
     </View>
