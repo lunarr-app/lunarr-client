@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { View, StyleSheet, Text, ActivityIndicator, Button } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Button } from "react-native";
+import { Text } from "react-native-paper";
 import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MovieList from "@components/MovieList";
@@ -86,12 +87,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   errorText: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
     marginBottom: 16,
   },
   errorMessage: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: "center",
     marginBottom: 16,
   },
@@ -101,8 +102,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   emptyText: {
-    fontSize: 16,
-    marginTop: 16,
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 
