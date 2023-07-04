@@ -1,29 +1,19 @@
-import {
-  View,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, ImageBackground, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Stack, useRouter } from "expo-router";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
 
   const handleLogin = () => {
-    router.push("/login");
+    router.replace("/login");
   };
 
   const handleSignup = () => {
-    router.push("/signup");
+    router.replace("/signup");
   };
 
   return (
-    <ImageBackground
-      source={require("../assets/images/sigma-5.gif")}
-      style={styles.backgroundImage}
-      resizeMode="cover"
-    >
+    <ImageBackground source={require("../assets/images/sigma-5.gif")} style={styles.backgroundImage} resizeMode="cover">
       <View style={styles.container}>
         <Stack.Screen options={{ title: "Lunarr" }} />
 
@@ -33,13 +23,8 @@ const HomePage: React.FC = () => {
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.signupButton]}
-          onPress={handleSignup}
-        >
-          <Text style={[styles.buttonText, styles.signupButtonText]}>
-            Sign Up
-          </Text>
+        <TouchableOpacity style={[styles.button, styles.signupButton]} onPress={handleSignup}>
+          <Text style={[styles.buttonText, styles.signupButtonText]}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>

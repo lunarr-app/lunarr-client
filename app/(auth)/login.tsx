@@ -1,18 +1,7 @@
 import { useState } from "react";
-import {
-  View,
-  ImageBackground,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, ImageBackground, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import {
-  LunarrApi,
-  setApiKeyHeader,
-  setBaseUrl as addBaseUrl,
-} from "@backend/api";
+import { LunarrApi, setApiKeyHeader, setBaseUrl as addBaseUrl } from "@backend/api";
 import { useAtom } from "jotai";
 import { userAtom } from "@store/user";
 
@@ -54,7 +43,7 @@ const SignIn: React.FC = () => {
 
       setTimeout(() => {
         // Set user in state
-        router.push("/");
+        router.replace("/");
       }, 2000);
     } catch (err: any) {
       setErrorMessage(err.response?.data?.message || err.message);
@@ -64,7 +53,7 @@ const SignIn: React.FC = () => {
   };
 
   const handleSignup = () => {
-    router.push("/signup");
+    router.replace("/signup");
   };
 
   return (
@@ -104,11 +93,7 @@ const SignIn: React.FC = () => {
             placeholderTextColor="#fff"
           />
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleLogin}
-            disabled={isLoading}
-          >
+          <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={isLoading}>
             {isLoading ? (
               <Text style={styles.buttonText}>Signing In...</Text>
             ) : (
@@ -116,13 +101,9 @@ const SignIn: React.FC = () => {
             )}
           </TouchableOpacity>
 
-          {errorMessage ? (
-            <Text style={styles.errorText}>{errorMessage}</Text>
-          ) : null}
+          {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
 
-          {successMessage ? (
-            <Text style={styles.successText}>{successMessage}</Text>
-          ) : null}
+          {successMessage ? <Text style={styles.successText}>{successMessage}</Text> : null}
         </View>
 
         <Text style={styles.signupText}>

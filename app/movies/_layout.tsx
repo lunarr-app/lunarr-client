@@ -53,10 +53,15 @@ export default function Layout() {
       screenOptions={({ navigation }) => ({
         headerLeft: () => (
           <MaterialCommunityIcons
-            name="menu"
+            name={navigation.canGoBack() ? "arrow-left" : "menu"}
             size={24}
             color={theme.colors.text}
             onPress={() => {
+              if (navigation.canGoBack()) {
+                navigation.goBack();
+                return;
+              }
+
               navigation.toggleDrawer();
             }}
             style={styles.menuIcon}

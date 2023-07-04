@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  View,
-  ImageBackground,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, ImageBackground, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import { LunarrApi, setBaseUrl as addBaseUrl } from "@backend/api";
 
@@ -45,7 +38,7 @@ const SignUp: React.FC = () => {
 
       // After successful signup, navigate to the login page
       setTimeout(() => {
-        router.push("/login");
+        router.replace("/login");
       }, 2000);
     } catch (err: any) {
       setErrorMessage(err.response?.data?.message || err.message);
@@ -55,7 +48,7 @@ const SignUp: React.FC = () => {
   };
 
   const handleLogin = () => {
-    router.push("/login");
+    router.replace("/login");
   };
 
   return (
@@ -118,20 +111,14 @@ const SignUp: React.FC = () => {
 
             <View style={styles.genderButtonsContainer}>
               <TouchableOpacity
-                style={[
-                  styles.genderButton,
-                  gender === "male" && styles.genderButtonActive,
-                ]}
+                style={[styles.genderButton, gender === "male" && styles.genderButtonActive]}
                 onPress={() => setGender("male")}
               >
                 <Text style={styles.genderButtonText}>Male</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[
-                  styles.genderButton,
-                  gender === "female" && styles.genderButtonActive,
-                ]}
+                style={[styles.genderButton, gender === "female" && styles.genderButtonActive]}
                 onPress={() => setGender("female")}
               >
                 <Text style={styles.genderButtonText}>Female</Text>
@@ -140,18 +127,12 @@ const SignUp: React.FC = () => {
           </View>
 
           <TouchableOpacity style={styles.button} onPress={handleSignup}>
-            <Text style={styles.buttonText}>
-              {isLoading ? "Signing up..." : "Sign up"}
-            </Text>
+            <Text style={styles.buttonText}>{isLoading ? "Signing up..." : "Sign up"}</Text>
           </TouchableOpacity>
 
-          {errorMessage ? (
-            <Text style={styles.errorText}>{errorMessage}</Text>
-          ) : null}
+          {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
 
-          {successMessage ? (
-            <Text style={styles.successText}>{successMessage}</Text>
-          ) : null}
+          {successMessage ? <Text style={styles.successText}>{successMessage}</Text> : null}
 
           <Text style={styles.loginText}>
             Already have an account?{" "}
