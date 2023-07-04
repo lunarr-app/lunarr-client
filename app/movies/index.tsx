@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import MovieList from "@components/MovieList";
 import { LunarrApi } from "@backend/api";
 import { findClosestWidth } from "@helpers/tmdb";
+import { useIsScreenSizeLarge } from "@hooks/screen";
 import type { ModelsMovieWithFiles } from "@backend/api/lunarr";
 
 interface ResultsProps {
@@ -18,6 +19,8 @@ const MoviePage: React.FC = () => {
   const [results, setResults] = useState<ResultsProps | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+
+  const isLargeScreen = useIsScreenSizeLarge();
 
   useEffect(() => {
     fetchMovies();
@@ -58,7 +61,8 @@ const MoviePage: React.FC = () => {
     }
   };
 
-  const imageWidth = findClosestWidth(120);
+  const listItemWidth = isLargeScreen ? 150 : 120;
+  const imageWidth = findClosestWidth(listItemWidth);
 
   return (
     <View style={styles.container}>
@@ -83,9 +87,9 @@ const MoviePage: React.FC = () => {
           </View>
         ) : results ? (
           <ScrollView>
-            <MovieList title="Recently Added" movies={results.recent} width={120} imageWidth={imageWidth} />
-            <MovieList title="Latest Releases" movies={results.latest} width={120} imageWidth={imageWidth} />
-            <MovieList title="Most Popular" movies={results.popular} width={120} imageWidth={imageWidth} />
+            <MovieList title="Recently Added" movies={results.recent} width={listItemWidth} imageWidth={imageWidth} />
+            <MovieList title="Latest Releases" movies={results.latest} width={listItemWidth} imageWidth={imageWidth} />
+            <MovieList title="Most Popular" movies={results.popular} width={listItemWidth} imageWidth={imageWidth} />
           </ScrollView>
         ) : (
           <View style={styles.emptyContainer}>
