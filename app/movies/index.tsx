@@ -5,6 +5,7 @@ import { Stack } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MovieList from "@components/MovieList";
 import { LunarrApi } from "@backend/api";
+import { findClosestWidth } from "@helpers/tmdb";
 import type { ModelsMovieWithFiles } from "@backend/api/lunarr";
 
 interface ResultsProps {
@@ -57,6 +58,8 @@ const MoviePage: React.FC = () => {
     }
   };
 
+  const imageWidth = findClosestWidth(120);
+
   return (
     <View style={styles.container}>
       <SafeAreaView edges={["left", "right", "bottom"]} style={styles.container}>
@@ -80,9 +83,9 @@ const MoviePage: React.FC = () => {
           </View>
         ) : results ? (
           <ScrollView>
-            <MovieList title="Recently Added" movies={results.recent} width={120} />
-            <MovieList title="Latest Releases" movies={results.latest} width={120} />
-            <MovieList title="Most Popular" movies={results.popular} width={120} />
+            <MovieList title="Recently Added" movies={results.recent} width={120} imageWidth={imageWidth} />
+            <MovieList title="Latest Releases" movies={results.latest} width={120} imageWidth={imageWidth} />
+            <MovieList title="Most Popular" movies={results.popular} width={120} imageWidth={imageWidth} />
           </ScrollView>
         ) : (
           <View style={styles.emptyContainer}>

@@ -2,15 +2,17 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native
 import { useTheme } from "@react-navigation/native";
 import MovieItem from "./MovieItem";
 import type { ModelsMovieWithFiles } from "@backend/api/lunarr";
+import type { TMDBImageWidthPoster } from "@helpers/tmdb";
 
 interface MovieListProps {
   movies: ModelsMovieWithFiles[];
   title: string;
   width: number;
+  imageWidth: TMDBImageWidthPoster;
   onMorePress?: () => void;
 }
 
-export default function MovieList({ movies, title, width, onMorePress }: MovieListProps) {
+export default function MovieList({ movies, title, width, imageWidth, onMorePress }: MovieListProps) {
   const theme = useTheme();
 
   return (
@@ -29,7 +31,7 @@ export default function MovieList({ movies, title, width, onMorePress }: MovieLi
         horizontal
         data={movies}
         keyExtractor={(item) => item.tmdb_id!.toString()}
-        renderItem={({ item }) => <MovieItem movie={item.metadata!} width={width} />}
+        renderItem={({ item }) => <MovieItem movie={item.metadata!} width={width} imageWidth={imageWidth} />}
       />
     </View>
   );

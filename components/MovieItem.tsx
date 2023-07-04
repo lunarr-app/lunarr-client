@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { ImageBackground, Text, View, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { getPosterURL } from "@helpers/tmdb";
+import { getPosterURL, TMDBImageWidthPoster } from "@helpers/tmdb";
 import type { ModelsMovieMetadata } from "@backend/api/lunarr";
 
 interface MovieItemProps {
   movie: ModelsMovieMetadata;
   width: number;
+  imageWidth: TMDBImageWidthPoster;
 }
 
-export default function MovieItem({ movie, width }: MovieItemProps) {
+export default function MovieItem({ movie, width, imageWidth }: MovieItemProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -34,7 +35,7 @@ export default function MovieItem({ movie, width }: MovieItemProps) {
       <ImageBackground
         style={[styles.image, { width, height: width * 1.5 }]}
         source={{
-          uri: getPosterURL(movie.poster_path, width),
+          uri: getPosterURL(movie.poster_path, imageWidth),
         }}
         resizeMode="cover"
         onLoad={handleImageLoad}

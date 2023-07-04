@@ -1,21 +1,25 @@
-const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
-const TMDBImageWidthPoster = [45, 92, 154, 185, 342, 500, 780, 1280];
+export type TMDBImageWidthPoster = 45 | 92 | 154 | 185 | 342 | 500 | 780 | 1280;
 
-export const getPosterURL = (path?: string, width: number | "original" = "original") => {
+const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
+
+const TMDBImageWidthPosterNumbers: TMDBImageWidthPoster[] = [45, 92, 154, 185, 342, 500, 780, 1280];
+
+export const findClosestWidth = (width: number): TMDBImageWidthPoster => {
+  return TMDBImageWidthPosterNumbers.reduce((prev, curr) => {
+    if (curr >= width && curr < prev) {
+      return curr;
+    }
+    return prev;
+  }, 500);
+};
+
+export const getPosterURL = (path?: string, width: TMDBImageWidthPoster | "original" = "original") => {
   if (path) {
     if (width === "original") {
       return `${TMDB_IMAGE_BASE_URL}original${path}`;
     }
 
-    // Find the closest width from TMDBImageWidthPoster
-    const closestWidth = TMDBImageWidthPoster.reduce((prev, curr) => {
-      if (curr >= width && curr < prev) {
-        return curr;
-      }
-      return prev;
-    }, 500);
-
-    return `${TMDB_IMAGE_BASE_URL}w${closestWidth}${path}`;
+    return `${TMDB_IMAGE_BASE_URL}w${width}${path}`;
   }
 
   // Return a dummy image URL with specified width and aspect ratio
