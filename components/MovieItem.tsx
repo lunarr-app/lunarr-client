@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ImageBackground, Text, View, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import { ImageBackground, Text, View, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
+import { useRouter } from "expo-router";
 import { useTheme } from "@react-navigation/native";
 import { getPosterURL, TMDBImageWidthPoster } from "@helpers/tmdb";
 import type { ModelsMovieMetadata } from "@backend/api/lunarr";
@@ -14,6 +15,7 @@ export default function MovieItem({ movie, width, imageWidth }: MovieItemProps) 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const router = useRouter();
   const theme = useTheme();
 
   const handleImageLoad = () => {
@@ -29,7 +31,7 @@ export default function MovieItem({ movie, width, imageWidth }: MovieItemProps) 
     <TouchableOpacity
       style={[styles.container, { width }]}
       onPress={() => {
-        Alert.alert("To-do");
+        router.push("/movies/" + movie.imdb_id);
       }}
     >
       <ImageBackground
