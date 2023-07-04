@@ -11,6 +11,7 @@ module.exports = function (api) {
             "@backend": "./backend",
             "@components": "./components",
             "@helpers": "./helpers",
+            "@hooks": "./hooks",
             "@store": "./store",
           },
         },
