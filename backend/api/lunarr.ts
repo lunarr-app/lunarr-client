@@ -335,6 +335,26 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Get movie details by ID.
+     *
+     * @tags movies
+     * @name MoviesDetail
+     * @summary Get Movie Details by ID
+     * @request GET:/api/movies/{id}
+     * @response `200` `ModelsMovieWithFiles` OK
+     * @response `400` `SchemaErrorResponse` Bad Request
+     * @response `500` `SchemaErrorResponse` Internal Server Error
+     */
+    moviesDetail: (id: number, params: RequestParams = {}) =>
+      this.request<ModelsMovieWithFiles, SchemaErrorResponse>({
+        path: `/api/movies/${id}`,
+        method: "GET",
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Stream a movie based on the TMDb ID.
      *
      * @tags movies
