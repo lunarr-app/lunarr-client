@@ -2,7 +2,7 @@ import { View, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { List, Divider, Avatar, Text } from "react-native-paper";
 import { useTheme } from "@react-navigation/native";
-import { createDrawerNavigator, DrawerNavigationOptions } from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerNavigationOptions, useDrawerStatus } from "@react-navigation/drawer";
 import { withLayoutContext } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAtom } from "jotai";
@@ -15,8 +15,6 @@ const Drawer = withLayoutContext<DrawerNavigationOptions, typeof Navigator>(Navi
 
 export default function Layout() {
   const [user] = useAtom(userAtom);
-
-  const theme = useTheme();
 
   return (
     <Drawer
@@ -51,22 +49,28 @@ export default function Layout() {
         </SafeAreaView>
       )}
       screenOptions={({ navigation }) => ({
-        headerLeft: () => (
-          <MaterialCommunityIcons
-            name={navigation.canGoBack() ? "arrow-left" : "menu"}
-            size={24}
-            color={theme.colors.text}
-            onPress={() => {
-              if (navigation.canGoBack()) {
-                navigation.goBack();
-                return;
-              }
+        headerLeft: () => {
+          const theme = useTheme();
+          const drawerStatus = useDrawerStatus();
+          const canGoBack = navigation.canGoBack() && drawerStatus === "closed";
 
-              navigation.toggleDrawer();
-            }}
-            style={styles.menuIcon}
-          />
-        ),
+          return (
+            <MaterialCommunityIcons
+              name={canGoBack ? "arrow-left" : "menu"}
+              size={24}
+              color={theme.colors.text}
+              onPress={() => {
+                if (canGoBack) {
+                  navigation.goBack();
+                  return;
+                }
+
+                navigation.toggleDrawer();
+              }}
+              style={styles.menuIcon}
+            />
+          );
+        },
         gestureEnabled: true,
         drawerType: "slide",
       })}
