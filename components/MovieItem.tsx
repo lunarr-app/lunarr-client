@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { ImageBackground, Text, View, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import { getPosterURL, TMDBImageWidthPoster } from "@helpers/tmdb";
+import { getPosterURL } from "@helpers/tmdb";
 import type { ModelsMovieMetadata } from "@backend/api/lunarr";
 
 interface MovieItemProps {
   movie: ModelsMovieMetadata;
-  width: TMDBImageWidthPoster;
+  width: number;
 }
 
 export default function MovieItem({ movie, width }: MovieItemProps) {

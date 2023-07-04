@@ -2,12 +2,11 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native
 import { useTheme } from "@react-navigation/native";
 import MovieItem from "./MovieItem";
 import type { ModelsMovieWithFiles } from "@backend/api/lunarr";
-import type { TMDBImageWidthPoster } from "@helpers/tmdb";
 
 interface MovieListProps {
   movies: ModelsMovieWithFiles[];
   title: string;
-  width: TMDBImageWidthPoster;
+  width: number;
   onMorePress?: () => void;
 }
 

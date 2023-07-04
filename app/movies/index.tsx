@@ -80,9 +80,9 @@ const MoviePage: React.FC = () => {
           </View>
         ) : results ? (
           <ScrollView>
-            <MovieList title="Recently Added" movies={results.recent} width={154} />
-            <MovieList title="Latest Releases" movies={results.latest} width={154} />
-            <MovieList title="Most Popular" movies={results.popular} width={154} />
+            <MovieList title="Recently Added" movies={results.recent} width={120} />
+            <MovieList title="Latest Releases" movies={results.latest} width={120} />
+            <MovieList title="Most Popular" movies={results.popular} width={120} />
           </ScrollView>
         ) : (
           <View style={styles.emptyContainer}>
