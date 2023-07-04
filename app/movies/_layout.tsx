@@ -8,6 +8,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAtom } from "jotai";
 import { userAtom } from "@store/user";
 import { getGravatarFromEmail } from "@helpers/avatar";
+import { useIsScreenSizeLarge } from "@hooks/screen";
 
 const { Navigator } = createDrawerNavigator();
 
@@ -15,6 +16,7 @@ const Drawer = withLayoutContext<DrawerNavigationOptions, typeof Navigator>(Navi
 
 export default function Layout() {
   const [user] = useAtom(userAtom);
+  const isLargeScreen = useIsScreenSizeLarge();
 
   return (
     <Drawer
@@ -54,6 +56,24 @@ export default function Layout() {
           const drawerStatus = useDrawerStatus();
           const canGoBack = navigation.canGoBack() && drawerStatus === "closed";
 
+          if (isLargeScreen) {
+            if (!canGoBack) {
+              return null;
+            }
+
+            return (
+              <MaterialCommunityIcons
+                name="arrow-left"
+                size={24}
+                color={theme.colors.text}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+                style={styles.menuIcon}
+              />
+            );
+          }
+
           return (
             <MaterialCommunityIcons
               name={canGoBack ? "arrow-left" : "menu"}
@@ -72,7 +92,7 @@ export default function Layout() {
           );
         },
         gestureEnabled: true,
-        drawerType: "slide",
+        drawerType: isLargeScreen ? "permanent" : "slide",
       })}
     />
   );
