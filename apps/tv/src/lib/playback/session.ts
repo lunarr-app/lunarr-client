@@ -1,0 +1,24 @@
+import { cancelPlaybackSession, heartbeatPlaybackSession } from "@/src/lib/api/generated";
+import { useEffect } from "react";
+import { isStreamRelativePlaybackMode, type PlaybackDecision } from "./service";
+
+const HEARTBEAT_MS = 15_000;
+
+export function usePlaybackSession(playback: PlaybackDecision | null) {
+  const sessionId = playback?.playbackSessionId ?? null;
+  const usesServerSession = isStreamRelativePlaybackMode(playback?.mode ?? null);
+
+  useEffect(() => {
+    if (!sessionId || !usesServerSession) return;
+    const activeSessionId = sessionId;
+
+    const interval = setInterval(() => {
+      void heartbeatPlaybackSession({ path: { sessionId: activeSessionId } }).catch(() => undefined);
+    }, HEARTBEAT_MS);
+
+    return () => {
+      clearInterval(interval);
+      void cancelPlaybackSession({ path: { sessionId: activeSessionId } }).catch(() => undefined);
+    };
+  }, [sessionId, usesServerSession]);
+}

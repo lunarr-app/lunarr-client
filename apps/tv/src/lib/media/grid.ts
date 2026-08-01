@@ -1,0 +1,2 @@
+export const RAIL_POSTER_WIDTH = 260;
+export const TV_CARD_WIDTH = RAIL_POSTER_WIDTH * 1.25;

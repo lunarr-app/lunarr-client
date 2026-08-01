@@ -1,0 +1,20 @@
+{
+  "name": "lunarr-clients",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "mobile": "bun --cwd apps/mobile run start",
+    "mobile:start": "bun --cwd apps/mobile run start",
+    "mobile:ios": "bun --cwd apps/mobile run ios",
+    "mobile:android": "bun --cwd apps/mobile run android",
+    "mobile:web": "bun --cwd apps/mobile run web",
+    "mobile:format": "bun --cwd apps/mobile run format",
+    "mobile:typecheck": "bun --cwd apps/mobile run typecheck",
+    "tv": "bun --cwd apps/tv run start",
+    "tv:start": "bun --cwd apps/tv run start",
+    "tv:ios": "bun --cwd apps/tv run ios",
+    "tv:android": "bun --cwd apps/tv run android",
+    "tv:format": "bun --cwd apps/tv run format",
+    "tv:typecheck": "bun --cwd apps/tv run typecheck"
+  }
+}

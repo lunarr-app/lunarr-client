@@ -1,0 +1,92 @@
+{
+  "expo": {
+    "name": "Lunarr TV",
+    "slug": "lunarr-mobile",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/images/icon.png",
+    "scheme": "lunarr",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "app.lunarr.mobile",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true,
+          "NSAllowsLocalNetworking": true
+        },
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "app.lunarr.mobile",
+      "softwareKeyboardLayoutMode": "resize",
+      "adaptiveIcon": {
+        "backgroundColor": "#080c11",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-dev-client",
+      "expo-secure-store",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "16.4"
+          },
+          "android": {
+            "minSdkVersion": 24,
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#080c11"
+        }
+      ],
+      [
+        "expo-video",
+        {
+          "supportsPictureInPicture": false
+        }
+      ],
+      [
+        "@react-native-tvos/config-tv",
+        {
+          "isTV": true,
+          "androidTVRequired": true,
+          "androidTVBanner": "./assets/tv-banner/tv_banner.png",
+          "appleTVImages": {
+            "icon": "./assets/tv-icons/App-Icon-1280x768@1x.png",
+            "iconSmall": "./assets/tv-icons/App-Icon-400x240@1x.png",
+            "iconSmall2x": "./assets/tv-icons/App-Icon-800x480@2x.png",
+            "topShelf": "./assets/tv-top-shelf/Top-Shelf-1920x720@1x.png",
+            "topShelf2x": "./assets/tv-top-shelf/Top-Shelf-3840x1440@2x.png",
+            "topShelfWide": "./assets/tv-top-shelf/Top-Shelf-Wide-2320x720@1x.png",
+            "topShelfWide2x": "./assets/tv-top-shelf/Top-Shelf-Wide-4640x1440@2x.png"
+          }
+        }
+      ],
+      "expo-font",
+      "expo-status-bar"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8da81451-959d-4298-9506-a58d950da151"
+      }
+    }
+  }
+}
