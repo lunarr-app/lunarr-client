@@ -3,18 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "mobile": "bun --cwd apps/mobile run start",
-    "mobile:start": "bun --cwd apps/mobile run start",
-    "mobile:ios": "bun --cwd apps/mobile run ios",
-    "mobile:android": "bun --cwd apps/mobile run android",
-    "mobile:web": "bun --cwd apps/mobile run web",
-    "mobile:format": "bun --cwd apps/mobile run format",
-    "mobile:typecheck": "bun --cwd apps/mobile run typecheck",
-    "tv": "bun --cwd apps/tv run start",
-    "tv:start": "bun --cwd apps/tv run start",
-    "tv:ios": "bun --cwd apps/tv run ios",
-    "tv:android": "bun --cwd apps/tv run android",
-    "tv:format": "bun --cwd apps/tv run format",
-    "tv:typecheck": "bun --cwd apps/tv run typecheck"
+    "mobile": "cd apps/mobile && bun run start",
+    "mobile:start": "cd apps/mobile && bun run start",
+    "mobile:ios": "cd apps/mobile && bun run ios",
+    "mobile:android": "cd apps/mobile && bun run android",
+    "mobile:web": "cd apps/mobile && bun run web",
+    "mobile:format": "cd apps/mobile && bun run format",
+    "mobile:typecheck": "cd apps/mobile && bun run typecheck",
+    "tv": "cd apps/tv && bun run start",
+    "tv:start": "cd apps/tv && bun run start",
+    "tv:ios": "cd apps/tv && bun run ios",
+    "tv:android": "cd apps/tv && bun run android",
+    "tv:format": "cd apps/tv && bun run format",
+    "tv:typecheck": "cd apps/tv && bun run typecheck"
   }
 }
