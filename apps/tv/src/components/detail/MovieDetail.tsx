@@ -13,8 +13,8 @@ import { useMovieDetail, useToggleMovieWatchlist, useSetMovieWatched } from "@/s
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
 import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
-import { movieFileMeta } from "@/src/lib/media/files";
-import { formatDuration, formatFileSize } from "@/src/lib/media/format";
+import { movieFileMeta } from "@lunarr/core";
+import { formatDuration, formatFileSize } from "@lunarr/core";
 import {
   findCompletedProgress,
   findResumeProgress,
@@ -24,7 +24,7 @@ import {
   primaryPlaybackActionLabel,
   resumePlaybackLabel,
   resumePlaybackPercent,
-} from "@/src/lib/media/progress";
+} from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { spacing, tvSafe } from "@/src/theme/spacing";
 import { tvSize, useTVScale } from "@/src/theme/tv-scale";

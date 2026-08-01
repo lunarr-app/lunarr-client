@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import type { PlaybackSubtitleTrack } from "@/src/lib/playback/service";
+import type { PlaybackSubtitleTrack } from "@lunarr/core";
 
 type Options = {
   tracks: PlaybackSubtitleTrack[];

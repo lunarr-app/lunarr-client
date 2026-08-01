@@ -13,7 +13,7 @@ import { useShowDetail, useToggleShowWatchlist } from "@/src/hooks/queries";
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
 import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
-import { episodeCode, pickShowResumeFromSeasons, seasonStats, type ShowResumeEpisode } from "@/src/lib/media/tv";
+import { episodeCode, pickShowResumeFromSeasons, seasonStats, type ShowResumeEpisode } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing, tvSafe } from "@/src/theme/spacing";
 import { tvSize, useTVScale } from "@/src/theme/tv-scale";

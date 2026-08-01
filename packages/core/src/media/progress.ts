@@ -1,4 +1,4 @@
-import { formatClockDuration, formatDuration } from "@/src/lib/media/format";
+import { formatClockDuration, formatDuration } from "./format";
 
 export type WatchProgressInput = {
   completed: boolean;
@@ -12,6 +12,22 @@ export function watchProgressPercent(input: WatchProgressInput): number {
     return input.progressSeconds > 0 ? 4 : 0;
   }
   return Math.min(99, Math.max(0, Math.round((input.progressSeconds / input.durationSeconds) * 100)));
+}
+
+export function episodeProgressLabel(episode: {
+  completed: boolean;
+  progressSeconds: number;
+  durationSeconds: number | null | undefined;
+}): string | null {
+  if (episode.completed || episode.progressSeconds <= 0) return null;
+  if (!episode.durationSeconds) return "In progress";
+  return `${inProgressWatchPercent(episode.progressSeconds, episode.durationSeconds)}%`;
+}
+
+/** Season episode rows: caller ensures in-progress and progressSeconds > 0. */
+export function inProgressWatchPercent(progressSeconds: number, durationSeconds: number | null | undefined): number {
+  if (!durationSeconds || durationSeconds <= 0) return 4;
+  return Math.min(99, Math.max(1, Math.round((progressSeconds / durationSeconds) * 100)));
 }
 
 export function watchStatusLabel(input: WatchProgressInput): string {
@@ -110,19 +126,4 @@ export function resumePlaybackPercent(positionSeconds: number, durationSeconds: 
     progressSeconds: positionSeconds,
     durationSeconds: durationSeconds ?? null,
   });
-}
-
-export function episodeProgressLabel(episode: {
-  completed: boolean;
-  progressSeconds: number;
-  durationSeconds: number | null | undefined;
-}): string | null {
-  if (episode.completed || episode.progressSeconds <= 0) return null;
-  if (!episode.durationSeconds) return "In progress";
-  return `${inProgressWatchPercent(episode.progressSeconds, episode.durationSeconds)}%`;
-}
-
-export function inProgressWatchPercent(progressSeconds: number, durationSeconds: number | null | undefined): number {
-  if (!durationSeconds || durationSeconds <= 0) return 4;
-  return Math.min(99, Math.max(1, Math.round((progressSeconds / durationSeconds) * 100)));
 }

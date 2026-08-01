@@ -1,4 +1,4 @@
-import { seasonTabLabel } from "@/src/lib/media/tv";
+import { seasonTabLabel } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { detailContentInset, spacing } from "@/src/theme/spacing";
 import { typography } from "@/src/theme/typography";

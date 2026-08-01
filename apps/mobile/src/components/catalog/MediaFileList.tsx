@@ -1,5 +1,5 @@
-import { mediaFileLabel, type MediaFileLike } from "@/src/lib/media/files";
-import { mediaFileProgressLabel, type MediaFileProgress } from "@/src/lib/media/progress";
+import { mediaFileLabel, type MediaFileLike } from "@lunarr/core";
+import { mediaFileProgressLabel, type MediaFileProgress } from "@lunarr/core";
 import { StyleSheet, Text, View } from "react-native";
 
 import { Button } from "@/src/components/ui/Button";

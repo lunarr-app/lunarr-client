@@ -1,10 +1,5 @@
 import type { PlaybackSegment, SegmentSkipPreferences } from "@lunarr/api";
-import {
-  activePlaybackSegment,
-  playbackSegmentKey,
-  SEGMENT_LABELS,
-  segmentSkipTargetSeconds,
-} from "@/src/lib/playback/segments";
+import { activePlaybackSegment, playbackSegmentKey, SEGMENT_LABELS, segmentSkipTargetSeconds } from "@lunarr/core";
 import { useEffect, useRef, useState } from "react";
 
 const OVERLAY_DISMISS_MS = 3500;

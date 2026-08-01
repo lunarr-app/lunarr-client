@@ -2,6 +2,8 @@
   "name": "@lunarr/api",
   "version": "1.0.0",
   "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "gen:api": "openapi-ts",
     "gen:openapi": "cd ../../../lunarr-go && bun -e \"import { openApiDocument } from './src/lib/server/openapi.ts'; await Bun.write('../lunarr-client/packages/api/openapi.json', JSON.stringify(openApiDocument, null, 2));\" && cd ../../../lunarr-client/packages/api && bun run gen:api",

@@ -9,7 +9,7 @@ export function episodeCode(seasonNumber: number | null | undefined, episodeNumb
   return `S${String(seasonNumber).padStart(2, "0")}E${String(episodeNumber).padStart(2, "0")}`;
 }
 
-type PlayableEpisode = {
+export type PlayableEpisode = {
   fileId: string | null;
   progressSeconds?: number | null;
   completed: boolean | number;
@@ -40,7 +40,7 @@ type ResumeEpisodeInput = PlayableEpisode & {
   episodeNumber?: number | null;
 };
 
-function pickShowResumeEpisode(episodes: ResumeEpisodeInput[]): ShowResumeEpisode | null {
+export function pickShowResumeEpisode(episodes: ResumeEpisodeInput[]): ShowResumeEpisode | null {
   const next = findNextEpisode(episodes);
   if (!next) return null;
 

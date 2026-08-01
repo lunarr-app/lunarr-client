@@ -13,13 +13,13 @@ import {
   useTVEventHandler,
 } from "react-native";
 
-import { usePlaybackSession } from "@/src/lib/playback/session";
+import { usePlaybackSession } from "@lunarr/core";
 import {
   DEFAULT_SEGMENT_SKIP_PREFERENCES,
   isStreamRelativePlaybackMode,
   resolvePlayableUri,
   type PlaybackDecision,
-} from "@/src/lib/playback/service";
+} from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
 import { tvSize, useTVScale } from "@/src/theme/tv-scale";

@@ -1,5 +1,5 @@
 import { PosterImage } from "@/src/components/catalog/PosterImage";
-import { tmdbImageUrl } from "@/src/lib/media/images";
+import { tmdbImageUrl } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { scaleNum } from "@/src/theme/scale";
 import { detailContentInset, radii, spacing } from "@/src/theme/spacing";

@@ -1,5 +1,5 @@
-import { mediaFileLabel, type MediaFileLike } from "@/src/lib/media/files";
-import { mediaFileProgressLabel, type MediaFileProgress } from "@/src/lib/media/progress";
+import { mediaFileLabel, type MediaFileLike } from "@lunarr/core";
+import { mediaFileProgressLabel, type MediaFileProgress } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing } from "@/src/theme/spacing";
 import { useTVScale } from "@/src/theme/tv-scale";

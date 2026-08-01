@@ -7,7 +7,7 @@ import {
   primaryPlaybackActionLabel,
   resumePlaybackLabel,
   watchProgressPercent,
-} from "@/src/lib/media/progress";
+} from "@lunarr/core";
 
 export type MediaDetailProgress<F extends { id: string }, P extends PlaybackProgressRecord> = {
   progressByFile: Map<string, P>;

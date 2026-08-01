@@ -1,4 +1,4 @@
-import { formatDuration, formatFileSize } from "@/src/lib/media/format";
+import { formatDuration, formatFileSize } from "./format";
 
 export type MediaFileLike = {
   id: string;

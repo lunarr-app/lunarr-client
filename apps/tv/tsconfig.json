@@ -7,7 +7,8 @@
     "paths": {
       "@/*": ["./*"],
       "@/src/*": ["./src/*"],
-      "@lunarr/api": ["../../packages/api/src/index.ts"]
+      "@lunarr/api": ["../../packages/api/src/index.ts"],
+      "@lunarr/core": ["../../packages/core/src/index.ts"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]

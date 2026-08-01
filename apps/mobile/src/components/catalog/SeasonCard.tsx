@@ -1,6 +1,6 @@
 import { PosterImage } from "@/src/components/catalog/PosterImage";
 import { usePosterGridItemWidth } from "@/src/components/catalog/PosterGridMetricsContext";
-import { seasonStats, seasonStubStats } from "@/src/lib/media/tv";
+import { seasonStats, seasonStubStats } from "@lunarr/core";
 import { RAIL_POSTER_WIDTH } from "@/src/lib/media/grid";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing } from "@/src/theme/spacing";

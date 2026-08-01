@@ -10,7 +10,7 @@ import { ErrorView } from "@/src/components/layout/ErrorView";
 import { LoadingView } from "@/src/components/layout/LoadingView";
 import { usePersonDetail } from "@/src/hooks/queries";
 import { readApiError } from "@lunarr/api";
-import { formatYearSpan } from "@/src/lib/media/format";
+import { formatYearSpan } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing, tvSafe } from "@/src/theme/spacing";
 import { tvSize, useTVScale } from "@/src/theme/tv-scale";

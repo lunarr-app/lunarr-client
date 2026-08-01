@@ -9,6 +9,7 @@ Monorepo for the Lunarr client apps (the mobile and TV frontends for the Lunarr 
 | Mobile| `apps/mobile`| Expo SDK 57 phone/tablet app (iOS, Android, web) |
 | TV    | `apps/tv`   | Expo SDK 57 TV app (Apple TV, Android TV)         |
 | API   | `packages/api` | Shared API client (generated from the Lunarr backend OpenAPI spec) |
+| Core  | `packages/core` | Shared app-agnostic business logic (media/playback/profile) |
 
 Each app is a fully independent Expo project with its own `package.json`, `bun.lock`,
 `node_modules`, and EAS config. They are intentionally **not** bun workspaces: the TV app
@@ -16,9 +17,12 @@ must neutralize `react-native-reanimated` / `react-native-gesture-handler` / `re
 via `overrides` for the tvOS build, which bun only supports at the root — incompatible with
 the mobile app that requires those packages. So install and run each app from its own directory.
 
-`packages/api` is shared TypeScript source — no build step. The apps resolve it via their
-`tsconfig.json` `paths` (for typecheck) and `metro.config.js` resolver alias (for bundling),
-so `bun install` is never needed inside the package itself.
+`packages/api` and `packages/core` are shared TypeScript source — no build step. The apps
+resolve them via their `tsconfig.json` `paths` (for typecheck) and `metro.config.js` resolver
+alias + `nodeModulesPaths` (for bundling). `packages/api` needs no install; `packages/core`
+has dev-dependencies (react/react-native/@lunarr/api) only so its own `bun run typecheck`
+resolves types — at bundle time everything resolves to each app's single `node_modules`.
+To (re)install the core package's dev-deps: `bun install --cwd packages/core`.
 
 ## Requirements
 

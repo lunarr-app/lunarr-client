@@ -3,7 +3,7 @@ import { LoadingView } from "@/src/components/layout/LoadingView";
 import { TvVideoPlayer } from "@/src/components/player/TvVideoPlayer";
 import { savePlaybackProgress } from "@lunarr/api";
 import { PLAYBACK_PROGRESS_SAVE_INTERVAL_MS } from "@/src/lib/playback/controls";
-import { pollPlaybackUntilReady, readPlaybackPreference, type PlaybackData } from "@/src/lib/playback/service";
+import { pollPlaybackUntilReady, readPlaybackPreference, type PlaybackData } from "@lunarr/core";
 import { useAuth } from "@/src/store/auth";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useRef, useState } from "react";

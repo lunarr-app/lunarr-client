@@ -10,8 +10,8 @@ import { useEpisodeDetail, useSetEpisodeWatched } from "@/src/hooks/queries";
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
 import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
-import { episodeFileDetails } from "@/src/lib/media/files";
-import { formatDuration } from "@/src/lib/media/format";
+import { episodeFileDetails } from "@lunarr/core";
+import { formatDuration } from "@lunarr/core";
 import {
   findCompletedProgress,
   findResumeProgress,
@@ -21,8 +21,8 @@ import {
   primaryPlaybackActionLabel,
   resumePlaybackLabel,
   resumePlaybackPercent,
-} from "@/src/lib/media/progress";
-import { episodeCode as formatEpisodeCode } from "@/src/lib/media/tv";
+} from "@lunarr/core";
+import { episodeCode as formatEpisodeCode } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { spacing, tvSafe } from "@/src/theme/spacing";
 import { useTVScale } from "@/src/theme/tv-scale";

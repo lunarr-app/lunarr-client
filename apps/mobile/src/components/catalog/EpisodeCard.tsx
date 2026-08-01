@@ -1,6 +1,6 @@
 import { PosterImage } from "@/src/components/catalog/PosterImage";
 import type { EpisodeSummary } from "@lunarr/api";
-import { watchProgressPercent, watchStatusLabel } from "@/src/lib/media/progress";
+import { watchProgressPercent, watchStatusLabel } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing } from "@/src/theme/spacing";
 import { typography } from "@/src/theme/typography";

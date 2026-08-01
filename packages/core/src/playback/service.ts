@@ -1,7 +1,7 @@
 import { getApiConfig, normalizeBaseUrl } from "@lunarr/api";
 import { getPlayback, type PlaybackDataResponse, type PlaybackSegment, type SegmentSkipPreferences } from "@lunarr/api";
 import { readApiError } from "@lunarr/api";
-import { clientPlaybackCapabilities } from "@/src/lib/playback/capabilities";
+import { clientPlaybackCapabilities } from "./capabilities";
 
 export type PlaybackSubtitleTrack = {
   id: string;
@@ -175,6 +175,13 @@ function resolveSignedMediaUri(streamUrl: string): string {
   }
 
   return parsed.toString();
+}
+
+export function resolveMediaUri(streamUrl: string): string {
+  if (!streamUrl) {
+    throw new Error("Missing media URL");
+  }
+  return resolveSignedMediaUri(streamUrl);
 }
 
 export function resolvePlayableUri(playback: PlaybackDecision): string {

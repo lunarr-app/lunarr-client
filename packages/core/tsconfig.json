@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "esnext",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"]
+}

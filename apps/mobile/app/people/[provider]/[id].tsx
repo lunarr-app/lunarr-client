@@ -9,7 +9,7 @@ import { Screen } from "@/src/components/layout/Screen";
 import { ScreenScrollView } from "@/src/components/layout/ScreenScrollView";
 import { usePersonDetail } from "@/src/hooks/queries";
 import { readApiError } from "@lunarr/api";
-import { formatYearSpan } from "@/src/lib/media/format";
+import { formatYearSpan } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { detailContentInset, radii, spacing } from "@/src/theme/spacing";
 import { typography } from "@/src/theme/typography";

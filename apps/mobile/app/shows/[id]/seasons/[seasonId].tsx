@@ -19,7 +19,7 @@ import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
 import { type SeasonDetailWithEpisodes, type SeasonEpisodeDetail } from "@lunarr/api";
 import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
-import { episodeCode, findNextEpisode, seasonStats } from "@/src/lib/media/tv";
+import { episodeCode, findNextEpisode, seasonStats } from "@lunarr/core";
 import { detailContentInset, spacing } from "@/src/theme/spacing";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Check, Play, RotateCcw, Star, Tv } from "lucide-react-native";

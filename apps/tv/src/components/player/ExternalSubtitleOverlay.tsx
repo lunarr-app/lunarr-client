@@ -1,4 +1,4 @@
-import { resolveSubtitleUri, type PlaybackSubtitleTrack } from "@/src/lib/playback/service";
+import { resolveSubtitleUri, type PlaybackSubtitleTrack } from "@lunarr/core";
 import { parseSubtitleDocument, subtitleTextAtTime, type SubtitleCue } from "@/src/lib/playback/subtitles";
 import { darkColors } from "@/src/theme/colors";
 import { useTVScale } from "@/src/theme/tv-scale";

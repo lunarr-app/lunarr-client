@@ -1,4 +1,4 @@
-import type { PlaybackSubtitleTrack } from "@/src/lib/playback/service";
+import type { PlaybackSubtitleTrack } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { spacing, tvSafe } from "@/src/theme/spacing";
 import { useTVScale } from "@/src/theme/tv-scale";

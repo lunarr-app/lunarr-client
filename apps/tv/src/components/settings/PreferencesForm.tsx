@@ -5,19 +5,15 @@ import { PreferenceSectionFeedback, PreferenceSectionSaveButton } from "@/src/co
 import { SettingsSection } from "@/src/components/settings/SettingsSection";
 import { updateProfilePreferences, type ProfilePreferencesRequest } from "@lunarr/api";
 import { readApiError } from "@lunarr/api";
-import {
-  DEFAULT_SEGMENT_SKIP_PREFERENCES,
-  readPlaybackPreference,
-  type PlaybackPreference,
-} from "@/src/lib/playback/service";
+import { DEFAULT_SEGMENT_SKIP_PREFERENCES, readPlaybackPreference, type PlaybackPreference } from "@lunarr/core";
 import {
   CONTINUE_AGE_OPTIONS,
   continueAgePresetFromDays,
   parseCustomContinueMaxAgeDays,
   type ContinueAgePreset,
-} from "@/src/lib/profile/continue-max-age";
-import { readPolicyString } from "@/src/lib/profile/policy";
-import { PREFERENCE_SAVED_MESSAGE, type PreferenceSection } from "@/src/lib/profile/preferences";
+} from "@lunarr/core";
+import { readPolicyString } from "@lunarr/core";
+import { PREFERENCE_SAVED_MESSAGE, type PreferenceSection } from "@lunarr/core";
 import { useAuth } from "@/src/store/auth";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";

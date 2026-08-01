@@ -1,4 +1,4 @@
-import { resolveMediaUri, type PlaybackSubtitleTrack } from "@/src/lib/playback/service";
+import { resolveMediaUri, type PlaybackSubtitleTrack } from "@lunarr/core";
 import {
   createSubtitleIndex,
   parseSubtitleDocument,

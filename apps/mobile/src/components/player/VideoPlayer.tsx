@@ -27,8 +27,8 @@ import {
   isStreamRelativePlaybackMode,
   resolveMediaUri,
   type PlaybackDecision,
-} from "@/src/lib/playback/service";
-import { usePlaybackSession } from "@/src/lib/playback/session";
+} from "@lunarr/core";
+import { usePlaybackSession } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
 import { typography } from "@/src/theme/typography";

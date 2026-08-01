@@ -1,6 +1,6 @@
 import { PosterImage } from "@/src/components/catalog/PosterImage";
 import { FocusRing } from "@/src/components/ui/FocusRing";
-import { tmdbImageUrl } from "@/src/lib/media/images";
+import { tmdbImageUrl } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing, tvSafe } from "@/src/theme/spacing";
 import { tvSize, useTVScale } from "@/src/theme/tv-scale";

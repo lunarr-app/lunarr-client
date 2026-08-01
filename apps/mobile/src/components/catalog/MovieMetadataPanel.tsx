@@ -1,7 +1,7 @@
 import { InfoText } from "@/src/components/layout/InfoText";
 import { SettingsSection } from "@/src/components/settings/SettingsSection";
 import type { MovieDetailRecord } from "@lunarr/api";
-import { formatDuration, formatFileSize, formatVoteCount } from "@/src/lib/media/format";
+import { formatDuration, formatFileSize, formatVoteCount } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { scaleNum } from "@/src/theme/scale";
 import { radii, spacing } from "@/src/theme/spacing";
