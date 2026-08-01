@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getDiscoverMovies, getDiscoverShows, type MovieSummary, type ShowSummary } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "../../query-keys";
 
 const STALE_TIME = 15 * 60_000;
 

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { type CastMember } from "@/src/components/catalog/CastRail";
 import { getMovieCredits, getShowCredits } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "@lunarr/core";
 
 const STALE_TIME = 30 * 60_000;
 

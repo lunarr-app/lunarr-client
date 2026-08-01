@@ -10,9 +10,9 @@ import { WatchProgressSummary } from "@/src/components/catalog/WatchProgressSumm
 import { ErrorView } from "@/src/components/layout/ErrorView";
 import { LoadingView } from "@/src/components/layout/LoadingView";
 import { useSeasonDetail, useSetSeasonWatched } from "@/src/hooks/queries";
-import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
+import { useRefreshOnFocus } from "@lunarr/core";
 import { readApiError } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "@lunarr/core";
 import { formatDuration } from "@lunarr/core";
 import { episodeProgressLabel, inProgressWatchPercent } from "@lunarr/core";
 import { episodeCode, seasonStats } from "@lunarr/core";

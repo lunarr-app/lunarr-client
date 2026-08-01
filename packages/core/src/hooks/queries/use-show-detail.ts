@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getShow, toggleWatchlist } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "../../query-keys";
 
 export function useShowDetail(id: string | undefined) {
   return useQuery({

@@ -10,12 +10,12 @@ import { ShowCard } from "@/src/components/catalog/ShowCard";
 import { ErrorView } from "@/src/components/layout/ErrorView";
 import { PageHeader } from "@/src/components/layout/PageHeader";
 import { Button } from "@/src/components/ui/Button";
-import { useDiscoverShowsRail, useShowList, SHOW_LIST_STALE_TIME } from "@/src/hooks/queries";
+import { useDiscoverShows, useShowList, SHOW_LIST_STALE_TIME } from "@/src/hooks/queries";
 import { useDebouncedValue } from "@/src/hooks/useDebouncedValue";
 import { useRefreshFirstPageOnFocus } from "@/src/hooks/useRefreshFirstPageOnFocus";
-import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
+import { useRefreshOnFocus } from "@lunarr/core";
 import { readApiError } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "@lunarr/core";
 import { readCatalogQueryParam } from "@/src/lib/media/catalogRoutes";
 import { spacing } from "@/src/theme/spacing";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -110,7 +110,7 @@ export function ShowListScreen({
   const hasActiveFilters = debouncedSearch.trim().length > 0 || sort !== initialSort;
 
   const discoverRailEnabled = showFilters && !hasActiveFilters;
-  const discoverRailQuery = useDiscoverShowsRail(discoverRailEnabled);
+  const discoverRailQuery = useDiscoverShows(discoverRailEnabled);
   const discoverShows = discoverRailQuery.data?.shows ?? [];
   const discoverHasNext = discoverRailQuery.data?.hasNext ?? false;
   const discoverLoading = discoverRailQuery.isLoading;

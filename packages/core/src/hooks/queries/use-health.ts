@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getHealth } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "../../query-keys";
 
 const STALE_TIME = 5 * 60_000;
 

@@ -6,7 +6,11 @@
     "moduleResolution": "bundler",
     "module": "esnext",
     "target": "esnext",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@tanstack/react-query": ["../../apps/mobile/node_modules/@tanstack/react-query"],
+      "expo-router": ["../../apps/mobile/node_modules/expo-router"]
+    }
   },
   "include": ["src/**/*.ts"]
 }

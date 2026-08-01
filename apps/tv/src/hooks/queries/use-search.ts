@@ -7,7 +7,7 @@ import {
   type MovieSummary,
   type ShowSummary,
 } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "@lunarr/core";
 
 export function useSearchMovies(query: string) {
   return useInfiniteQuery<

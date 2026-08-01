@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPerson } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "../../query-keys";
+
+const STALE_TIME = 5 * 60_000;
 
 export function usePersonDetail(provider: string | undefined, id: string | undefined) {
   return useQuery({
@@ -12,6 +14,6 @@ export function usePersonDetail(provider: string | undefined, id: string | undef
       return data;
     },
     enabled: !!provider && !!id,
-    staleTime: 5 * 60_000,
+    staleTime: STALE_TIME,
   });
 }

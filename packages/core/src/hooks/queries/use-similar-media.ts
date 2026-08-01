@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getSimilarMovies, getSimilarShows, type MovieSummary, type ShowSummary } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "../../query-keys";
 
 const STALE_TIME = 15 * 60_000;
 
-export function useSimilarMovies(mediaId: string) {
+export function useSimilarMovies(mediaId: string, enabled = true) {
   return useInfiniteQuery<
     { title: string; items: MovieSummary[]; hasNext: boolean },
     Error,
@@ -13,7 +13,6 @@ export function useSimilarMovies(mediaId: string) {
     number
   >({
     queryKey: queryKeys.movies.similar(mediaId),
-    staleTime: STALE_TIME,
     queryFn: async ({ pageParam }: { pageParam: number }) => {
       const { data, error } = await getSimilarMovies({ path: { id: mediaId }, query: { page: pageParam } });
       if (error) throw error;
@@ -21,11 +20,12 @@ export function useSimilarMovies(mediaId: string) {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => (lastPage.hasNext ? allPages.length + 1 : undefined),
-    enabled: !!mediaId,
+    staleTime: STALE_TIME,
+    enabled: enabled && !!mediaId,
   });
 }
 
-export function useSimilarShows(mediaId: string) {
+export function useSimilarShows(mediaId: string, enabled = true) {
   return useInfiniteQuery<
     { title: string; items: ShowSummary[]; hasNext: boolean },
     Error,
@@ -34,7 +34,6 @@ export function useSimilarShows(mediaId: string) {
     number
   >({
     queryKey: queryKeys.shows.similar(mediaId),
-    staleTime: STALE_TIME,
     queryFn: async ({ pageParam }: { pageParam: number }) => {
       const { data, error } = await getSimilarShows({ path: { id: mediaId }, query: { page: pageParam } });
       if (error) throw error;
@@ -42,6 +41,7 @@ export function useSimilarShows(mediaId: string) {
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => (lastPage.hasNext ? allPages.length + 1 : undefined),
-    enabled: !!mediaId,
+    staleTime: STALE_TIME,
+    enabled: enabled && !!mediaId,
   });
 }

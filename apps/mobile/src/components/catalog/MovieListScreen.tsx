@@ -10,12 +10,12 @@ import { SectionRailSkeleton } from "@/src/components/catalog/SectionRailSkeleto
 import { ErrorView } from "@/src/components/layout/ErrorView";
 import { PageHeader } from "@/src/components/layout/PageHeader";
 import { Button } from "@/src/components/ui/Button";
-import { useDiscoverMoviesRail, useMovieList, MOVIE_LIST_STALE_TIME } from "@/src/hooks/queries";
+import { useDiscoverMovies, useMovieList, MOVIE_LIST_STALE_TIME } from "@/src/hooks/queries";
 import { useDebouncedValue } from "@/src/hooks/useDebouncedValue";
 import { useRefreshFirstPageOnFocus } from "@/src/hooks/useRefreshFirstPageOnFocus";
-import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
+import { useRefreshOnFocus } from "@lunarr/core";
 import { readApiError } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "@lunarr/core";
 import { readCatalogQueryParam } from "@/src/lib/media/catalogRoutes";
 import { spacing } from "@/src/theme/spacing";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -129,7 +129,7 @@ export function MovieListScreen({
   const hasActiveFilters = debouncedSearch.trim().length > 0 || status !== "all" || sort !== initialSort;
 
   const discoverRailEnabled = showFilters && !hasActiveFilters;
-  const discoverRailQuery = useDiscoverMoviesRail(discoverRailEnabled);
+  const discoverRailQuery = useDiscoverMovies(discoverRailEnabled);
   const discoverMovies = discoverRailQuery.data?.movies ?? [];
   const discoverHasNext = discoverRailQuery.data?.hasNext ?? false;
   const discoverLoading = discoverRailQuery.isLoading;

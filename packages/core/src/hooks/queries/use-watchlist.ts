@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getWatchlist } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
-
-const STALE_TIME = 60_000;
+import { queryKeys } from "../../query-keys";
 
 export function useWatchlist() {
   return useQuery({
@@ -12,6 +10,5 @@ export function useWatchlist() {
       if (error) throw error;
       return data;
     },
-    staleTime: STALE_TIME,
   });
 }

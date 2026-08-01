@@ -10,9 +10,9 @@ import { ErrorView } from "@/src/components/layout/ErrorView";
 import { LoadingView } from "@/src/components/layout/LoadingView";
 import { useMediaCastCredits } from "@/src/hooks/useMediaCastCredits";
 import { useMovieDetail, useToggleMovieWatchlist, useSetMovieWatched } from "@/src/hooks/queries";
-import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
+import { useRefreshOnFocus } from "@lunarr/core";
 import { readApiError } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "@lunarr/core";
 import { movieFileMeta } from "@lunarr/core";
 import { formatDuration, formatFileSize } from "@lunarr/core";
 import {

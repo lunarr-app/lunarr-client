@@ -9,7 +9,7 @@ Monorepo for the Lunarr client apps (the mobile and TV frontends for the Lunarr 
 | Mobile| `apps/mobile`| Expo SDK 57 phone/tablet app (iOS, Android, web) |
 | TV    | `apps/tv`   | Expo SDK 57 TV app (Apple TV, Android TV)         |
 | API   | `packages/api` | Shared API client (generated from the Lunarr backend OpenAPI spec) |
-| Core  | `packages/core` | Shared app-agnostic business logic (media/playback/profile) |
+| Core  | `packages/core` | Shared app-agnostic logic + query hooks (media/playback/profile, `queryKeys`, hooks) |
 
 Each app is a fully independent Expo project with its own `package.json`, `bun.lock`,
 `node_modules`, and EAS config. They are intentionally **not** bun workspaces: the TV app

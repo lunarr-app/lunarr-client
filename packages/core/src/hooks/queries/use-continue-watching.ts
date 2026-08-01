@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getContinueWatchingEpisodes, getContinueWatchingMovies } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "../../query-keys";
 
 export function useContinueWatchingMovies() {
   return useQuery({

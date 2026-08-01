@@ -1,12 +1,12 @@
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { getMovies, type MovieRowsResponse } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "@lunarr/core";
 
 export const MOVIE_LIST_STALE_TIME = 60_000;
 
 export function useMovieList(sort: string, search?: string) {
   return useInfiniteQuery({
-    queryKey: queryKeys.movies.list(sort, search),
+    queryKey: queryKeys.movies.list(sort, undefined, search),
     queryFn: async ({ pageParam }) => {
       const { data, error } = await getMovies({
         query: {

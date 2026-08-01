@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getDiscoverMovies, getDiscoverShows } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "../../query-keys";
 
 const STALE_TIME = 15 * 60_000;
 
-export function useDiscoverMoviesRail(enabled: boolean) {
+export function useDiscoverMovies(enabled = true) {
   return useQuery({
     queryKey: queryKeys.discover.rail("movies"),
     queryFn: async () => {
@@ -17,7 +17,7 @@ export function useDiscoverMoviesRail(enabled: boolean) {
   });
 }
 
-export function useDiscoverShowsRail(enabled: boolean) {
+export function useDiscoverShows(enabled = true) {
   return useQuery({
     queryKey: queryKeys.discover.rail("shows"),
     queryFn: async () => {

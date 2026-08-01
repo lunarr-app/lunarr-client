@@ -13,12 +13,14 @@ Monorepo for the Lunarr client apps. Each app is an independent Expo project wit
 - `packages/api` — shared API client (generated from the Lunarr backend OpenAPI spec) plus the
   app-agnostic API modules. No build step: the apps resolve it via `tsconfig` `paths` and a
   Metro `resolver.alias`. Edit `packages/api/src/**`, never the per-app copies.
-- `packages/core` — shared app-agnostic business logic (media/playback/profile modules:
-  formatting, progress, episode/tv helpers, playback decision + session, profile policy).
-  Same resolution mechanism as `packages/api`. Its dev-dependencies (`react`,
-  `react-native`, `@lunarr/api`) exist only for standalone typechecking — Metro resolves
-  runtime imports from each app's own `node_modules` (`nodeModulesPaths` +
-  `disableHierarchicalLookup`), so there is no duplicate-instance risk. Edit
+- `packages/core` — shared app-agnostic business logic plus the TanStack query hooks and
+  unified `queryKeys`: media/playback/profile modules (formatting, progress, episode/tv helpers,
+  playback decision + session, profile policy) and `src/hooks/**` (query hooks + useRefreshOnFocus).
+  Same resolution mechanism as `packages/api`. Its dev-dependencies (`react`, `react-native`,
+  `@lunarr/api`) exist only for standalone typechecking — Metro resolves runtime imports from
+  each app's own `node_modules` (`nodeModulesPaths` + `disableHierarchicalLookup`), so there is no
+  duplicate-instance risk. `@tanstack/react-query`/`expo-router` in the shared hooks are mapped
+  via the apps' tsconfig `paths` (and resolve from the app's `node_modules` at runtime). Edit
   `packages/core/src/**`, never the per-app copies.
 
 React Compiler is **enabled** in both apps (see below).

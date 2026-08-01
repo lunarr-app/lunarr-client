@@ -8,7 +8,9 @@
       "@/*": ["./*"],
       "@/src/*": ["./src/*"],
       "@lunarr/api": ["../../packages/api/src/index.ts"],
-      "@lunarr/core": ["../../packages/core/src/index.ts"]
+      "@lunarr/core": ["../../packages/core/src/index.ts"],
+      "@tanstack/react-query": ["./node_modules/@tanstack/react-query"],
+      "expo-router": ["./node_modules/expo-router"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]

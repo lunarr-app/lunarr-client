@@ -6,6 +6,7 @@ export const queryKeys = {
   },
   movies: {
     all: ["movies"] as const,
+    browse: (rails: string) => [...queryKeys.movies.all, "browse", rails] as const,
     list: (sort: string, status?: string, search?: string) =>
       [...queryKeys.movies.all, "list", sort, { status: status ?? "all", search: search ?? "" }] as const,
     detail: (id: string) => [...queryKeys.movies.all, "detail", id] as const,
@@ -14,6 +15,7 @@ export const queryKeys = {
   },
   shows: {
     all: ["shows"] as const,
+    browse: (rails: string) => [...queryKeys.shows.all, "browse", rails] as const,
     list: (sort: string, search?: string) =>
       [...queryKeys.shows.all, "list", sort, ...(search ? [search] : [])] as const,
     detail: (id: string) => [...queryKeys.shows.all, "detail", id] as const,
@@ -37,6 +39,11 @@ export const queryKeys = {
   },
   watchlist: {
     all: ["watchlist"] as const,
+  },
+  search: {
+    all: ["search"] as const,
+    movies: (query: string) => [...queryKeys.search.all, "movies", query] as const,
+    shows: (query: string) => [...queryKeys.search.all, "shows", query] as const,
   },
   health: {
     all: ["health"] as const,

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMovieOverview, setMovieWatched, toggleWatchlist } from "@lunarr/api";
-import { queryKeys } from "@/src/lib/api/query-keys";
+import { queryKeys } from "../../query-keys";
 
 export function useMovieDetail(id: string | undefined) {
   return useQuery({
