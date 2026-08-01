@@ -1,11 +1,17 @@
 # AGENTS.md
 
-## Stack
+## Repo layout
 
-- Expo SDK 57 / React Native 0.86 / React 19.2.3 / TypeScript 6
-- Expo Router (typed routes enabled)
-- TanStack Query, Zustand-style auth store, expo-video player
-- React Compiler is **enabled** (see below)
+Monorepo for the Lunarr client apps. Each app is an independent Expo project with its own
+`package.json`, `bun.lock`, `node_modules`, and `eas.json` — there is **no** root workspace.
+
+- `apps/mobile` — phone/tablet app. Expo SDK 57 / React Native 0.86 / React 19.2.3 / TypeScript 6.
+  Expo Router (typed routes enabled), TanStack Query, Zustand-style auth store, expo-video player.
+- `apps/tv` — TV app. Expo SDK 57 / React Native 0.86 (`react-native-tvos`) / React 19.2.3 / TypeScript 6.
+  Expo Router (typed routes enabled), TV-optimized UI. TanStack Query, React Context auth store,
+  expo-video player.
+
+React Compiler is **enabled** in both apps (see below).
 
 ## React Compiler (DO NOT write manual memoization)
 
@@ -65,12 +71,15 @@ performance regression. Keep code compiler-friendly:
     setErrors((current) => ({ ...current, [section]: message }));
   }
   ```
+- **Avoid `useRef(new Animated.Value(0)).current`** in components (e.g. sliders). Use a lazy
+  `useState` initializer instead: `const [value] = useState(() => new Animated.Value(0))`.
 - Do not write a self-referencing function that returns itself (e.g. `const f = () => { return f; }`).
 
 ### How to verify a component compiles
 
-Use a one-off transform with `panicThreshold: "all_errors"` to surface any errors that the
-production build would silently skip:
+The healthcheck (`npx react-compiler-healthcheck`) only reports hard compile errors; it misses
+silent bailouts. Use a one-off transform with `panicThreshold: "all_errors"` to surface any
+errors that the production build would silently skip:
 
 ```bash
 node -e "
@@ -97,12 +106,24 @@ Run this after editing any component/hook.
 
 ## Commands
 
-- `bunx tsc --noEmit --noUnusedLocals --noUnusedParameters` — typecheck (run before committing)
+Run inside an app directory, or via the root helpers (both work):
+
+| Task          | In-app command                | Root helper            |
+| ------------- | ----------------------------- | ---------------------- |
+| start         | `bun run start`               | `bun run mobile` / `bun run tv` |
+| typecheck     | `bun run typecheck`           | `bun run mobile:typecheck` / `bun run tv:typecheck` |
+| format        | `bun run format`              | `bun run mobile:format` / `bun run tv:format` |
+| format:check  | `bun run format:check`        | —                      |
+| gen:api       | `bun run gen:api`             | —                      |
+| gen:openapi   | `bun run gen:openapi`         | —                      |
+
+- `bun run typecheck` — runs `tsc --noEmit --noUnusedLocals --noUnusedParameters` (run before committing)
 - `bun run format:check` — prettier check
 - `bun run format` — prettier write
-- `bun run gen:api` — regenerate API client from `openapi.json` (uses lunarr-go)
+- `bun run gen:api` — regenerate API client from `openapi.json`
+- `bun run gen:openapi` — regenerate `openapi.json` from the lunarr-go server (resolved via `../../../lunarr-go`)
 
 ## Verification before committing
 
-1. Run the typecheck and `format:check` commands above.
+1. Run the typecheck and `format:check` commands above for the app(s) you touched.
 2. For any touched component/hook, run the compiler scan above and confirm `COMPILED`.

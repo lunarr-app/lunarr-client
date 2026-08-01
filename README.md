@@ -47,7 +47,7 @@ cd apps/tv && bun run start
 
 ## Commands per app
 
-See each app's `AGENTS.md` for its conventions, typecheck, and formatting commands.
+See the root `AGENTS.md` for repo conventions, typecheck, and formatting commands.
 Typical per-app workflow:
 
 ```bash
