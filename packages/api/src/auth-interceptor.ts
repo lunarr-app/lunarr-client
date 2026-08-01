@@ -1,6 +1,6 @@
-import { getApiConfig } from "@/src/lib/api/client-config";
-import { isAuthFailure } from "@/src/lib/api/parse";
-import { client } from "@/src/lib/api/generated/client.gen";
+import { getApiConfig } from "./client-config";
+import { isAuthFailure } from "./parse";
+import { client } from "./generated/client.gen";
 
 const UNAUTHENTICATED_PATHS = new Set([
   "/api/health",

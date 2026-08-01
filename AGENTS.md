@@ -10,6 +10,9 @@ Monorepo for the Lunarr client apps. Each app is an independent Expo project wit
 - `apps/tv` — TV app. Expo SDK 57 / React Native 0.86 (`react-native-tvos`) / React 19.2.3 / TypeScript 6.
   Expo Router (typed routes enabled), TV-optimized UI. TanStack Query, React Context auth store,
   expo-video player.
+- `packages/api` — shared API client (generated from the Lunarr backend OpenAPI spec) plus the
+  app-agnostic API modules. No build step: the apps resolve it via `tsconfig` `paths` and a
+  Metro `resolver.alias`. Edit `packages/api/src/**`, never the per-app copies.
 
 React Compiler is **enabled** in both apps (see below).
 
@@ -120,8 +123,8 @@ Run inside an app directory, or via the root helpers (both work):
 - `bun run typecheck` — runs `tsc --noEmit --noUnusedLocals --noUnusedParameters` (run before committing)
 - `bun run format:check` — prettier check
 - `bun run format` — prettier write
-- `bun run gen:api` — regenerate API client from `openapi.json`
-- `bun run gen:openapi` — regenerate `openapi.json` from the lunarr-go server (resolved via `../../../lunarr-go`)
+- `bun run gen:api` — regenerate the shared API client in `packages/api` (delegates from each app)
+- `bun run gen:openapi` — regenerate `packages/api/openapi.json` from the lunarr-go server (resolved via `../../../lunarr-go`)
 
 ## Verification before committing
 

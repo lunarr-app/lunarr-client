@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getEpisode, setEpisodeWatched } from "@/src/lib/api/generated";
+import { getEpisode, setEpisodeWatched } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 
 export function useEpisodeDetail(id: string | undefined) {

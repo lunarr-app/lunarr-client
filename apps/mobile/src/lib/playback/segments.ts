@@ -1,4 +1,4 @@
-import type { PlaybackSegment } from "@/src/lib/api/generated";
+import type { PlaybackSegment } from "@lunarr/api";
 
 const SEGMENT_LEAD_OUT_SECONDS = 2;
 

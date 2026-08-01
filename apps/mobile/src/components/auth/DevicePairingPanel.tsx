@@ -1,13 +1,8 @@
 import { Button } from "@/src/components/ui/Button";
 import { TextField } from "@/src/components/ui/TextField";
-import { normalizeBaseUrl } from "@/src/lib/api/client-config";
-import type { DevicePairingStartResponse } from "@/src/lib/api/generated";
-import {
-  checkServerHealth,
-  pollPairingUntilApproved,
-  startPairingSession,
-  type PairingWakeHandle,
-} from "@/src/lib/api/pairing";
+import { normalizeBaseUrl } from "@lunarr/api";
+import type { DevicePairingStartResponse } from "@lunarr/api";
+import { checkServerHealth, pollPairingUntilApproved, startPairingSession, type PairingWakeHandle } from "@lunarr/api";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing } from "@/src/theme/spacing";
 import { typography } from "@/src/theme/typography";

@@ -6,7 +6,7 @@ import {
   type ShowRowsResponse,
   type MovieSummary,
   type ShowSummary,
-} from "@/src/lib/api/generated";
+} from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 
 export function useSearchMovies(query: string) {

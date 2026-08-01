@@ -6,7 +6,8 @@
     "allowImportingTsExtensions": true,
     "paths": {
       "@/*": ["./*"],
-      "@/src/*": ["./src/*"]
+      "@/src/*": ["./src/*"],
+      "@lunarr/api": ["../../packages/api/src/index.ts"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]

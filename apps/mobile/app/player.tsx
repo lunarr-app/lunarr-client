@@ -1,7 +1,7 @@
 import { ErrorView } from "@/src/components/layout/ErrorView";
 import { LoadingView } from "@/src/components/layout/LoadingView";
 import { VideoPlayer } from "@/src/components/player/VideoPlayer";
-import { savePlaybackProgress } from "@/src/lib/api/generated";
+import { savePlaybackProgress } from "@lunarr/api";
 import { PLAYBACK_PROGRESS_SAVE_INTERVAL_MS } from "@/src/lib/playback/controls";
 import { pollPlaybackUntilReady, readPlaybackPreference, type PlaybackData } from "@/src/lib/playback/service";
 import { useAuth } from "@/src/store/auth";

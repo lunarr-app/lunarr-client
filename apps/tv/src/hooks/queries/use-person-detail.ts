@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getPerson } from "@/src/lib/api/generated";
+import { getPerson } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 
 export function usePersonDetail(provider: string | undefined, id: string | undefined) {

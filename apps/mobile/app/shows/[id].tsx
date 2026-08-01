@@ -11,7 +11,7 @@ import { Screen } from "@/src/components/layout/Screen";
 import { ScreenScrollView } from "@/src/components/layout/ScreenScrollView";
 import { useShowDetail, useToggleShowWatchlist } from "@/src/hooks/queries";
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
-import { readApiError } from "@/src/lib/api/parse";
+import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 import { episodeCode, pickShowResumeFromSeasons, seasonStats, type ShowResumeEpisode } from "@/src/lib/media/tv";
 import { darkColors } from "@/src/theme/colors";

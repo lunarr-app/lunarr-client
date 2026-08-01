@@ -1,4 +1,4 @@
-import { cancelPlaybackSession, heartbeatPlaybackSession } from "@/src/lib/api/generated";
+import { cancelPlaybackSession, heartbeatPlaybackSession } from "@lunarr/api";
 import { useEffect } from "react";
 import { isStreamRelativePlaybackMode, type PlaybackDecision } from "./service";
 

@@ -11,7 +11,7 @@ import { ErrorView } from "@/src/components/layout/ErrorView";
 import { LoadingView } from "@/src/components/layout/LoadingView";
 import { useSeasonDetail, useSetSeasonWatched } from "@/src/hooks/queries";
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
-import { readApiError } from "@/src/lib/api/parse";
+import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 import { formatDuration } from "@/src/lib/media/format";
 import { episodeProgressLabel, inProgressWatchPercent } from "@/src/lib/media/progress";

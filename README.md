@@ -8,12 +8,17 @@ Monorepo for the Lunarr client apps (the mobile and TV frontends for the Lunarr 
 | ----- | ----------- | ------------------------------------ |
 | Mobile| `apps/mobile`| Expo SDK 57 phone/tablet app (iOS, Android, web) |
 | TV    | `apps/tv`   | Expo SDK 57 TV app (Apple TV, Android TV)         |
+| API   | `packages/api` | Shared API client (generated from the Lunarr backend OpenAPI spec) |
 
 Each app is a fully independent Expo project with its own `package.json`, `bun.lock`,
 `node_modules`, and EAS config. They are intentionally **not** bun workspaces: the TV app
 must neutralize `react-native-reanimated` / `react-native-gesture-handler` / `react-native-worklets`
 via `overrides` for the tvOS build, which bun only supports at the root — incompatible with
 the mobile app that requires those packages. So install and run each app from its own directory.
+
+`packages/api` is shared TypeScript source — no build step. The apps resolve it via their
+`tsconfig.json` `paths` (for typecheck) and `metro.config.js` resolver alias (for bundling),
+so `bun install` is never needed inside the package itself.
 
 ## Requirements
 
@@ -54,8 +59,9 @@ Typical per-app workflow:
 bun run typecheck      # tsc --noEmit
 bun run format:check   # prettier check
 bun run format         # prettier write
-bun run gen:api        # regenerate API client from openapi.json
-bun run gen:openapi    # regenerate openapi.json from the lunarr-go server
+bun run gen:api        # regenerate the shared API client (delegates to packages/api)
+bun run gen:openapi    # regenerate packages/api/openapi.json from the lunarr-go server
 ```
 
-The `gen:openapi` scripts reach the backend at `../../../lunarr-go` (relative to each app).
+`gen:openapi` reaches the backend at `../../../lunarr-go` (relative to `packages/api`), and both
+app-level `gen:*` scripts delegate to `packages/api` — the API client has a single source of truth.

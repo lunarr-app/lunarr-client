@@ -1,5 +1,5 @@
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
-import { getMovies, type MovieRowsResponse } from "@/src/lib/api/generated";
+import { getMovies, type MovieRowsResponse } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 
 export const MOVIE_LIST_STALE_TIME = 60_000;

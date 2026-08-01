@@ -5,4 +5,3 @@ web-build/
 ios/
 android/
 openapi.json
-src/lib/api/generated/

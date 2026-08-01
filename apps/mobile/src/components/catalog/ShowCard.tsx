@@ -1,6 +1,6 @@
 import { usePosterGridItemWidth } from "@/src/components/catalog/PosterGridMetricsContext";
 import { PosterImage } from "@/src/components/catalog/PosterImage";
-import type { ShowSummary } from "@/src/lib/api/generated";
+import type { ShowSummary } from "@lunarr/api";
 import { RAIL_POSTER_WIDTH } from "@/src/lib/media/grid";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing } from "@/src/theme/spacing";

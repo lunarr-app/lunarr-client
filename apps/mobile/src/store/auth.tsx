@@ -1,8 +1,8 @@
-import { registerUnauthorizedHandler, runWithUnauthorizedSuppressed } from "@/src/lib/api/auth-interceptor";
-import { normalizeBaseUrl } from "@/src/lib/api/client-config";
-import { getCurrentUser, type MeResponse } from "@/src/lib/api/generated";
-import { clearApiConfig, configureApi } from "@/src/lib/api/hey-api";
-import { isAuthFailure, readApiError } from "@/src/lib/api/parse";
+import { registerUnauthorizedHandler, runWithUnauthorizedSuppressed } from "@lunarr/api";
+import { normalizeBaseUrl } from "@lunarr/api";
+import { getCurrentUser, type MeResponse } from "@lunarr/api";
+import { clearApiConfig, configureApi } from "@lunarr/api";
+import { isAuthFailure, readApiError } from "@lunarr/api";
 import { queryClient } from "@/src/lib/api/query-client";
 import * as SecureStore from "expo-secure-store";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";

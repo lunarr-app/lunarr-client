@@ -1,5 +1,5 @@
 import { DevicePairingPanel } from "@/src/components/auth/DevicePairingPanel";
-import { checkServerHealth } from "@/src/lib/api/pairing";
+import { checkServerHealth } from "@lunarr/api";
 import { Button } from "@/src/components/ui/Button";
 import { SegmentedControl } from "@/src/components/ui/SegmentedControl";
 import { TextField } from "@/src/components/ui/TextField";

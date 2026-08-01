@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { updateProfilePreferences, type ProfilePreferencesRequest } from "@/src/lib/api/generated";
+import { updateProfilePreferences, type ProfilePreferencesRequest } from "@lunarr/api";
 import { type PreferenceSection } from "@/src/lib/profile/preferences";
 
 export function useUpdateProfilePreferences() {

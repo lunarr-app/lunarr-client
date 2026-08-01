@@ -1,4 +1,4 @@
-import type { TranscodePolicy } from "@/src/lib/api/generated";
+import type { TranscodePolicy } from "@lunarr/api";
 
 export function readPolicyString(
   policy: TranscodePolicy | undefined,

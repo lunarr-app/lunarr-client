@@ -24,7 +24,7 @@ import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
 import { tvSize, useTVScale } from "@/src/theme/tv-scale";
 import { typography } from "@/src/theme/typography";
-import type { PlaybackSegment, SegmentSkipPreferences } from "@/src/lib/api/generated";
+import type { PlaybackSegment, SegmentSkipPreferences } from "@lunarr/api";
 
 import { ExternalSubtitleOverlay } from "./ExternalSubtitleOverlay";
 import {

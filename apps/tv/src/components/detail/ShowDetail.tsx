@@ -11,7 +11,7 @@ import { ErrorView } from "@/src/components/layout/ErrorView";
 import { LoadingView } from "@/src/components/layout/LoadingView";
 import { useShowDetail, useToggleShowWatchlist } from "@/src/hooks/queries";
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
-import { readApiError } from "@/src/lib/api/parse";
+import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 import { episodeCode, pickShowResumeFromSeasons, seasonStats, type ShowResumeEpisode } from "@/src/lib/media/tv";
 import { darkColors } from "@/src/theme/colors";

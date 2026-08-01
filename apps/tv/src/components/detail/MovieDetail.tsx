@@ -11,7 +11,7 @@ import { LoadingView } from "@/src/components/layout/LoadingView";
 import { useMediaCastCredits } from "@/src/hooks/useMediaCastCredits";
 import { useMovieDetail, useToggleMovieWatchlist, useSetMovieWatched } from "@/src/hooks/queries";
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
-import { readApiError } from "@/src/lib/api/parse";
+import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 import { movieFileMeta } from "@/src/lib/media/files";
 import { formatDuration, formatFileSize } from "@/src/lib/media/format";

@@ -9,7 +9,7 @@ import { FocusRing } from "@/src/components/ui/FocusRing";
 import { ErrorView } from "@/src/components/layout/ErrorView";
 import { LoadingView } from "@/src/components/layout/LoadingView";
 import { usePersonDetail } from "@/src/hooks/queries";
-import { readApiError } from "@/src/lib/api/parse";
+import { readApiError } from "@lunarr/api";
 import { formatYearSpan } from "@/src/lib/media/format";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing, tvSafe } from "@/src/theme/spacing";

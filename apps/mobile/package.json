@@ -9,8 +9,8 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "prebuild": "expo prebuild",
-    "gen:api": "openapi-ts",
-    "gen:openapi": "cd ../../../lunarr-go && bun -e \"import { openApiDocument } from './src/lib/server/openapi.ts'; await Bun.write('../lunarr-client/apps/mobile/openapi.json', JSON.stringify(openApiDocument, null, 2));\" && cd ../../../lunarr-client/apps/mobile && bun run gen:api",
+    "gen:api": "cd ../../packages/api && bun run gen:api",
+    "gen:openapi": "cd ../../packages/api && bun run gen:openapi",
     "typecheck": "tsc --noEmit --noUnusedLocals --noUnusedParameters",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
@@ -45,7 +45,6 @@
     "react-native-worklets": "0.10.1"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "0.99.0",
     "@types/react": "~19.2.2",
     "prettier": "3.9.6",
     "typescript": "~6.0.3"

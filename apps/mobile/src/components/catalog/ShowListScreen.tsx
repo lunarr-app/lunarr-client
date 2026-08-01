@@ -14,7 +14,7 @@ import { useDiscoverShowsRail, useShowList, SHOW_LIST_STALE_TIME } from "@/src/h
 import { useDebouncedValue } from "@/src/hooks/useDebouncedValue";
 import { useRefreshFirstPageOnFocus } from "@/src/hooks/useRefreshFirstPageOnFocus";
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
-import { readApiError } from "@/src/lib/api/parse";
+import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 import { readCatalogQueryParam } from "@/src/lib/media/catalogRoutes";
 import { spacing } from "@/src/theme/spacing";

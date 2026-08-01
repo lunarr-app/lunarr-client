@@ -1,5 +1,5 @@
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
-import { getShows, type ShowRowsResponse } from "@/src/lib/api/generated";
+import { getShows, type ShowRowsResponse } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 
 export const SHOW_LIST_STALE_TIME = 120_000;

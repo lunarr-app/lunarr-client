@@ -1,4 +1,4 @@
-import type { PlaybackSegment, SegmentSkipPreferences } from "@/src/lib/api/generated";
+import type { PlaybackSegment, SegmentSkipPreferences } from "@lunarr/api";
 import {
   activePlaybackSegment,
   playbackSegmentKey,

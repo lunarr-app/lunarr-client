@@ -11,8 +11,8 @@
     "prebuild:clean": "EXPO_TV=1 expo prebuild --clean -p ios",
     "prebuild:android": "EXPO_TV=1 expo prebuild -p android",
     "prebuild:android:clean": "EXPO_TV=1 expo prebuild --clean -p android",
-    "gen:api": "openapi-ts",
-    "gen:openapi": "cd ../../../lunarr-go && bun -e \"import { openApiDocument } from './src/lib/server/openapi.ts'; await Bun.write('../lunarr-client/apps/tv/openapi.json', JSON.stringify(openApiDocument, null, 2));\" && cd ../../../lunarr-client/apps/tv && bun run gen:api",
+    "gen:api": "cd ../../packages/api && bun run gen:api",
+    "gen:openapi": "cd ../../packages/api && bun run gen:openapi",
     "typecheck": "tsc --noEmit --noUnusedLocals --noUnusedParameters",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
@@ -42,7 +42,6 @@
     "react-native-svg": "15.15.4"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "0.99.0",
     "@react-native-tvos/config-tv": "0.1.6",
     "@types/react": "~19.2.17",
     "prettier": "3.9.6",

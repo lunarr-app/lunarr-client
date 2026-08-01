@@ -6,8 +6,8 @@ import { ErrorView } from "@/src/components/layout/ErrorView";
 import { PageHeader } from "@/src/components/layout/PageHeader";
 import { Button } from "@/src/components/ui/Button";
 import { useDiscoverMoviesInfinite, useDiscoverShowsInfinite } from "@/src/hooks/queries";
-import { type MovieSummary, type ShowSummary } from "@/src/lib/api/generated";
-import { readApiError } from "@/src/lib/api/parse";
+import { type MovieSummary, type ShowSummary } from "@lunarr/api";
+import { readApiError } from "@lunarr/api";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 

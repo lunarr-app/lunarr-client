@@ -2,7 +2,7 @@ import { PosterImage } from "@/src/components/catalog/PosterImage";
 import { usePosterGridMetrics } from "@/src/components/catalog/PosterGridMetricsContext";
 import { ProgressTrack } from "@/src/components/catalog/ProgressTrack";
 import { Button } from "@/src/components/ui/Button";
-import type { SeasonEpisodeDetail } from "@/src/lib/api/generated";
+import type { SeasonEpisodeDetail } from "@lunarr/api";
 import { useDeviceTier } from "@/src/lib/layout/responsive";
 import { formatDuration } from "@/src/lib/media/format";
 import { episodeProgressLabel, inProgressWatchPercent } from "@/src/lib/media/progress";

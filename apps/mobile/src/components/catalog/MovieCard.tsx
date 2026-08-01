@@ -1,6 +1,6 @@
 import { usePosterGridItemWidth } from "@/src/components/catalog/PosterGridMetricsContext";
 import { PosterImage } from "@/src/components/catalog/PosterImage";
-import type { MovieSummary } from "@/src/lib/api/generated";
+import type { MovieSummary } from "@lunarr/api";
 import { RAIL_POSTER_WIDTH } from "@/src/lib/media/grid";
 import { watchProgressPercent, watchStatusLabel } from "@/src/lib/media/progress";
 import { darkColors } from "@/src/theme/colors";

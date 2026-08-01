@@ -1,11 +1,6 @@
-import { getApiConfig, normalizeBaseUrl } from "@/src/lib/api/client-config";
-import {
-  getPlayback,
-  type PlaybackDataResponse,
-  type PlaybackSegment,
-  type SegmentSkipPreferences,
-} from "@/src/lib/api/generated";
-import { readApiError } from "@/src/lib/api/parse";
+import { getApiConfig, normalizeBaseUrl } from "@lunarr/api";
+import { getPlayback, type PlaybackDataResponse, type PlaybackSegment, type SegmentSkipPreferences } from "@lunarr/api";
+import { readApiError } from "@lunarr/api";
 import { clientPlaybackCapabilities } from "@/src/lib/playback/capabilities";
 
 export const DEFAULT_SEGMENT_SKIP_PREFERENCES: SegmentSkipPreferences = {

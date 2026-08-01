@@ -1,13 +1,8 @@
-import { normalizeBaseUrl } from "@/src/lib/api/client-config";
-import {
-  getHealth,
-  pollDevicePairing,
-  startDevicePairing,
-  type DevicePairingStartResponse,
-} from "@/src/lib/api/generated";
-import { client } from "@/src/lib/api/generated/client.gen";
-import { readApiError } from "@/src/lib/api/parse";
-import { isServerVersionSupported, MIN_SUPPORTED_SERVER_VERSION } from "@/src/lib/api/serverVersion";
+import { normalizeBaseUrl } from "./client-config";
+import { getHealth, pollDevicePairing, startDevicePairing, type DevicePairingStartResponse } from "./generated";
+import { client } from "./generated/client.gen";
+import { readApiError } from "./parse";
+import { isServerVersionSupported, MIN_SUPPORTED_SERVER_VERSION } from "./serverVersion";
 
 type PairingApproval = {
   apiKey: string;

@@ -1,6 +1,6 @@
 import { PosterImage } from "@/src/components/catalog/PosterImage";
 import { FocusRing } from "@/src/components/ui/FocusRing";
-import type { MovieSummary } from "@/src/lib/api/generated";
+import type { MovieSummary } from "@lunarr/api";
 import { watchProgressPercent, watchStatusLabel } from "@/src/lib/media/progress";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing } from "@/src/theme/spacing";

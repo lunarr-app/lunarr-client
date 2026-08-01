@@ -3,8 +3,8 @@ import { PresetChipRow } from "@/src/components/ui/PresetChipRow";
 import { TextField } from "@/src/components/ui/TextField";
 import { PreferenceSectionFeedback, PreferenceSectionSaveButton } from "@/src/components/settings/PreferenceSectionUi";
 import { SettingsSection } from "@/src/components/settings/SettingsSection";
-import { updateProfilePreferences, type ProfilePreferencesRequest } from "@/src/lib/api/generated";
-import { readApiError } from "@/src/lib/api/parse";
+import { updateProfilePreferences, type ProfilePreferencesRequest } from "@lunarr/api";
+import { readApiError } from "@lunarr/api";
 import {
   DEFAULT_SEGMENT_SKIP_PREFERENCES,
   readPlaybackPreference,

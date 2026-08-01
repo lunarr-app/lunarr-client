@@ -15,8 +15,8 @@ import { useMovieDetail, useSetMovieWatched, useToggleMovieWatchlist } from "@/s
 import { useMediaCastCredits } from "@/src/hooks/useMediaCastCredits";
 import { useMediaDetailProgress } from "@/src/hooks/useMediaDetailProgress";
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
-import { type MovieFileRecord } from "@/src/lib/api/generated";
-import { readApiError } from "@/src/lib/api/parse";
+import { type MovieFileRecord } from "@lunarr/api";
+import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 import { movieFileMeta } from "@/src/lib/media/files";
 import { playbackStartSeconds } from "@/src/lib/media/progress";

@@ -8,7 +8,7 @@ import { ErrorView } from "@/src/components/layout/ErrorView";
 import { Screen } from "@/src/components/layout/Screen";
 import { ScreenScrollView } from "@/src/components/layout/ScreenScrollView";
 import { usePersonDetail } from "@/src/hooks/queries";
-import { readApiError } from "@/src/lib/api/parse";
+import { readApiError } from "@lunarr/api";
 import { formatYearSpan } from "@/src/lib/media/format";
 import { darkColors } from "@/src/theme/colors";
 import { detailContentInset, radii, spacing } from "@/src/theme/spacing";

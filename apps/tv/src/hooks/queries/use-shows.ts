@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getShows } from "@/src/lib/api/generated";
+import { getShows } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 
 const STALE_TIME = 60_000;

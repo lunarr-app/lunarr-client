@@ -10,7 +10,7 @@ import { ScreenScrollView } from "@/src/components/layout/ScreenScrollView";
 import { Button } from "@/src/components/ui/Button";
 import { useContinueWatchingEpisodes, useContinueWatchingMovies } from "@/src/hooks/queries";
 import { useRefreshOnFocus } from "@/src/hooks/useRefreshOnFocus";
-import { readApiError } from "@/src/lib/api/parse";
+import { readApiError } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 import { spacing } from "@/src/theme/spacing";
 import { useRouter } from "expo-router";

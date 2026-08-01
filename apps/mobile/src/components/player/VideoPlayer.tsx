@@ -6,7 +6,7 @@ import { SegmentSkipOverlay } from "@/src/components/player/SegmentSkipOverlay";
 import { SurfaceFeedbackOverlay } from "@/src/components/player/SurfaceFeedbackOverlay";
 import { usePlayerOrientation } from "@/src/hooks/usePlayerOrientation";
 import { usePlaybackSegments } from "@/src/hooks/usePlaybackSegments";
-import type { PlaybackSegment, SegmentSkipPreferences } from "@/src/lib/api/generated";
+import type { PlaybackSegment, SegmentSkipPreferences } from "@lunarr/api";
 import {
   BUFFERING_UI_DELAY_MS,
   CONTROLS_AUTO_HIDE_MS,

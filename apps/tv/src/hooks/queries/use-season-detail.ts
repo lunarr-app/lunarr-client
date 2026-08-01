@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getShowSeason, setSeasonWatched } from "@/src/lib/api/generated";
+import { getShowSeason, setSeasonWatched } from "@lunarr/api";
 import { queryKeys } from "@/src/lib/api/query-keys";
 
 export function useSeasonDetail(showId: string | undefined, seasonId: string | undefined) {

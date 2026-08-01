@@ -5,8 +5,8 @@ import { PresetChipRow } from "@/src/components/ui/PresetChipRow";
 import { TextField } from "@/src/components/ui/TextField";
 import { useUpdateProfilePreferences } from "@/src/hooks/queries";
 import { useTimedSectionMessages } from "@/src/hooks/useTimedSectionMessages";
-import { type ProfilePreferencesRequest } from "@/src/lib/api/generated";
-import { readApiError } from "@/src/lib/api/parse";
+import { type ProfilePreferencesRequest } from "@lunarr/api";
+import { readApiError } from "@lunarr/api";
 import {
   DEFAULT_SEGMENT_SKIP_PREFERENCES,
   readPlaybackPreference,

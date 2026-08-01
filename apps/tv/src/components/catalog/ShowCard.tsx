@@ -1,6 +1,6 @@
 import { PosterImage } from "@/src/components/catalog/PosterImage";
 import { FocusRing } from "@/src/components/ui/FocusRing";
-import type { ShowSummary } from "@/src/lib/api/generated";
+import type { ShowSummary } from "@lunarr/api";
 import { darkColors } from "@/src/theme/colors";
 import { radii, spacing } from "@/src/theme/spacing";
 import { useTVScale } from "@/src/theme/tv-scale";
