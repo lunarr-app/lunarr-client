@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Lunarr API",
-    "version": "0.8.0",
+    "version": "0.9.2",
     "description": "HTTP API for Lunarr catalog, playback, and administration."
   },
   "servers": [
@@ -942,6 +942,236 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MetadataRefreshResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/movies/{id}/match/search": {
+      "get": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "Search TMDb candidates to manually match a movie.",
+        "description": "Accepts a TMDb movie URL or ID (resolved into a single candidate) or a text query searched against TMDb. Admin only.",
+        "operationId": "searchMovieMatchCandidates",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Resource identifier.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "TMDb URL, TMDb ID, or a text search query.",
+            "schema": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/movies/{id}/match": {
+      "post": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "Manually match a movie to a TMDb entry chosen by an admin.",
+        "description": "Points the movie at the given TMDb movie ID and marks the match as manual so future scans and refreshes keep it. Admin only.",
+        "operationId": "fixMovieMatch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Resource identifier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/MediaMatchRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaMatchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "Revert a movie to automatic TMDb matching.",
+        "description": "Clears the manual match flag and immediately re-matches the movie by filename. Returns 200 even when the automatic re-match finds nothing: the flag is cleared and the movie keeps its current metadata until the next scheduled refresh. Admin only.",
+        "operationId": "revertMovieMatch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Resource identifier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaMatchResponse"
                 }
               }
             }
@@ -2528,6 +2758,236 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MetadataRefreshResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shows/{id}/match/search": {
+      "get": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "Search TMDb candidates to manually match a show.",
+        "description": "Accepts a TMDb show URL or ID (resolved into a single candidate) or a text query searched against TMDb. Admin only.",
+        "operationId": "searchShowMatchCandidates",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Resource identifier.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "TMDb URL, TMDb ID, or a text search query.",
+            "schema": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatchSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/shows/{id}/match": {
+      "post": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "Manually match a show to a TMDb entry chosen by an admin.",
+        "description": "Points the show and its seasons at the given TMDb show ID and marks the match as manual so future scans and refreshes keep it. Admin only.",
+        "operationId": "fixShowMatch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Resource identifier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/MediaMatchRequest"
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaMatchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Request failed.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Catalog"
+        ],
+        "summary": "Revert a show to automatic TMDb matching.",
+        "description": "Clears the manual match flag and immediately re-matches the show and its seasons by title. Returns 200 even when the automatic re-match finds nothing or the show has no seasons: the flag is cleared and the show keeps its current metadata until the next scheduled refresh. Admin only.",
+        "operationId": "revertShowMatch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Resource identifier.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaMatchResponse"
                 }
               }
             }
@@ -5006,6 +5466,16 @@
           }
         }
       },
+      "MediaMatchRequest": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/MediaMatchRequest"
+            }
+          }
+        }
+      },
       "WatchlistToggleRequest": {
         "required": true,
         "content": {
@@ -5907,6 +6377,12 @@
               "null"
             ]
           },
+          "manual_match": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
           "vote_average": {
             "type": [
               "number",
@@ -5996,6 +6472,37 @@
               "integer",
               "null"
             ]
+          },
+          "audio_tracks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "language",
+                "codec_name",
+                "channels"
+              ],
+              "properties": {
+                "language": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "codec_name": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "channels": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                }
+              }
+            }
           }
         }
       },
@@ -6535,6 +7042,12 @@
           "providerId": {
             "type": [
               "string",
+              "null"
+            ]
+          },
+          "manualMatch": {
+            "type": [
+              "integer",
               "null"
             ]
           },
@@ -7127,6 +7640,37 @@
                     "integer",
                     "null"
                   ]
+                },
+                "audio_tracks": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "language",
+                      "codec_name",
+                      "channels"
+                    ],
+                    "properties": {
+                      "language": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "codec_name": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "channels": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -9432,6 +9976,88 @@
             }
           }
         ]
+      },
+      "MediaMatchRequest": {
+        "type": "object",
+        "required": [
+          "tmdbId"
+        ],
+        "properties": {
+          "tmdbId": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "FixMatchCandidate": {
+        "type": "object",
+        "required": [
+          "providerId",
+          "title",
+          "year",
+          "overview",
+          "posterPath"
+        ],
+        "properties": {
+          "providerId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "year": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "overview": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "posterPath": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "MatchSearchResponse": {
+        "type": "object",
+        "required": [
+          "candidates",
+          "resolved"
+        ],
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FixMatchCandidate"
+            }
+          },
+          "resolved": {
+            "type": "boolean",
+            "description": "True when the query was a TMDb URL or ID resolved into a single candidate."
+          }
+        }
+      },
+      "MediaMatchResponse": {
+        "type": "object",
+        "required": [
+          "mediaItemId"
+        ],
+        "properties": {
+          "mediaItemId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Media item identifier after the match, which can change when items are merged. Null when the revert found no automatic match and the item was replaced by local items."
+          }
+        }
       },
       "LastScanSummary": {
         "type": "object",

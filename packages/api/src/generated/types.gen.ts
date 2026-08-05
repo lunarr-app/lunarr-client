@@ -242,6 +242,7 @@ export type MovieDetailRecord = {
     collection_name?: string | null;
     provider?: string | null;
     provider_id?: string | null;
+    manual_match?: number | null;
     vote_average?: number | null;
     updated_at?: string | null;
 };
@@ -260,6 +261,11 @@ export type MovieFileRecord = {
     audio_sample_rate?: number | null;
     audio_language?: string | null;
     audio_bit_rate?: number | null;
+    audio_tracks?: Array<{
+        language: string | null;
+        codec_name: string | null;
+        channels: number | null;
+    }>;
 };
 
 export type MovieProgressRecord = {
@@ -367,6 +373,7 @@ export type ShowMetadata = {
     genres: Array<string>;
     provider?: string | null;
     providerId?: string | null;
+    manualMatch?: number | null;
     updatedAt?: string | null;
     certification?: string | null;
     originalLanguage?: string | null;
@@ -491,6 +498,11 @@ export type EpisodeDetailResponse = {
         audio_sample_rate?: number | null;
         audio_language?: string | null;
         audio_bit_rate?: number | null;
+        audio_tracks?: Array<{
+            language: string | null;
+            codec_name: string | null;
+            channels: number | null;
+        }>;
     }>;
     progress: Array<{
         media_file_id: string;
@@ -1071,6 +1083,33 @@ export type MetadataRefreshResponse = {
     mediaItemId: string;
 };
 
+export type MediaMatchRequest = {
+    tmdbId: number;
+};
+
+export type FixMatchCandidate = {
+    providerId: string;
+    title: string;
+    year: number | null;
+    overview: string | null;
+    posterPath: string | null;
+};
+
+export type MatchSearchResponse = {
+    candidates: Array<FixMatchCandidate>;
+    /**
+     * True when the query was a TMDb URL or ID resolved into a single candidate.
+     */
+    resolved: boolean;
+};
+
+export type MediaMatchResponse = {
+    /**
+     * Media item identifier after the match, which can change when items are merged. Null when the revert found no automatic match and the item was replaced by local items.
+     */
+    mediaItemId: string | null;
+};
+
 /**
  * Most recent scan job summary.
  */
@@ -1321,6 +1360,8 @@ export type ProfilePreferencesRequest2 = ProfilePreferencesRequest;
 export type WatchedRequest2 = WatchedRequest;
 
 export type SeasonWatchedRequest2 = SeasonWatchedRequest;
+
+export type MediaMatchRequest2 = MediaMatchRequest;
 
 export type WatchlistToggleRequest2 = WatchlistToggleRequest;
 
@@ -1901,6 +1942,137 @@ export type RefreshMovieMetadataResponses = {
 };
 
 export type RefreshMovieMetadataResponse = RefreshMovieMetadataResponses[keyof RefreshMovieMetadataResponses];
+
+export type SearchMovieMatchCandidatesData = {
+    body?: never;
+    path: {
+        /**
+         * Resource identifier.
+         */
+        id: string;
+    };
+    query: {
+        /**
+         * TMDb URL, TMDb ID, or a text search query.
+         */
+        query: string;
+    };
+    url: '/api/movies/{id}/match/search';
+};
+
+export type SearchMovieMatchCandidatesErrors = {
+    /**
+     * Request failed.
+     */
+    400: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    401: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    403: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    404: ErrorResponse;
+};
+
+export type SearchMovieMatchCandidatesError = SearchMovieMatchCandidatesErrors[keyof SearchMovieMatchCandidatesErrors];
+
+export type SearchMovieMatchCandidatesResponses = {
+    /**
+     * Successful response.
+     */
+    200: MatchSearchResponse;
+};
+
+export type SearchMovieMatchCandidatesResponse = SearchMovieMatchCandidatesResponses[keyof SearchMovieMatchCandidatesResponses];
+
+export type RevertMovieMatchData = {
+    body?: never;
+    path: {
+        /**
+         * Resource identifier.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/api/movies/{id}/match';
+};
+
+export type RevertMovieMatchErrors = {
+    /**
+     * Request failed.
+     */
+    400: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    401: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    403: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    404: ErrorResponse;
+};
+
+export type RevertMovieMatchError = RevertMovieMatchErrors[keyof RevertMovieMatchErrors];
+
+export type RevertMovieMatchResponses = {
+    /**
+     * Successful response.
+     */
+    200: MediaMatchResponse;
+};
+
+export type RevertMovieMatchResponse = RevertMovieMatchResponses[keyof RevertMovieMatchResponses];
+
+export type FixMovieMatchData = {
+    body: MediaMatchRequest2;
+    path: {
+        /**
+         * Resource identifier.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/api/movies/{id}/match';
+};
+
+export type FixMovieMatchErrors = {
+    /**
+     * Request failed.
+     */
+    400: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    401: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    403: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    404: ErrorResponse;
+};
+
+export type FixMovieMatchError = FixMovieMatchErrors[keyof FixMovieMatchErrors];
+
+export type FixMovieMatchResponses = {
+    /**
+     * Successful response.
+     */
+    200: MediaMatchResponse;
+};
+
+export type FixMovieMatchResponse = FixMovieMatchResponses[keyof FixMovieMatchResponses];
 
 export type GetShowsData = {
     body?: never;
@@ -2845,6 +3017,137 @@ export type RefreshTvShowMetadataResponses = {
 };
 
 export type RefreshTvShowMetadataResponse = RefreshTvShowMetadataResponses[keyof RefreshTvShowMetadataResponses];
+
+export type SearchShowMatchCandidatesData = {
+    body?: never;
+    path: {
+        /**
+         * Resource identifier.
+         */
+        id: string;
+    };
+    query: {
+        /**
+         * TMDb URL, TMDb ID, or a text search query.
+         */
+        query: string;
+    };
+    url: '/api/shows/{id}/match/search';
+};
+
+export type SearchShowMatchCandidatesErrors = {
+    /**
+     * Request failed.
+     */
+    400: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    401: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    403: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    404: ErrorResponse;
+};
+
+export type SearchShowMatchCandidatesError = SearchShowMatchCandidatesErrors[keyof SearchShowMatchCandidatesErrors];
+
+export type SearchShowMatchCandidatesResponses = {
+    /**
+     * Successful response.
+     */
+    200: MatchSearchResponse;
+};
+
+export type SearchShowMatchCandidatesResponse = SearchShowMatchCandidatesResponses[keyof SearchShowMatchCandidatesResponses];
+
+export type RevertShowMatchData = {
+    body?: never;
+    path: {
+        /**
+         * Resource identifier.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/api/shows/{id}/match';
+};
+
+export type RevertShowMatchErrors = {
+    /**
+     * Request failed.
+     */
+    400: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    401: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    403: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    404: ErrorResponse;
+};
+
+export type RevertShowMatchError = RevertShowMatchErrors[keyof RevertShowMatchErrors];
+
+export type RevertShowMatchResponses = {
+    /**
+     * Successful response.
+     */
+    200: MediaMatchResponse;
+};
+
+export type RevertShowMatchResponse = RevertShowMatchResponses[keyof RevertShowMatchResponses];
+
+export type FixShowMatchData = {
+    body: MediaMatchRequest2;
+    path: {
+        /**
+         * Resource identifier.
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/api/shows/{id}/match';
+};
+
+export type FixShowMatchErrors = {
+    /**
+     * Request failed.
+     */
+    400: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    401: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    403: ErrorResponse;
+    /**
+     * Request failed.
+     */
+    404: ErrorResponse;
+};
+
+export type FixShowMatchError = FixShowMatchErrors[keyof FixShowMatchErrors];
+
+export type FixShowMatchResponses = {
+    /**
+     * Successful response.
+     */
+    200: MediaMatchResponse;
+};
+
+export type FixShowMatchResponse = FixShowMatchResponses[keyof FixShowMatchResponses];
 
 export type SetSeasonWatchedData = {
     body: SeasonWatchedRequest2;

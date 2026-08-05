@@ -2,7 +2,7 @@
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { ApproveDevicePairingData, ApproveDevicePairingErrors, ApproveDevicePairingResponses, CancelJobData, CancelJobErrors, CancelJobResponses, CancelPlaybackSessionData, CancelPlaybackSessionErrors, CancelPlaybackSessionResponses, CreateApiKeyData, CreateApiKeyErrors, CreateApiKeyResponses, CreateLibraryData, CreateLibraryErrors, CreateLibraryResponses, CreateMediaShareData, CreateMediaShareErrors, CreateMediaShareResponses, CreateUserData, CreateUserErrors, CreateUserResponses, DeleteLibraryData, DeleteLibraryErrors, DeleteLibraryResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, GetContinueWatchingData, GetContinueWatchingEpisodesData, GetContinueWatchingEpisodesErrors, GetContinueWatchingEpisodesResponses, GetContinueWatchingErrors, GetContinueWatchingMoviesData, GetContinueWatchingMoviesErrors, GetContinueWatchingMoviesResponses, GetContinueWatchingResponses, GetCurrentUserData, GetCurrentUserErrors, GetCurrentUserResponses, GetDiscoverMoviesData, GetDiscoverMoviesErrors, GetDiscoverMoviesResponses, GetDiscoverShowsData, GetDiscoverShowsErrors, GetDiscoverShowsResponses, GetEpisodeData, GetEpisodeErrors, GetEpisodeResponses, GetGuestShareData, GetGuestShareErrors, GetGuestSharePlaybackData, GetGuestSharePlaybackErrors, GetGuestSharePlaybackResponses, GetGuestShareResponses, GetGuestShareSeasonData, GetGuestShareSeasonErrors, GetGuestShareSeasonResponses, GetHealthData, GetHealthErrors, GetHealthResponses, GetJobErrorsData, GetJobErrorsErrors, GetJobErrorsResponses, GetJobsData, GetJobsErrors, GetJobsResponses, GetLibrariesData, GetLibrariesErrors, GetLibrariesResponses, GetLibraryData, GetLibraryErrors, GetLibraryResponses, GetMovieCreditsData, GetMovieCreditsErrors, GetMovieCreditsResponses, GetMovieData, GetMovieErrors, GetMovieOverviewData, GetMovieOverviewErrors, GetMovieOverviewResponses, GetMovieResponses, GetMoviesData, GetMoviesErrors, GetMoviesResponses, GetOpenApiJsonData, GetOpenApiJsonResponses, GetOpenApiYamlData, GetOpenApiYamlResponses, GetPersonData, GetPersonErrors, GetPersonResponses, GetPlaybackData, GetPlaybackErrors, GetPlaybackResponses, GetPlaybackSessionPlaylistData, GetPlaybackSessionPlaylistErrors, GetPlaybackSessionPlaylistResponses, GetPlaybackSessionSegmentData, GetPlaybackSessionSegmentErrors, GetPlaybackSessionSegmentResponses, GetSettingsData, GetSettingsErrors, GetSettingsResponses, GetShowCreditsData, GetShowCreditsErrors, GetShowCreditsResponses, GetShowData, GetShowErrors, GetShowOverviewData, GetShowOverviewErrors, GetShowOverviewResponses, GetShowResponses, GetShowsData, GetShowSeasonData, GetShowSeasonErrors, GetShowSeasonResponses, GetShowsErrors, GetShowsResponses, GetSimilarMoviesData, GetSimilarMoviesErrors, GetSimilarMoviesResponses, GetSimilarShowsData, GetSimilarShowsErrors, GetSimilarShowsResponses, GetSubtitleData, GetSubtitleErrors, GetSubtitleResponses, GetUsersData, GetUsersErrors, GetUsersResponses, GetWatchlistData, GetWatchlistErrors, GetWatchlistMoviesData, GetWatchlistMoviesErrors, GetWatchlistMoviesResponses, GetWatchlistResponses, GetWatchlistShowsData, GetWatchlistShowsErrors, GetWatchlistShowsResponses, GetWatchlistStatusData, GetWatchlistStatusErrors, GetWatchlistStatusResponses, HeadMediaFileData, HeadMediaFileErrors, HeadMediaFileResponses, HeadPlaybackSessionPlaylistData, HeadPlaybackSessionPlaylistErrors, HeadPlaybackSessionPlaylistResponses, HeadPlaybackSessionSegmentData, HeadPlaybackSessionSegmentErrors, HeadPlaybackSessionSegmentResponses, HeadSubtitleData, HeadSubtitleErrors, HeadSubtitleResponses, HeartbeatPlaybackSessionData, HeartbeatPlaybackSessionErrors, HeartbeatPlaybackSessionResponses, ListApiKeysData, ListApiKeysErrors, ListApiKeysResponses, ListMediaSharesData, ListMediaSharesErrors, ListMediaSharesResponses, OptionsMediaFileData, OptionsMediaFileResponses, OptionsPlaybackSessionPlaylistData, OptionsPlaybackSessionPlaylistResponses, OptionsPlaybackSessionSegmentData, OptionsPlaybackSessionSegmentResponses, OptionsSubtitleData, OptionsSubtitleResponses, PollDevicePairingData, PollDevicePairingErrors, PollDevicePairingResponses, RefreshMovieMetadataData, RefreshMovieMetadataErrors, RefreshMovieMetadataResponses, RefreshTvShowMetadataData, RefreshTvShowMetadataErrors, RefreshTvShowMetadataResponses, RemoveFromWatchlistData, RemoveFromWatchlistErrors, RemoveFromWatchlistResponses, RevokeApiKeyData, RevokeApiKeyErrors, RevokeApiKeyResponses, RevokeMediaShareData, RevokeMediaShareErrors, RevokeMediaShareResponses, RunSettingsActionData, RunSettingsActionErrors, RunSettingsActionResponses, SavePlaybackProgressData, SavePlaybackProgressErrors, SavePlaybackProgressResponses, SetEpisodeWatchedData, SetEpisodeWatchedErrors, SetEpisodeWatchedResponses, SetMovieWatchedData, SetMovieWatchedErrors, SetMovieWatchedResponses, SetSeasonWatchedData, SetSeasonWatchedErrors, SetSeasonWatchedResponses, StartDevicePairingData, StartDevicePairingErrors, StartDevicePairingResponses, StartLibraryScanData, StartLibraryScanErrors, StartLibraryScanResponses, StreamMediaFileData, StreamMediaFileErrors, StreamMediaFileResponses, ToggleWatchlistData, ToggleWatchlistErrors, ToggleWatchlistResponses, UpdateLibraryAccessData, UpdateLibraryAccessErrors, UpdateLibraryAccessResponses, UpdateLibraryData, UpdateLibraryErrors, UpdateLibraryResponses, UpdateMetadataSettingsData, UpdateMetadataSettingsErrors, UpdateMetadataSettingsResponses, UpdateProfilePreferencesData, UpdateProfilePreferencesErrors, UpdateProfilePreferencesResponses, UpdateRegistrationSettingsData, UpdateRegistrationSettingsErrors, UpdateRegistrationSettingsResponses, UpdateTranscodingSettingsData, UpdateTranscodingSettingsErrors, UpdateTranscodingSettingsResponses, UpdateUserRoleData, UpdateUserRoleErrors, UpdateUserRoleResponses } from './types.gen';
+import type { ApproveDevicePairingData, ApproveDevicePairingErrors, ApproveDevicePairingResponses, CancelJobData, CancelJobErrors, CancelJobResponses, CancelPlaybackSessionData, CancelPlaybackSessionErrors, CancelPlaybackSessionResponses, CreateApiKeyData, CreateApiKeyErrors, CreateApiKeyResponses, CreateLibraryData, CreateLibraryErrors, CreateLibraryResponses, CreateMediaShareData, CreateMediaShareErrors, CreateMediaShareResponses, CreateUserData, CreateUserErrors, CreateUserResponses, DeleteLibraryData, DeleteLibraryErrors, DeleteLibraryResponses, DeleteUserData, DeleteUserErrors, DeleteUserResponses, FixMovieMatchData, FixMovieMatchErrors, FixMovieMatchResponses, FixShowMatchData, FixShowMatchErrors, FixShowMatchResponses, GetContinueWatchingData, GetContinueWatchingEpisodesData, GetContinueWatchingEpisodesErrors, GetContinueWatchingEpisodesResponses, GetContinueWatchingErrors, GetContinueWatchingMoviesData, GetContinueWatchingMoviesErrors, GetContinueWatchingMoviesResponses, GetContinueWatchingResponses, GetCurrentUserData, GetCurrentUserErrors, GetCurrentUserResponses, GetDiscoverMoviesData, GetDiscoverMoviesErrors, GetDiscoverMoviesResponses, GetDiscoverShowsData, GetDiscoverShowsErrors, GetDiscoverShowsResponses, GetEpisodeData, GetEpisodeErrors, GetEpisodeResponses, GetGuestShareData, GetGuestShareErrors, GetGuestSharePlaybackData, GetGuestSharePlaybackErrors, GetGuestSharePlaybackResponses, GetGuestShareResponses, GetGuestShareSeasonData, GetGuestShareSeasonErrors, GetGuestShareSeasonResponses, GetHealthData, GetHealthErrors, GetHealthResponses, GetJobErrorsData, GetJobErrorsErrors, GetJobErrorsResponses, GetJobsData, GetJobsErrors, GetJobsResponses, GetLibrariesData, GetLibrariesErrors, GetLibrariesResponses, GetLibraryData, GetLibraryErrors, GetLibraryResponses, GetMovieCreditsData, GetMovieCreditsErrors, GetMovieCreditsResponses, GetMovieData, GetMovieErrors, GetMovieOverviewData, GetMovieOverviewErrors, GetMovieOverviewResponses, GetMovieResponses, GetMoviesData, GetMoviesErrors, GetMoviesResponses, GetOpenApiJsonData, GetOpenApiJsonResponses, GetOpenApiYamlData, GetOpenApiYamlResponses, GetPersonData, GetPersonErrors, GetPersonResponses, GetPlaybackData, GetPlaybackErrors, GetPlaybackResponses, GetPlaybackSessionPlaylistData, GetPlaybackSessionPlaylistErrors, GetPlaybackSessionPlaylistResponses, GetPlaybackSessionSegmentData, GetPlaybackSessionSegmentErrors, GetPlaybackSessionSegmentResponses, GetSettingsData, GetSettingsErrors, GetSettingsResponses, GetShowCreditsData, GetShowCreditsErrors, GetShowCreditsResponses, GetShowData, GetShowErrors, GetShowOverviewData, GetShowOverviewErrors, GetShowOverviewResponses, GetShowResponses, GetShowsData, GetShowSeasonData, GetShowSeasonErrors, GetShowSeasonResponses, GetShowsErrors, GetShowsResponses, GetSimilarMoviesData, GetSimilarMoviesErrors, GetSimilarMoviesResponses, GetSimilarShowsData, GetSimilarShowsErrors, GetSimilarShowsResponses, GetSubtitleData, GetSubtitleErrors, GetSubtitleResponses, GetUsersData, GetUsersErrors, GetUsersResponses, GetWatchlistData, GetWatchlistErrors, GetWatchlistMoviesData, GetWatchlistMoviesErrors, GetWatchlistMoviesResponses, GetWatchlistResponses, GetWatchlistShowsData, GetWatchlistShowsErrors, GetWatchlistShowsResponses, GetWatchlistStatusData, GetWatchlistStatusErrors, GetWatchlistStatusResponses, HeadMediaFileData, HeadMediaFileErrors, HeadMediaFileResponses, HeadPlaybackSessionPlaylistData, HeadPlaybackSessionPlaylistErrors, HeadPlaybackSessionPlaylistResponses, HeadPlaybackSessionSegmentData, HeadPlaybackSessionSegmentErrors, HeadPlaybackSessionSegmentResponses, HeadSubtitleData, HeadSubtitleErrors, HeadSubtitleResponses, HeartbeatPlaybackSessionData, HeartbeatPlaybackSessionErrors, HeartbeatPlaybackSessionResponses, ListApiKeysData, ListApiKeysErrors, ListApiKeysResponses, ListMediaSharesData, ListMediaSharesErrors, ListMediaSharesResponses, OptionsMediaFileData, OptionsMediaFileResponses, OptionsPlaybackSessionPlaylistData, OptionsPlaybackSessionPlaylistResponses, OptionsPlaybackSessionSegmentData, OptionsPlaybackSessionSegmentResponses, OptionsSubtitleData, OptionsSubtitleResponses, PollDevicePairingData, PollDevicePairingErrors, PollDevicePairingResponses, RefreshMovieMetadataData, RefreshMovieMetadataErrors, RefreshMovieMetadataResponses, RefreshTvShowMetadataData, RefreshTvShowMetadataErrors, RefreshTvShowMetadataResponses, RemoveFromWatchlistData, RemoveFromWatchlistErrors, RemoveFromWatchlistResponses, RevertMovieMatchData, RevertMovieMatchErrors, RevertMovieMatchResponses, RevertShowMatchData, RevertShowMatchErrors, RevertShowMatchResponses, RevokeApiKeyData, RevokeApiKeyErrors, RevokeApiKeyResponses, RevokeMediaShareData, RevokeMediaShareErrors, RevokeMediaShareResponses, RunSettingsActionData, RunSettingsActionErrors, RunSettingsActionResponses, SavePlaybackProgressData, SavePlaybackProgressErrors, SavePlaybackProgressResponses, SearchMovieMatchCandidatesData, SearchMovieMatchCandidatesErrors, SearchMovieMatchCandidatesResponses, SearchShowMatchCandidatesData, SearchShowMatchCandidatesErrors, SearchShowMatchCandidatesResponses, SetEpisodeWatchedData, SetEpisodeWatchedErrors, SetEpisodeWatchedResponses, SetMovieWatchedData, SetMovieWatchedErrors, SetMovieWatchedResponses, SetSeasonWatchedData, SetSeasonWatchedErrors, SetSeasonWatchedResponses, StartDevicePairingData, StartDevicePairingErrors, StartDevicePairingResponses, StartLibraryScanData, StartLibraryScanErrors, StartLibraryScanResponses, StreamMediaFileData, StreamMediaFileErrors, StreamMediaFileResponses, ToggleWatchlistData, ToggleWatchlistErrors, ToggleWatchlistResponses, UpdateLibraryAccessData, UpdateLibraryAccessErrors, UpdateLibraryAccessResponses, UpdateLibraryData, UpdateLibraryErrors, UpdateLibraryResponses, UpdateMetadataSettingsData, UpdateMetadataSettingsErrors, UpdateMetadataSettingsResponses, UpdateProfilePreferencesData, UpdateProfilePreferencesErrors, UpdateProfilePreferencesResponses, UpdateRegistrationSettingsData, UpdateRegistrationSettingsErrors, UpdateRegistrationSettingsResponses, UpdateTranscodingSettingsData, UpdateTranscodingSettingsErrors, UpdateTranscodingSettingsResponses, UpdateUserRoleData, UpdateUserRoleErrors, UpdateUserRoleResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -246,6 +246,55 @@ export const refreshMovieMetadata = <ThrowOnError extends boolean = false>(optio
         }, { name: 'X-API-Key', type: 'apiKey' }],
     url: '/api/movies/{id}/metadata/refresh',
     ...options
+});
+
+/**
+ * Search TMDb candidates to manually match a movie.
+ *
+ * Accepts a TMDb movie URL or ID (resolved into a single candidate) or a text query searched against TMDb. Admin only.
+ */
+export const searchMovieMatchCandidates = <ThrowOnError extends boolean = false>(options: Options<SearchMovieMatchCandidatesData, ThrowOnError>): RequestResult<SearchMovieMatchCandidatesResponses, SearchMovieMatchCandidatesErrors, ThrowOnError> => (options.client ?? client).get<SearchMovieMatchCandidatesResponses, SearchMovieMatchCandidatesErrors, ThrowOnError>({
+    security: [{
+            in: 'cookie',
+            name: 'better-auth.session_token',
+            type: 'apiKey'
+        }, { name: 'X-API-Key', type: 'apiKey' }],
+    url: '/api/movies/{id}/match/search',
+    ...options
+});
+
+/**
+ * Revert a movie to automatic TMDb matching.
+ *
+ * Clears the manual match flag and immediately re-matches the movie by filename. Returns 200 even when the automatic re-match finds nothing: the flag is cleared and the movie keeps its current metadata until the next scheduled refresh. Admin only.
+ */
+export const revertMovieMatch = <ThrowOnError extends boolean = false>(options: Options<RevertMovieMatchData, ThrowOnError>): RequestResult<RevertMovieMatchResponses, RevertMovieMatchErrors, ThrowOnError> => (options.client ?? client).delete<RevertMovieMatchResponses, RevertMovieMatchErrors, ThrowOnError>({
+    security: [{
+            in: 'cookie',
+            name: 'better-auth.session_token',
+            type: 'apiKey'
+        }, { name: 'X-API-Key', type: 'apiKey' }],
+    url: '/api/movies/{id}/match',
+    ...options
+});
+
+/**
+ * Manually match a movie to a TMDb entry chosen by an admin.
+ *
+ * Points the movie at the given TMDb movie ID and marks the match as manual so future scans and refreshes keep it. Admin only.
+ */
+export const fixMovieMatch = <ThrowOnError extends boolean = false>(options: Options<FixMovieMatchData, ThrowOnError>): RequestResult<FixMovieMatchResponses, FixMovieMatchErrors, ThrowOnError> => (options.client ?? client).post<FixMovieMatchResponses, FixMovieMatchErrors, ThrowOnError>({
+    security: [{
+            in: 'cookie',
+            name: 'better-auth.session_token',
+            type: 'apiKey'
+        }, { name: 'X-API-Key', type: 'apiKey' }],
+    url: '/api/movies/{id}/match',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
 });
 
 /**
@@ -607,6 +656,55 @@ export const refreshTvShowMetadata = <ThrowOnError extends boolean = false>(opti
         }, { name: 'X-API-Key', type: 'apiKey' }],
     url: '/api/shows/{id}/metadata/refresh',
     ...options
+});
+
+/**
+ * Search TMDb candidates to manually match a show.
+ *
+ * Accepts a TMDb show URL or ID (resolved into a single candidate) or a text query searched against TMDb. Admin only.
+ */
+export const searchShowMatchCandidates = <ThrowOnError extends boolean = false>(options: Options<SearchShowMatchCandidatesData, ThrowOnError>): RequestResult<SearchShowMatchCandidatesResponses, SearchShowMatchCandidatesErrors, ThrowOnError> => (options.client ?? client).get<SearchShowMatchCandidatesResponses, SearchShowMatchCandidatesErrors, ThrowOnError>({
+    security: [{
+            in: 'cookie',
+            name: 'better-auth.session_token',
+            type: 'apiKey'
+        }, { name: 'X-API-Key', type: 'apiKey' }],
+    url: '/api/shows/{id}/match/search',
+    ...options
+});
+
+/**
+ * Revert a show to automatic TMDb matching.
+ *
+ * Clears the manual match flag and immediately re-matches the show and its seasons by title. Returns 200 even when the automatic re-match finds nothing or the show has no seasons: the flag is cleared and the show keeps its current metadata until the next scheduled refresh. Admin only.
+ */
+export const revertShowMatch = <ThrowOnError extends boolean = false>(options: Options<RevertShowMatchData, ThrowOnError>): RequestResult<RevertShowMatchResponses, RevertShowMatchErrors, ThrowOnError> => (options.client ?? client).delete<RevertShowMatchResponses, RevertShowMatchErrors, ThrowOnError>({
+    security: [{
+            in: 'cookie',
+            name: 'better-auth.session_token',
+            type: 'apiKey'
+        }, { name: 'X-API-Key', type: 'apiKey' }],
+    url: '/api/shows/{id}/match',
+    ...options
+});
+
+/**
+ * Manually match a show to a TMDb entry chosen by an admin.
+ *
+ * Points the show and its seasons at the given TMDb show ID and marks the match as manual so future scans and refreshes keep it. Admin only.
+ */
+export const fixShowMatch = <ThrowOnError extends boolean = false>(options: Options<FixShowMatchData, ThrowOnError>): RequestResult<FixShowMatchResponses, FixShowMatchErrors, ThrowOnError> => (options.client ?? client).post<FixShowMatchResponses, FixShowMatchErrors, ThrowOnError>({
+    security: [{
+            in: 'cookie',
+            name: 'better-auth.session_token',
+            type: 'apiKey'
+        }, { name: 'X-API-Key', type: 'apiKey' }],
+    url: '/api/shows/{id}/match',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
 });
 
 /**
