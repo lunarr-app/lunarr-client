@@ -1,0 +1,10 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["MpvPlayerModule"],
+    "podspecPath": "ios/MpvPlayer.podspec"
+  },
+  "android": {
+    "modules": ["expo.modules.mpvplayer.MpvPlayerModule"]
+  }
+}

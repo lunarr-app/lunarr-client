@@ -1,4 +1,3 @@
-import type { VideoPlayer } from "expo-video";
 import { useEffect, useRef, useState } from "react";
 
 const SEEK_DEBOUNCE_MS = 600;
@@ -6,7 +5,7 @@ const SEEK_SETTLE_TOLERANCE_SECONDS = 2;
 const SEEK_SETTLE_TIMEOUT_MS = 3000;
 
 type Options = {
-  player: VideoPlayer;
+  seekToRelative: (relativeSeconds: number) => void;
   toRelativeTime: (absoluteSeconds: number) => number;
   currentTimeRef: { current: number };
   durationRef: { current: number };
@@ -16,7 +15,7 @@ type Options = {
 };
 
 export function useSeek({
-  player,
+  seekToRelative,
   toRelativeTime,
   currentTimeRef,
   durationRef,
@@ -30,11 +29,11 @@ export function useSeek({
   const seekAccumulatorRef = useRef(0);
   const seekTargetRef = useRef<number | null>(null);
   const seekSettleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const playerRef = useRef(player);
+  const seekToRelativeRef = useRef(seekToRelative);
 
   useEffect(() => {
-    playerRef.current = player;
-  }, [player]);
+    seekToRelativeRef.current = seekToRelative;
+  }, [seekToRelative]);
 
   const armSeekSettle = (targetSeconds: number) => {
     seekTargetRef.current = targetSeconds;
@@ -57,7 +56,7 @@ export function useSeek({
 
   const seekToSeconds = (targetSeconds: number) => {
     const relativeSeconds = toRelativeTime(targetSeconds);
-    playerRef.current.currentTime = relativeSeconds;
+    seekToRelativeRef.current(relativeSeconds);
     armSeekSettle(targetSeconds);
     setCurrentTime(targetSeconds);
     currentTimeRef.current = targetSeconds;
@@ -69,7 +68,7 @@ export function useSeek({
       0,
       Math.min(currentTimeRef.current + delta, durationRef.current || Number.MAX_SAFE_INTEGER),
     );
-    playerRef.current.currentTime = toRelativeTime(nextAbsolute);
+    seekToRelativeRef.current(toRelativeTime(nextAbsolute));
     armSeekSettle(nextAbsolute);
     setCurrentTime(nextAbsolute);
     currentTimeRef.current = nextAbsolute;

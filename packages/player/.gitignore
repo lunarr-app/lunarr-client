@@ -1,0 +1,13 @@
+# dependencies
+node_modules/
+
+# Expo build artifacts
+.kotlin/
+build/
+dist/
+
+# macOS
+.DS_Store
+
+# typescript
+*.tsbuildinfo

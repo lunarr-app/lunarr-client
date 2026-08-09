@@ -2,9 +2,10 @@ import { type PlaybackSubtitleTrack } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
 import { typography } from "@/src/theme/typography";
-import { type VideoContentFit } from "expo-video";
 import { Captions, Ratio } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+
+export type PlayerContentFit = "contain" | "cover";
 
 const CONTROL_SIZE = 44;
 
@@ -21,7 +22,7 @@ type Props = {
   subtitleMenuOpen: boolean;
   onToggleSubtitleMenu: () => void;
   onSubtitleSelect: (id: string) => void;
-  contentFit: VideoContentFit;
+  contentFit: PlayerContentFit;
   contentFitLabel: string;
   onCycleContentFit: () => void;
 };

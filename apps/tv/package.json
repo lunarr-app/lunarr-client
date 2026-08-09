@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/inter": "0.4.2",
+    "@lunarr/player": "file:../../packages/player",
     "@tanstack/react-query": "5.101.4",
     "expo": "~57.0.9",
     "expo-build-properties": "~57.0.8",
@@ -30,7 +31,6 @@
     "expo-secure-store": "~57.0.1",
     "expo-splash-screen": "~57.0.5",
     "expo-status-bar": "~57.0.1",
-    "expo-video": "~57.0.2",
     "lucide-react-native": "1.28.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",

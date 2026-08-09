@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "esnext",
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "lib": ["DOM", "ESNext"],
+    "paths": {
+      "expo": ["../api/node_modules/expo"],
+      "expo-modules-core": ["../api/node_modules/expo-modules-core"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "index.ts"]
+}

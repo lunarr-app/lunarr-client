@@ -1,14 +1,13 @@
-import type { VideoPlayer } from "expo-video";
 import { useEffect, useRef, useState } from "react";
 
 const CONTROLS_AUTO_HIDE_MS = 4000;
 
 type Options = {
-  player: VideoPlayer;
+  isPlayingRef?: { current: boolean };
   onHide?: () => void;
 };
 
-export function useAutoHideControls({ player, onHide }: Options) {
+export function useAutoHideControls({ isPlayingRef, onHide }: Options) {
   const [controlsVisible, setControlsVisible] = useState(true);
   const hideControlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const onHideRef = useRef(onHide);
@@ -23,7 +22,7 @@ export function useAutoHideControls({ player, onHide }: Options) {
       clearTimeout(hideControlsTimeoutRef.current);
     }
     hideControlsTimeoutRef.current = setTimeout(() => {
-      if (player.playing) {
+      if (isPlayingRef?.current ?? true) {
         setControlsVisible(false);
         onHideRef.current?.();
       }

@@ -39,7 +39,7 @@
             "deploymentTarget": "16.4"
           },
           "android": {
-            "minSdkVersion": 24,
+            "minSdkVersion": 26,
             "usesCleartextTraffic": true
           }
         }
@@ -53,9 +53,9 @@
         }
       ],
       [
-        "expo-video",
+        "@lunarr/player",
         {
-          "supportsPictureInPicture": false
+          "enablePictureInPicture": false
         }
       ],
       [

@@ -1,7 +1,7 @@
 import { getApiConfig, normalizeBaseUrl } from "@lunarr/api";
 import { getPlayback, type PlaybackDataResponse, type PlaybackSegment, type SegmentSkipPreferences } from "@lunarr/api";
 import { readApiError } from "@lunarr/api";
-import { clientPlaybackCapabilities } from "./capabilities";
+import { clientPlaybackCapabilities, maybeNativePlaybackTarget } from "./capabilities";
 
 export type PlaybackSubtitleTrack = {
   id: string;
@@ -112,6 +112,7 @@ async function fetchPlayback(
       file: options?.fileId,
       start: startSeconds,
       transcode: options?.forceTranscode ? true : undefined,
+      target: maybeNativePlaybackTarget(undefined),
       ...clientPlaybackCapabilities(),
     },
   });

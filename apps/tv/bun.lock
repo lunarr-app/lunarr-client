@@ -6,6 +6,7 @@
       "name": "lunarr-tv",
       "dependencies": {
         "@expo-google-fonts/inter": "0.4.2",
+        "@lunarr/player": "file:../../packages/player",
         "@tanstack/react-query": "5.101.4",
         "expo": "~57.0.9",
         "expo-build-properties": "~57.0.8",
@@ -265,6 +266,8 @@
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
+
+    "@lunarr/player": ["@lunarr/player@file:../../packages/player", { "peerDependencies": { "expo": "*", "expo-modules-core": "*", "react": "*", "react-native": "*" } }],
 
     "@radix-ui/primitive": ["@radix-ui/primitive@1.1.5", "", {}, "sha512-d86WIWFYNtGA0H/d8exstrTRTp7eWJYlYJbtNofxr/3ljupZYn6EFDG/Qgu/0Kc8v7yMUxySagqJsL1+PdYjWg=="],
 

@@ -29,17 +29,10 @@ import {
   type PlaybackDecision,
 } from "@lunarr/core";
 import { usePlaybackSession } from "@lunarr/core";
+import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/player";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
 import { typography } from "@/src/theme/typography";
-import { useEventListener } from "expo";
-import {
-  VideoView,
-  isPictureInPictureSupported,
-  useVideoPlayer,
-  type VideoContentFit,
-  type VideoSource,
-} from "expo-video";
 import { useEffect, useReducer, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -60,7 +53,8 @@ const SEEK_SETTLE_TOLERANCE_SECONDS = 2;
 const SEEK_BY_SETTLE_TOLERANCE_SECONDS = 5;
 const SEEK_SETTLE_TIMEOUT_MS = 3000;
 
-const CONTENT_FIT_CYCLE: VideoContentFit[] = ["contain", "cover", "fill"];
+type ContentFit = "contain" | "cover";
+const CONTENT_FIT_CYCLE: ContentFit[] = ["contain", "cover"];
 
 type PlayerState = {
   play: boolean;
@@ -107,7 +101,7 @@ export function VideoPlayer({
   const insets = useSafeAreaInsets();
   const stateRef = useRef<PlayerState | null>(null);
   const onProgressRef = useRef(onProgress);
-  const videoViewRef = useRef<VideoView>(null);
+  const playerRef = useRef<MpvPlayerViewRef>(null);
   const pictureInPictureActiveRef = useRef(false);
   const initialSeekAppliedRef = useRef(false);
   const surfaceSingleClickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -119,14 +113,13 @@ export function VideoPlayer({
   const seekToleranceRef = useRef(SEEK_SETTLE_TOLERANCE_SECONDS);
   const seekSettleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [controlsActivityTick, setControlsActivityTick] = useState(0);
-  const pictureInPictureSupported = isPictureInPictureSupported();
   const subtitleTracks = playback?.tracks ?? [];
   const [selectedSubtitleId, setSelectedSubtitleId] = useState(() =>
     subtitleTracks.length > 0 ? (subtitleTracks.find((track) => track.default)?.id ?? "off") : "off",
   );
   const [subtitleMenuOpen, setSubtitleMenuOpen] = useState(false);
   const [surfaceFeedback, setSurfaceFeedback] = useState<SurfaceFeedback | null>(null);
-  const [contentFit, setContentFit] = useState<VideoContentFit>("contain");
+  const [contentFit, setContentFit] = useState<ContentFit>("contain");
   const [state, setState] = useReducer(
     (current: PlayerState, next: Partial<PlayerState>) => ({
       ...current,
@@ -183,22 +176,6 @@ export function VideoPlayer({
           streamStartSeconds,
         })
       : absoluteSecondsValue;
-
-  const videoSource: VideoSource = usesStreamRelativeTimeline ? { uri, contentType: "hls" } : uri;
-
-  const player = useVideoPlayer(videoSource, (instance) => {
-    instance.timeUpdateEventInterval = 1;
-    instance.loop = false;
-  });
-  const playerRef = useRef(player);
-
-  useEffect(() => {
-    playerRef.current = player;
-  }, [player]);
-
-  useEffect(() => {
-    playerRef.current.timeUpdateEventInterval = selectedSubtitleId !== "off" ? 0.5 : 1;
-  }, [player, selectedSubtitleId]);
 
   const syncPlayStateFromPlayer = (isPlaying: boolean) => {
     const current = stateRef.current;
@@ -362,14 +339,14 @@ export function VideoPlayer({
 
   const seekTo = (position: number, options?: { keepControlsHidden?: boolean }) => {
     applySeek(position, SEEK_SETTLE_TOLERANCE_SECONDS, options?.keepControlsHidden ?? false);
-    playerRef.current.currentTime = toRelativeTime(position);
+    void playerRef.current?.seekTo(toRelativeTime(position));
   };
 
   const skipBy = (delta: number, options?: { keepControlsHidden?: boolean }) => {
     const current = stateRef.current;
     if (!current) return;
     applySeek(current.currentTime + delta, SEEK_BY_SETTLE_TOLERANCE_SECONDS, options?.keepControlsHidden ?? false);
-    player.seekBy(delta);
+    void playerRef.current?.seekBy(delta);
   };
 
   const togglePlay = (options?: { keepControlsHidden?: boolean }) => {
@@ -377,14 +354,14 @@ export function VideoPlayer({
     if (!current) return;
     if (current.ended) {
       setState({ play: true, ended: false });
-      seekTo(0, options);
-      player.play();
-    } else if (player.playing) {
+      void playerRef.current?.seekTo(0);
+      void playerRef.current?.play();
+    } else if (current.play) {
       setState({ play: false });
-      player.pause();
+      void playerRef.current?.pause();
     } else {
       setState({ play: true, ended: false, error: null });
-      player.play();
+      void playerRef.current?.play();
     }
     if (!options?.keepControlsHidden) {
       showControls();
@@ -437,22 +414,24 @@ export function VideoPlayer({
   const cycleContentFit = () => {
     setContentFit((fit) => {
       const index = CONTENT_FIT_CYCLE.indexOf(fit);
-      return CONTENT_FIT_CYCLE[(index + 1) % CONTENT_FIT_CYCLE.length] ?? "contain";
+      const next = CONTENT_FIT_CYCLE[(index + 1) % CONTENT_FIT_CYCLE.length] ?? "contain";
+      void playerRef.current?.setZoomedToFill(next !== "contain");
+      return next;
     });
     showControls();
   };
 
   useEffect(() => {
-    if (!pictureInPictureSupported) return;
     const subscription = AppState.addEventListener("change", (nextState) => {
-      if (nextState !== "active" || !pictureInPictureActiveRef.current) return;
-      void videoViewRef.current?.stopPictureInPicture();
-      if (!player.playing) {
+      if (nextState === "background" && !pictureInPictureActiveRef.current) {
+        void playerRef.current?.startPictureInPicture();
+      }
+      if (nextState === "active" && !pictureInPictureActiveRef.current && !stateRef.current?.play) {
         showControls();
       }
     });
     return () => subscription.remove();
-  }, [pictureInPictureSupported, player, showControls]);
+  }, [pictureInPictureActiveRef, showControls]);
 
   const applySubtitleTrack = (trackId: string) => {
     setSelectedSubtitleId(trackId);
@@ -488,55 +467,120 @@ export function VideoPlayer({
     setSubtitleMenuOpen(false);
   }, [subtitleTracks]);
 
-  useEventListener(player, "playingChange", ({ isPlaying }) => {
-    syncPlayStateFromPlayer(isPlaying);
-  });
-
-  useEventListener(player, "sourceLoad", ({ duration }) => {
-    const absoluteDuration = absolutePlaybackDuration({
-      relativeDurationSeconds: duration,
-      streamStartSeconds,
-      streamRelativeTimeline: usesStreamRelativeTimeline,
-    });
-
+  const handleLoad = () => {
+    const current = stateRef.current;
+    if (!current) return;
     if (!initialSeekAppliedRef.current) {
       const resumeAt = toRelativeTime(startSeconds);
       if (resumeAt > 0) {
-        playerRef.current.currentTime = resumeAt;
+        void playerRef.current?.seekTo(resumeAt);
       }
       initialSeekAppliedRef.current = true;
     }
-
     setState({
-      duration: absoluteDuration,
-      currentTime: toAbsoluteTime(Math.floor(player.currentTime)),
+      currentTime: current.currentTime,
     });
-
-    if (stateRef.current?.play) {
-      player.play();
+    if (current.play) {
+      void playerRef.current?.play();
     }
-  });
+  };
 
-  useEventListener(player, "statusChange", ({ status, error }) => {
-    if (status === "error") {
-      setState({
-        error: error?.message ?? "Playback failed",
-        play: false,
-        uiState: "error",
+  const handlePlaybackStateChange = (event: {
+    nativeEvent: { isPaused?: boolean; isPlaying?: boolean; isLoading?: boolean; isReadyToSeek?: boolean };
+  }) => {
+    const { isPaused, isPlaying, isLoading } = event.nativeEvent;
+    if (isPaused === true) {
+      syncPlayStateFromPlayer(false);
+    } else if (isPlaying === true) {
+      playbackRateRef.current = 1;
+      clearBufferingUi();
+      syncPlayStateFromPlayer(true);
+    }
+    if (isLoading === true) {
+      playbackRateRef.current = 0;
+      scheduleBufferingUi();
+    }
+  };
+
+  const handleProgress = (event: { nativeEvent: { position: number; duration: number; cacheSeconds: number } }) => {
+    const { position, duration, cacheSeconds } = event.nativeEvent;
+    playbackRateRef.current = 1;
+    const absoluteTime = toAbsoluteTime(Math.floor(position));
+    const current = stateRef.current;
+    if (!current) return;
+
+    let nextDuration = current.duration;
+    if (duration > 0) {
+      nextDuration = absolutePlaybackDuration({
+        relativeDurationSeconds: duration,
+        streamStartSeconds,
+        streamRelativeTimeline: usesStreamRelativeTimeline,
       });
     }
-  });
 
-  useEventListener(player, "playbackRateChange", ({ playbackRate }) => {
-    playbackRateRef.current = playbackRate;
-    if (playbackRate === 0) {
-      scheduleBufferingUi();
-    } else {
+    if (current.slidingCurrentTime !== null || !consumeSeekSettle(absoluteTime)) {
+      if (nextDuration !== current.duration) {
+        stateRef.current = { ...current, duration: nextDuration };
+        setState({ duration: nextDuration });
+      }
+      return;
+    }
+
+    if (current.uiState === "seeking") {
+      const nextUiStateAfterSeek = uiStateAfterSeek({
+        play: current.play,
+        bufferingActive: playbackRateRef.current === 0,
+      });
+      setState({
+        currentTime: absoluteTime,
+        duration: nextDuration,
+        uiState: nextUiStateAfterSeek,
+      });
+      onProgressRef.current?.(absoluteTime, nextDuration, { flush: true });
+      return;
+    }
+
+    const nextUiState = playbackUiStateAfterProgress({
+      uiState: current.uiState,
+      play: current.play,
+      ended: current.ended,
+      bufferingActive: playbackRateRef.current === 0,
+      timeAdvanced: absoluteTime > current.currentTime,
+    });
+
+    const timeChanged =
+      absoluteTime > current.currentTime || (absoluteTime < 1 && nextDuration > 0 && current.duration === 0);
+    const uiStateChanged = nextUiState !== null && nextUiState !== current.uiState;
+
+    if (!timeChanged && !uiStateChanged) return;
+
+    const next = {
+      ...(timeChanged ? { currentTime: absoluteTime, duration: nextDuration } : {}),
+      ...(uiStateChanged ? { uiState: nextUiState } : {}),
+    };
+    stateRef.current = { ...current, ...next };
+
+    if (timeChanged || uiStateChanged) {
+      setState(next);
+    }
+    if (timeChanged) {
+      onProgressRef.current?.(absoluteTime, nextDuration, { ended: current.ended });
+    }
+
+    if (cacheSeconds > 1 && playbackRateRef.current === 0 && absoluteTime > 0) {
       clearBufferingUi();
     }
-  });
+  };
 
-  useEventListener(player, "playToEnd", () => {
+  const handleError = (event: { nativeEvent: { error: string } }) => {
+    setState({
+      error: event.nativeEvent.error ?? "Playback failed",
+      play: false,
+      uiState: "error",
+    });
+  };
+
+  const handleEnd = () => {
     const current = stateRef.current;
     setState({
       ended: true,
@@ -550,77 +594,7 @@ export function VideoPlayer({
         completed: true,
       });
     }
-  });
-
-  useEventListener(player, "timeUpdate", ({ currentTime, bufferedPosition }) => {
-    const relativeTime = Math.floor(currentTime);
-    const absoluteTime = toAbsoluteTime(relativeTime);
-    const current = stateRef.current;
-    if (!current) return;
-
-    let duration = current.duration;
-    if (player.duration > 0) {
-      duration = absolutePlaybackDuration({
-        relativeDurationSeconds: player.duration,
-        streamStartSeconds,
-        streamRelativeTimeline: usesStreamRelativeTimeline,
-      });
-    }
-
-    const settled = consumeSeekSettle(absoluteTime);
-    if (current.slidingCurrentTime !== null || !settled) {
-      if (duration !== current.duration) {
-        stateRef.current = { ...current, duration };
-        setState({ duration });
-      }
-      return;
-    }
-
-    if (current.uiState === "seeking") {
-      const nextUiStateAfterSeek = uiStateAfterSeek({
-        play: current.play,
-        bufferingActive: playbackRateRef.current === 0,
-      });
-      setState({
-        currentTime: absoluteTime,
-        duration,
-        uiState: nextUiStateAfterSeek,
-      });
-      onProgressRef.current?.(absoluteTime, duration, { flush: true });
-      return;
-    }
-
-    const nextUiState = playbackUiStateAfterProgress({
-      uiState: current.uiState,
-      play: current.play,
-      ended: current.ended,
-      bufferingActive: playbackRateRef.current === 0,
-      timeAdvanced: absoluteTime > current.currentTime,
-    });
-
-    const timeChanged =
-      absoluteTime > current.currentTime || (absoluteTime < 1 && duration > 0 && current.duration === 0);
-    const uiStateChanged = nextUiState !== null && nextUiState !== current.uiState;
-
-    if (!timeChanged && !uiStateChanged) return;
-
-    const next = {
-      ...(timeChanged ? { currentTime: absoluteTime, duration } : {}),
-      ...(uiStateChanged ? { uiState: nextUiState } : {}),
-    };
-    stateRef.current = { ...current, ...next };
-
-    if (timeChanged || uiStateChanged) {
-      setState(next);
-    }
-    if (timeChanged) {
-      onProgressRef.current?.(absoluteTime, duration, { ended: current.ended });
-    }
-
-    if (bufferedPosition >= 0 && playbackRateRef.current === 0 && relativeTime > 0 && bufferedPosition > relativeTime) {
-      clearBufferingUi();
-    }
-  });
+  };
 
   useEffect(
     () => () => {
@@ -630,6 +604,7 @@ export function VideoPlayer({
       if (surfaceFeedbackTimeoutRef.current) {
         clearTimeout(surfaceFeedbackTimeoutRef.current);
       }
+      void playerRef.current?.destroy();
     },
     [clearBufferingUiTimeout, clearSeekSettle, clearSurfaceSingleClickTimeout],
   );
@@ -642,7 +617,7 @@ export function VideoPlayer({
   const displayedTime = state.slidingCurrentTime ?? state.currentTime;
   const relativeDisplayedTime = toRelativeTime(displayedTime);
   const playbackButton = primaryPlaybackButtonState({ uiState });
-  const playerReady = state.duration > 0 || player.playing;
+  const playerReady = state.duration > 0 || state.play;
   const seekToSeconds = (targetSeconds: number) => seekTo(targetSeconds, { keepControlsHidden: true });
   const { activeSegment, autoSkipNotice, skipActiveSegment } = usePlaybackSegments({
     segments,
@@ -658,20 +633,20 @@ export function VideoPlayer({
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <VideoView
-        ref={videoViewRef}
-        player={player}
+      <MpvPlayerView
+        ref={playerRef}
         style={styles.video}
-        contentFit={contentFit}
-        nativeControls={false}
-        allowsPictureInPicture={pictureInPictureSupported}
-        startsPictureInPictureAutomatically={pictureInPictureSupported}
-        onPictureInPictureStart={() => {
-          pictureInPictureActiveRef.current = true;
+        source={uri ? { url: uri, startPosition: toRelativeTime(startSeconds), autoplay: true } : undefined}
+        onLoad={handleLoad}
+        onPlaybackStateChange={handlePlaybackStateChange}
+        onProgress={handleProgress}
+        onError={handleError}
+        onEnd={() => {
+          handleEnd();
         }}
-        onPictureInPictureStop={() => {
-          pictureInPictureActiveRef.current = false;
-          if (!player.playing) {
+        onPictureInPictureChange={(event) => {
+          pictureInPictureActiveRef.current = event.nativeEvent.isActive;
+          if (!event.nativeEvent.isActive && !stateRef.current?.play) {
             showControls();
           }
         }}
@@ -703,11 +678,7 @@ export function VideoPlayer({
             onToggleSubtitleMenu={toggleSubtitleMenu}
             onSubtitleSelect={applySubtitleTrack}
             contentFit={contentFit}
-            contentFitLabel={
-              (
-                { contain: "Fit video", cover: "Fill screen", fill: "Stretch video" } as Record<VideoContentFit, string>
-              )[contentFit]
-            }
+            contentFitLabel={({ contain: "Fit video", cover: "Fill screen" } as Record<ContentFit, string>)[contentFit]}
             onCycleContentFit={cycleContentFit}
           />
         }

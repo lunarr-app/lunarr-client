@@ -44,7 +44,7 @@
             "deploymentTarget": "16.4"
           },
           "android": {
-            "minSdkVersion": 24,
+            "minSdkVersion": 26,
             "usesCleartextTraffic": true
           }
         }
@@ -57,12 +57,7 @@
           "backgroundColor": "#080c11"
         }
       ],
-      [
-        "expo-video",
-        {
-          "supportsPictureInPicture": true
-        }
-      ],
+      "@lunarr/player",
       "expo-font",
       "expo-status-bar"
     ],

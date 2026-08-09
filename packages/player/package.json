@@ -1,0 +1,41 @@
+{
+  "name": "@lunarr/player",
+  "version": "0.1.0",
+  "description": "mpv-based video player for Lunarr (Expo module, iOS + Android + tvOS)",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "MPL-2.0",
+  "homepage": "https://github.com/lunarr-app/lunarr-client",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lunarr-app/lunarr-client.git"
+  },
+  "keywords": [
+    "expo",
+    "mpv",
+    "libmpv",
+    "video",
+    "player",
+    "hevc",
+    "av1",
+    "vp9",
+    "mkv"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit --noUnusedLocals --noUnusedParameters"
+  },
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*",
+    "expo-modules-core": "*"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.2",
+    "expo": "~57.0.9",
+    "expo-modules-core": "~57.0.0",
+    "react": "19.2.3",
+    "react-native": "0.86.2",
+    "typescript": "~6.0.3"
+  }
+}

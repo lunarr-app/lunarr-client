@@ -1,19 +1,33 @@
 import { Platform } from "react-native";
 
-const androidApiLevel = Platform.OS === "android" ? (Platform.Version as number) : 0;
-
-/** Client codec flags for GET /api/playback (web target + capabilities). */
+/**
+ * Client codec flags for GET /api/playback (native target + capabilities).
+ *
+ * The app plays media through the mpv-backed @lunarr/player, which bundles
+ * FFmpeg and can hardware or software-decode essentially every codec this
+ * backend produces (HEVC, AV1, VP9, VP8, Opus, Vorbis, WebM). Advertising all
+ * of them lets the backend choose "direct" playback instead of transcoding to
+ * HLS, which is smoother and avoids transcode related audio issues.
+ */
 export function clientPlaybackCapabilities() {
-  const isTv = Platform.isTV === true;
   return {
     hlsNative: true,
     hlsFmp4: true,
-    hevc: Platform.OS === "ios", // iOS and tvOS both have Apple HEVC hardware decode
-    av1: !isTv && androidApiLevel >= 29,
-    vp9: !isTv,
-    vp8: false,
-    opus: !isTv,
-    vorbis: false,
-    webm: false,
+    hevc: true,
+    av1: true,
+    vp9: true,
+    vp8: true,
+    opus: true,
+    vorbis: true,
+    webm: true,
   };
+}
+
+/** Playback target reported to the backend for native (non-web) players. */
+export const NATIVE_PLAYBACK_TARGET = "native";
+
+export type PlaybackTargetParam = "web" | "cast" | "airplay" | "native";
+
+export function maybeNativePlaybackTarget(current: PlaybackTargetParam | undefined): PlaybackTargetParam | undefined {
+  return Platform.OS === "web" ? current : NATIVE_PLAYBACK_TARGET;
 }

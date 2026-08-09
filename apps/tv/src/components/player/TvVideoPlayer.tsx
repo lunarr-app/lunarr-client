@@ -1,5 +1,4 @@
-import { useEventListener } from "expo";
-import { VideoView, useVideoPlayer, type VideoSource } from "expo-video";
+import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/player";
 import { Ratio } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -14,12 +13,7 @@ import {
 } from "react-native";
 
 import { usePlaybackSession } from "@lunarr/core";
-import {
-  DEFAULT_SEGMENT_SKIP_PREFERENCES,
-  isStreamRelativePlaybackMode,
-  resolvePlayableUri,
-  type PlaybackDecision,
-} from "@lunarr/core";
+import { DEFAULT_SEGMENT_SKIP_PREFERENCES, resolvePlayableUri, type PlaybackDecision } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
 import { tvSize, useTVScale } from "@/src/theme/tv-scale";
@@ -34,6 +28,7 @@ import {
   usePlaybackSegments,
   useSeek,
   useSubtitleSelection,
+  type ContentFit,
 } from "./hooks";
 import { TvPlayerControls } from "./TvPlayerControls";
 import { TvPlayerOverlay } from "./TvPlayerOverlay";
@@ -82,7 +77,6 @@ export function TvVideoPlayer({
   const focusTrapRef = useRef<View>(null);
 
   const streamStartSeconds = playback?.streamStartSeconds ?? 0;
-  const streamRelativeTimeline = isStreamRelativePlaybackMode(playback?.mode);
 
   const toAbsoluteTime = (relativeSeconds: number) => absolutePlaybackSeconds({ relativeSeconds, streamStartSeconds });
 
@@ -90,36 +84,40 @@ export function TvVideoPlayer({
     streamRelativePlaybackSeconds({ absoluteSeconds, streamStartSeconds });
 
   const uri = playback ? resolvePlayableUri(playback) : "";
-  const videoSource: VideoSource = streamRelativeTimeline ? { uri, contentType: "hls" } : uri;
 
   usePlaybackSession(playback);
 
   const subtitleTracks = playback?.tracks ?? [];
 
-  const player = useVideoPlayer(videoSource, (instance) => {
-    instance.timeUpdateEventInterval = 1;
-    instance.loop = false;
-    if (startSeconds > 0) {
-      instance.currentTime = toRelativeTime(startSeconds);
-    }
-    instance.play();
-  });
+  const playerRef = useRef<MpvPlayerViewRef>(null);
+  const isPlayingRef = useRef(true);
 
   const { controlsVisible, setControlsVisible, showControls } = useAutoHideControls({
-    player,
+    isPlayingRef,
     onHide: () => {
       setRequestSliderFocus(false);
       setFocusPlayButton(false);
     },
   });
 
-  const { contentFit, zoomLabel, cycleContentFit } = useContentFit({ showControls });
+  const applyContentFit = (fit: ContentFit) => {
+    void playerRef.current?.setZoomedToFill(fit !== "contain");
+  };
+
+  const { contentFit, zoomLabel, cycleContentFit } = useContentFit({
+    showControls,
+    onApply: applyContentFit,
+  });
 
   const { selectedTrackId, selectedTrack, subtitleMenuOpen, setSubtitleMenuOpen, handleSubtitleSelect } =
     useSubtitleSelection({ tracks: subtitleTracks, showControls });
 
+  const seekToRelative = (relativeSeconds: number) => {
+    void playerRef.current?.seekTo(relativeSeconds);
+  };
+
   const { seekDelta, showTimePopup, seekToSeconds, accumulateSeek, consumeSeekSettle } = useSeek({
-    player,
+    seekToRelative,
     toRelativeTime,
     currentTimeRef,
     durationRef,
@@ -136,9 +134,66 @@ export function TvVideoPlayer({
     }
   }, [playback?.durationSeconds, toAbsoluteTime]);
 
-  useEventListener(player, "timeUpdate", (event) => {
-    const absolute = toAbsoluteTime(event.currentTime);
+  const handlePlaybackStateChange = (event: {
+    nativeEvent: { isPaused?: boolean; isPlaying?: boolean; isLoading?: boolean; isReadyToSeek?: boolean };
+  }) => {
+    const { isPaused, isPlaying, isLoading } = event.nativeEvent;
+    if (isPaused === true) {
+      isPlayingRef.current = false;
+      setBuffering(false);
+      setIsPlaying(false);
+      onProgress?.(progressRef.current.currentTime, progressRef.current.duration, { flush: true });
+    } else if (isPlaying === true) {
+      isPlayingRef.current = true;
+      endedRef.current = false;
+      pausedRef.current = false;
+      setBuffering(false);
+      setIsPlaying(true);
+      showControls();
+      if (bufferingTimeoutRef.current) {
+        clearTimeout(bufferingTimeoutRef.current);
+        bufferingTimeoutRef.current = null;
+      }
+    }
+    if (isLoading === true) {
+      if (!pausedRef.current && !bufferingTimeoutRef.current) {
+        bufferingTimeoutRef.current = setTimeout(() => {
+          bufferingTimeoutRef.current = null;
+          if (!pausedRef.current) {
+            setBuffering(true);
+          }
+        }, BUFFERING_UI_DELAY_MS);
+      }
+    } else if (isLoading === false) {
+      // Loading finished — cancel any pending buffering timer and clear the
+      // indicator. Without this, buffering only clears on an explicit
+      // play/pause event, which a slow (e.g. software-decoded) stream may
+      // never emit cleanly, leaving the spinner up forever.
+      if (bufferingTimeoutRef.current) {
+        clearTimeout(bufferingTimeoutRef.current);
+        bufferingTimeoutRef.current = null;
+      }
+      setBuffering(false);
+    }
+  };
+
+  const handleProgress = (event: { nativeEvent: { position: number; duration: number } }) => {
+    const absolute = toAbsoluteTime(Math.floor(event.nativeEvent.position));
     currentTimeRef.current = absolute;
+
+    // Position advancing means playback is live again — clear any buffering
+    // indicator in case the native isLoading signal was missed.
+    if (buffering) {
+      setBuffering(false);
+    }
+
+    if (event.nativeEvent.duration > 0) {
+      const absDuration = toAbsoluteTime(Math.floor(event.nativeEvent.duration));
+      if (absDuration !== durationRef.current) {
+        durationRef.current = absDuration;
+        setDuration(absDuration);
+      }
+    }
 
     if (!consumeSeekSettle(absolute)) {
       return;
@@ -147,62 +202,29 @@ export function TvVideoPlayer({
     setCurrentTime(absolute);
     progressRef.current = { currentTime: absolute, duration: durationRef.current };
     onProgress?.(absolute, durationRef.current);
-  });
+  };
 
-  useEventListener(player, "playingChange", ({ isPlaying: nextIsPlaying }) => {
-    setIsPlaying(nextIsPlaying);
-    if (nextIsPlaying) {
-      endedRef.current = false;
-      pausedRef.current = false;
-      showControls();
-    } else {
-      onProgress?.(progressRef.current.currentTime, progressRef.current.duration, { flush: true });
+  const handleLoad = () => {
+    if (startSeconds > 0) {
+      void playerRef.current?.seekTo(toRelativeTime(startSeconds));
     }
-  });
+    isPlayingRef.current = true;
+    setError(null);
+    void playerRef.current?.play();
+  };
 
-  useEventListener(player, "sourceLoad", ({ duration: loadedDuration }) => {
-    if (loadedDuration > 0) {
-      const absolute = toAbsoluteTime(loadedDuration);
-      setDuration(absolute);
-      durationRef.current = absolute;
-    }
-  });
+  const handleError = (event: { nativeEvent: { error: string } }) => {
+    setError(event.nativeEvent.error ?? "Playback error");
+  };
 
-  useEventListener(player, "statusChange", ({ status, error: statusError }) => {
-    if (status === "error") {
-      setError(statusError?.message ?? "Playback error");
-    } else if (status === "readyToPlay") {
-      setError(null);
-    }
-  });
-
-  useEventListener(player, "playToEnd", () => {
+  const handleEnd = () => {
     endedRef.current = true;
     pausedRef.current = true;
+    isPlayingRef.current = false;
     setIsPlaying(false);
     setControlsVisible(true);
     onProgress?.(currentTimeRef.current, durationRef.current, { flush: true, completed: true });
-  });
-
-  useEventListener(player, "playbackRateChange", ({ playbackRate }) => {
-    if (playbackRate === 0) {
-      if (pausedRef.current) return;
-      if (!bufferingTimeoutRef.current) {
-        bufferingTimeoutRef.current = setTimeout(() => {
-          bufferingTimeoutRef.current = null;
-          if (!pausedRef.current) {
-            setBuffering(true);
-          }
-        }, BUFFERING_UI_DELAY_MS);
-      }
-    } else {
-      if (bufferingTimeoutRef.current) {
-        clearTimeout(bufferingTimeoutRef.current);
-        bufferingTimeoutRef.current = null;
-      }
-      setBuffering(false);
-    }
-  });
+  };
 
   const playerReady = duration > 0 || isPlaying;
   const { activeSegment, autoSkipNotice, skipActiveSegment } = usePlaybackSegments({
@@ -247,6 +269,7 @@ export function TvVideoPlayer({
       if (bufferingTimeoutRef.current) {
         clearTimeout(bufferingTimeoutRef.current);
       }
+      void playerRef.current?.destroy();
     };
   }, []);
 
@@ -255,13 +278,15 @@ export function TvVideoPlayer({
       endedRef.current = false;
       pausedRef.current = false;
       seekToSeconds(0);
-      player.play();
-    } else if (player.playing) {
+      void playerRef.current?.play();
+    } else if (isPlayingRef.current) {
       pausedRef.current = true;
-      player.pause();
+      isPlayingRef.current = false;
+      void playerRef.current?.pause();
     } else {
       pausedRef.current = false;
-      player.play();
+      isPlayingRef.current = true;
+      void playerRef.current?.play();
     }
     showControls();
   };
@@ -324,7 +349,16 @@ export function TvVideoPlayer({
   return (
     <View style={styles.container}>
       <StatusBar hidden />
-      <VideoView player={player} style={styles.video} contentFit={contentFit} nativeControls={false} />
+      <MpvPlayerView
+        ref={playerRef}
+        style={styles.video}
+        source={uri ? { url: uri, startPosition: toRelativeTime(startSeconds), autoplay: true } : undefined}
+        onLoad={handleLoad}
+        onPlaybackStateChange={handlePlaybackStateChange}
+        onProgress={handleProgress}
+        onError={handleError}
+        onEnd={handleEnd}
+      />
 
       {Platform.OS === "android" ? (
         <Pressable ref={focusTrapRef} focusable={!controlsVisible} pointerEvents="none" style={styles.focusTrap} />
