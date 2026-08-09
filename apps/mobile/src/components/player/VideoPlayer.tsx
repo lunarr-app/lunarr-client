@@ -29,7 +29,7 @@ import {
   type PlaybackDecision,
   type PlayerControlUiState,
 } from "@lunarr/core";
-import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/player";
+import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/mpv-player";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
 import { typography } from "@/src/theme/typography";

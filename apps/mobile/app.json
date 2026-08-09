@@ -57,7 +57,7 @@
           "backgroundColor": "#080c11"
         }
       ],
-      "@lunarr/player",
+      "@lunarr/mpv-player",
       "expo-font",
       "expo-status-bar"
     ],

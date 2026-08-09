@@ -6,7 +6,7 @@
       "name": "lunarr-mobile",
       "dependencies": {
         "@expo-google-fonts/inter": "0.4.2",
-        "@lunarr/player": "file:../../packages/player",
+        "@lunarr/mpv-player": "file:../../packages/mpv-player",
         "@react-native-community/slider": "5.2.0",
         "@tanstack/react-query": "5.101.4",
         "expo": "~57.0.9",
@@ -277,7 +277,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@lunarr/player": ["@lunarr/player@file:../../packages/player", { "peerDependencies": { "expo": "*", "expo-modules-core": "*", "react": "*", "react-native": "*" } }],
+    "@lunarr/mpv-player": ["@lunarr/mpv-player@file:../../packages/mpv-player", { "devDependencies": { "@types/react": "~19.2.2", "expo": "~57.0.9", "expo-modules-core": "~57.0.0", "react": "19.2.3", "react-native": "0.86.2", "typescript": "~6.0.3" }, "peerDependencies": { "expo": "*", "expo-modules-core": "*", "react": "*", "react-native": "*" } }],
 
     "@radix-ui/primitive": ["@radix-ui/primitive@1.1.4", "", {}, "sha512-7AdCK9PQyiljKoBDbN8OuctCbd/esdwZPQ8RtOE3SsyQtUpiPb+ND75q0jEhC1m1ecBI0MFNeLJvwIh9iKHRcQ=="],
 

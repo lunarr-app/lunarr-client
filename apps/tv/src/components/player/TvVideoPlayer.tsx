@@ -1,4 +1,4 @@
-import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/player";
+import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/mpv-player";
 import { Ratio } from "lucide-react-native";
 import { useEffect, useRef, useState } from "react";
 import {

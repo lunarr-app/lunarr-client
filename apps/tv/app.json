@@ -53,7 +53,7 @@
         }
       ],
       [
-        "@lunarr/player",
+        "@lunarr/mpv-player",
         {
           "enablePictureInPicture": false
         }

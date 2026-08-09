@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "@lunarr/player",
+      "name": "@lunarr/mpv-player",
       "devDependencies": {
         "@types/react": "~19.2.2",
         "expo": "~57.0.9",

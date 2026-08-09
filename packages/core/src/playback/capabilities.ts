@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 /**
  * Client codec flags for GET /api/playback (native target + capabilities).
  *
- * The app plays media through the mpv-backed @lunarr/player, which bundles
+ * The app plays media through the mpv-backed @lunarr/mpv-player, which bundles
  * FFmpeg and can hardware or software-decode essentially every codec this
  * backend produces (HEVC, AV1, VP9, VP8, Opus, Vorbis, WebM). Advertising all
  * of them lets the backend choose "direct" playback instead of transcoding to

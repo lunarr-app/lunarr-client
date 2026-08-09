@@ -12,7 +12,7 @@ interface LunarrPlayerOptions {
 }
 
 /**
- * Config plugin for the @lunarr/player mpv module.
+ * Config plugin for the @lunarr/mpv-player mpv module.
  *
  * - iOS: adds the MPVKit CocoaPod to the Podfile so the native module can
  *   link libmpv, and (optionally) enables the `audio` background mode which

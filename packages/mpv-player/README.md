@@ -1,4 +1,4 @@
-# @lunarr/player
+# @lunarr/mpv-player
 
 mpv-based video player for the Lunarr client apps. A custom Expo module
 (`expo-modules-core`) that wraps libmpv via MPVKit (iOS/tvOS) and
@@ -26,7 +26,7 @@ player with direct-play support.
 The module is consumed by the mobile and TV apps as a native view:
 
 ```tsx
-import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/player";
+import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/mpv-player";
 
 <MpvPlayerView
   ref={playerRef}
