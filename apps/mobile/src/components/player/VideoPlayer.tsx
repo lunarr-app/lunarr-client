@@ -8,27 +8,27 @@ import { usePlayerOrientation } from "@/src/hooks/usePlayerOrientation";
 import { usePlaybackSegments } from "@/src/hooks/usePlaybackSegments";
 import type { PlaybackSegment, SegmentSkipPreferences } from "@lunarr/api";
 import {
-  BUFFERING_UI_DELAY_MS,
-  CONTROLS_AUTO_HIDE_MS,
   SURFACE_FEEDBACK_DURATION_MS,
   SURFACE_SINGLE_CLICK_DELAY_MS,
-  playbackUiStateAfterProgress,
-  playerStatusOverlayMessage,
-  playerStatusOverlayState,
   playerSurfaceClickAction,
-  primaryPlaybackButtonState,
-  shouldShowCustomControls,
-  uiStateAfterSeek,
-  type PlayerControlUiState,
   type SurfaceFeedback,
 } from "@/src/lib/playback/controls";
 import {
+  BUFFERING_UI_DELAY_MS,
+  CONTROLS_AUTO_HIDE_MS,
   DEFAULT_SEGMENT_SKIP_PREFERENCES,
   isStreamRelativePlaybackMode,
+  playbackUiStateAfterProgress,
+  playerStatusOverlayMessage,
+  playerStatusOverlayState,
+  primaryPlaybackButtonState,
   resolveMediaUri,
+  shouldShowCustomControls,
+  uiStateAfterSeek,
+  usePlaybackSession,
   type PlaybackDecision,
+  type PlayerControlUiState,
 } from "@lunarr/core";
-import { usePlaybackSession } from "@lunarr/core";
 import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/player";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";

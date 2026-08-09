@@ -10,6 +10,7 @@ export * from "./playback/segments";
 export * from "./playback/session";
 export * from "./playback/capabilities";
 export * from "./playback/service";
+export * from "./playback/controls";
 export * from "./profile/continue-max-age";
 export * from "./profile/policy";
 export * from "./profile/preferences";
