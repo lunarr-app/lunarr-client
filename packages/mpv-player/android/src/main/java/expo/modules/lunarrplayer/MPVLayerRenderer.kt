@@ -748,8 +748,11 @@ class MPVLayerRenderer(private val context: Context) : MPVLib.EventObserver {
 
     fun setVolumeBoost(percent: Int) {
         // Softvol gain: 100 = neutral, above amplifies. volume-max defaults
-        // to 130, so lift the ceiling first or 150/200% writes get clamped.
-        mpv?.setPropertyString("volume-max", "200")
+        // to 130, so lift the ceiling only while boosting and restore it at
+        // neutral so the raised ceiling does not persist after the boost is
+        // toggled off.
+        val ceiling = if (percent > 100) "200" else "130"
+        mpv?.setPropertyString("volume-max", ceiling)
         mpv?.setPropertyInt("volume", percent)
     }
 
@@ -759,14 +762,21 @@ class MPVLayerRenderer(private val context: Context) : MPVLib.EventObserver {
     /// ships no dynaudnorm/loudnorm/acompressor, `equalizer` (lavfi) is
     /// available. Gains are modest and net-neutral-ish so the float path
     /// cannot clip.
+    ///
+    /// The filter is added under a label via the `af` command so toggling it
+    /// does not clobber mpv's auto-inserted filters (notably scaletempo2 at
+    /// non-1.0 speed). `af remove @dialogue-boost` only drops this filter.
     fun setDialogueBoost(enabled: Boolean) {
         if (enabled) {
-            mpv?.setPropertyString(
-                "af",
-                "lavfi=[equalizer=f=100:t=q:w=1.2:g=-6,equalizer=f=2800:t=q:w=1.2:g=5]"
+            mpv?.command(
+                arrayOf(
+                    "af",
+                    "add",
+                    "@dialogue-boost:lavfi=[equalizer=f=100:t=q:w=1.2:g=-6,equalizer=f=2800:t=q:w=1.2:g=4]"
+                )
             )
         } else {
-            mpv?.setPropertyString("af", "")
+            mpv?.command(arrayOf("af", "remove", "@dialogue-boost"))
         }
     }
 

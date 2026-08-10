@@ -304,8 +304,9 @@ final class MPVPlayerEngine: NSObject {
 		renderer?.setSpeed(speed)
 	}
 
-	func getSpeed() -> Double {
-		return renderer?.getSpeed() ?? 1.0
+	func getSpeed(completion: @escaping (Double) -> Void) {
+		guard let renderer else { return completion(1.0) }
+		renderer.getSpeed(completion: completion)
 	}
 
 	func isPaused() -> Bool {

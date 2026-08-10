@@ -166,8 +166,8 @@ class MpvPlayerView: ExpoView {
 		engine.setSpeed(speed: speed)
 	}
 
-	func getSpeed() -> Double {
-		return engine.getSpeed()
+	func getSpeed(completion: @escaping (Double) -> Void) {
+		engine.getSpeed(completion: completion)
 	}
 
 	func isPaused() -> Bool {

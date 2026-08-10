@@ -117,8 +117,8 @@ public class MpvPlayerModule: Module {
       }
       
       // Function to get current speed
-      AsyncFunction("getSpeed") { (view: MpvPlayerView) -> Double in
-        return view.getSpeed()
+      AsyncFunction("getSpeed") { (view: MpvPlayerView, promise: Promise) in
+        view.getSpeed { promise.resolve($0) }
       }
       
       // Function to check if paused

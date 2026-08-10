@@ -850,11 +850,19 @@ final class MPVLayerRenderer {
         setProperty(name: "speed", value: String(speed))
     }
     
-    func getSpeed() -> Double {
-        // Cached mirror, not a live mpv read: speed only changes through
-        // setSpeed(), and a blocking mpv_get_property here may run on the
-        // main thread (see onQueue).
-        return playbackSpeed
+    /// Non-blocking speed read, the completion fires on the mpv work queue.
+    /// The blocking property read must never run on the caller's thread (see
+    /// onQueue). Falls back to the cached mirror if mpv is unavailable.
+    func getSpeed(completion: @escaping (Double) -> Void) {
+        onQueue { [weak self] in
+            guard let self, let handle = self.mpv else {
+                completion(self?.playbackSpeed ?? 1.0)
+                return
+            }
+            var value: Double = 0
+            let status = mpv_get_property(handle, "speed", MPV_FORMAT_DOUBLE, &value)
+            completion(status >= 0 ? value : self.playbackSpeed)
+        }
     }
     
     // MARK: - Subtitle Controls
@@ -984,25 +992,35 @@ final class MPVLayerRenderer {
 
     func setVolumeBoost(_ percent: Int) {
         // Softvol gain: 100 = neutral, above amplifies. volume-max defaults
-        // to 130, so lift the ceiling first or 150/200% writes get clamped.
-        setProperty(name: "volume-max", value: "200")
+        // to 130, so lift the ceiling only while boosting and restore it at
+        // neutral so the raised ceiling does not persist after the boost is
+        // toggled off.
+        let ceiling = percent > 100 ? "200" : "130"
+        setProperty(name: "volume-max", value: ceiling)
         setProperty(name: "volume", value: String(percent))
     }
 
     /// Speech-clarity EQ ("dialogue boost"): cut the low rumble where scores
     /// and explosions live, lift the 2-3kHz presence band where consonants
     /// live. EQ rather than a compressor because MPVKit's trimmed FFmpeg
-    /// build ships no dynaudnorm/loudnorm/acompressor — `equalizer` (lavfi)
+    /// build ships no dynaudnorm/loudnorm/acompressor, `equalizer` (lavfi)
     /// is available. Gains are modest and net-neutral-ish so the float path
     /// cannot clip.
+    ///
+    /// The filter is added under a label via the `af` command so toggling it
+    /// does not clobber mpv's auto-inserted filters (notably scaletempo2 at
+    /// non-1.0 speed). `af remove @dialogue-boost` only drops this filter.
     func setDialogueBoost(_ enabled: Bool) {
-        if enabled {
-            setProperty(
-                name: "af",
-                value: "lavfi=[equalizer=f=100:t=q:w=1.2:g=-6,equalizer=f=2800:t=q:w=1.2:g=5]"
-            )
-        } else {
-            setProperty(name: "af", value: "")
+        onQueue { [weak self] in
+            guard let self, let handle = self.mpv else { return }
+            if enabled {
+                self.commandSync(
+                    handle,
+                    ["af", "add", "@dialogue-boost:lavfi=[equalizer=f=100:t=q:w=1.2:g=-6,equalizer=f=2800:t=q:w=1.2:g=4]"]
+                )
+            } else {
+                self.commandSync(handle, ["af", "remove", "@dialogue-boost"])
+            }
         }
     }
 
