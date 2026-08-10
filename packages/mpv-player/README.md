@@ -19,7 +19,8 @@ player with direct-play support.
 - Picture-in-Picture on **iOS/Android mobile only** (tvOS has none).
 - Contain / cover content-fit only.
 - Subtitle track control, audio track control, external subtitle files.
-- Playback speed, seek, technical info, Now Playing integration (iOS).
+- Audio enhancements: mono downmix, dialogue boost, volume boost, and
+  audio/subtitle delay.
 
 ## Usage
 
@@ -43,8 +44,8 @@ import { MpvPlayerView, type MpvPlayerViewRef } from "@lunarr/mpv-player";
 The native player code in `ios/` and `android/` is adapted from
 **[Streamyfin](https://github.com/streamyfin/streamyfin)** (MPL-2.0), a
 Jellyfin client whose `mpv-player` Expo module this package is derived from.
-We are grateful to the Streamyfin maintainers for releasing their mpv
-integration under the Mozilla Public License 2.0.
+Thanks to the Streamyfin maintainers for releasing their mpv integration under
+the Mozilla Public License 2.0.
 
 Changes made on top of the upstream module for Lunarr:
 
@@ -53,9 +54,10 @@ Changes made on top of the upstream module for Lunarr:
 - Replaced `expo-video` with this module in both the mobile and TV apps.
 - Added a native `onEnd` event (iOS `MPV_END_FILE_REASON_EOF`, Android via
   the `eof-reached` property) for unambiguous end-of-file detection.
-- Picture-in-Picture on mobile only, plus tvOS HDR display criteria.
-- Restricted content-fit to contain/cover.
-- Hardened the Android renderer (thread-safety, EOF handling).
+- Hardened the iOS renderer (serial mpv work queue, decoder-failure
+  auto-recovery, seek throttling guards) and the Android renderer
+  (thread-safety, EOF handling).
+- Removed the unused Expo template boilerplate (`hello`, `setValueAsync`).
 
 ## License
 
