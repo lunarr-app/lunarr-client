@@ -658,6 +658,10 @@ class MPVLayerRenderer(private val context: Context) : MPVLib.EventObserver {
     fun setSubtitlePosition(position: Int) {
         mpv?.setPropertyInt("sub-pos", position)
     }
+
+    fun setSubtitleDelay(seconds: Double) {
+        mpv?.setPropertyString("sub-delay", seconds.toString())
+    }
     
     fun setSubtitleScale(scale: Double) {
         mpv?.setPropertyDouble("sub-scale", scale)
@@ -736,6 +740,34 @@ class MPVLayerRenderer(private val context: Context) : MPVLib.EventObserver {
     /// both ears hear the full mix. "auto-safe" is mpv's default layout pick.
     fun setMonoDownmix(enabled: Boolean) {
         mpv?.setPropertyString("audio-channels", if (enabled) "mono" else "auto-safe")
+    }
+
+    fun setAudioDelay(seconds: Double) {
+        mpv?.setPropertyString("audio-delay", seconds.toString())
+    }
+
+    fun setVolumeBoost(percent: Int) {
+        // Softvol gain: 100 = neutral, above amplifies. volume-max defaults
+        // to 130, so lift the ceiling first or 150/200% writes get clamped.
+        mpv?.setPropertyString("volume-max", "200")
+        mpv?.setPropertyInt("volume", percent)
+    }
+
+    /// Speech-clarity EQ ("dialogue boost"): cut the low rumble where scores
+    /// and explosions live, lift the 2-3kHz presence band where consonants
+    /// live. EQ rather than a compressor because the trimmed FFmpeg build
+    /// ships no dynaudnorm/loudnorm/acompressor, `equalizer` (lavfi) is
+    /// available. Gains are modest and net-neutral-ish so the float path
+    /// cannot clip.
+    fun setDialogueBoost(enabled: Boolean) {
+        if (enabled) {
+            mpv?.setPropertyString(
+                "af",
+                "lavfi=[equalizer=f=100:t=q:w=1.2:g=-6,equalizer=f=2800:t=q:w=1.2:g=5]"
+            )
+        } else {
+            mpv?.setPropertyString("af", "")
+        }
     }
 
     // MARK: - Video Scaling
