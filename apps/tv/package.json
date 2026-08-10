@@ -11,15 +11,17 @@
     "prebuild:clean": "EXPO_TV=1 expo prebuild --clean -p ios",
     "prebuild:android": "EXPO_TV=1 expo prebuild -p android",
     "prebuild:android:clean": "EXPO_TV=1 expo prebuild --clean -p android",
-    "gen:api": "cd ../../packages/api && bun run gen:api",
-    "gen:openapi": "cd ../../packages/api && bun run gen:openapi",
+    "gen:api": "pnpm --filter @lunarr/api gen:api",
+    "gen:openapi": "pnpm --filter @lunarr/api gen:openapi",
     "typecheck": "tsc --noEmit --noUnusedLocals --noUnusedParameters",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
     "@expo-google-fonts/inter": "0.4.2",
-    "@lunarr/mpv-player": "file:../../packages/mpv-player",
+    "@lunarr/api": "workspace:*",
+    "@lunarr/core": "workspace:*",
+    "@lunarr/mpv-player": "workspace:*",
     "@tanstack/react-query": "5.101.4",
     "expo": "~57.0.11",
     "expo-build-properties": "~57.0.9",
@@ -46,10 +48,5 @@
     "@types/react": "~19.2.18",
     "prettier": "3.9.6",
     "typescript": "~6.0.3"
-  },
-  "overrides": {
-    "react-native-gesture-handler": "npm:undefined@0.1.0",
-    "react-native-reanimated": "npm:undefined@0.1.0",
-    "react-native-worklets": "npm:undefined@0.1.0"
   }
 }

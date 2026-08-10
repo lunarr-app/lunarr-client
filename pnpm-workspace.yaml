@@ -1,0 +1,16 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+# pnpm v11 config. Settings live here, not in package.json.
+# React Native requires a hoisted node_modules layout (Expo docs): native
+# podspecs (e.g. react-native-svg) expect react-native to resolve as a real
+# directory named "react-native", which isolated installs break.
+nodeLinker: hoisted
+
+# react-native-gesture-handler / reanimated / worklets are declared as optional
+# peer deps by expo-router, expo-modules-core, react-native-drawer-layout, etc.
+# The TV app does not use them, so do not auto-install missing peers. The mobile
+# app uses the real packages and lists them as explicit dependencies, so they
+# are installed there regardless.
+autoInstallPeers: false

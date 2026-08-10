@@ -8,11 +8,7 @@
     "target": "esnext",
     "skipLibCheck": true,
     "jsx": "react-jsx",
-    "lib": ["DOM", "ESNext"],
-    "paths": {
-      "expo": ["../api/node_modules/expo"],
-      "expo-modules-core": ["../api/node_modules/expo-modules-core"]
-    }
+    "lib": ["DOM", "ESNext"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "index.ts"]
 }

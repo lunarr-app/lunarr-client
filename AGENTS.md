@@ -2,8 +2,11 @@
 
 ## Repo layout
 
-Monorepo for the Lunarr client apps. Each app is an independent Expo project with its own
-`package.json`, `bun.lock`, `node_modules`, and `eas.json` — there is **no** root workspace.
+pnpm workspace monorepo for the Lunarr client apps. Root `pnpm-workspace.yaml` defines the
+workspace (`apps/*` and `packages/*`). All dependencies are installed from the repo root with a
+single `pnpm-lock.yaml`; `node_modules` is hoisted into the root `.pnpm` virtual store, and each
+workspace package is symlinked into the app that needs it. Expo/Metro auto-detects the monorepo
+(SDK 52+), so there is no manual `metro.config.js` wiring.
 
 - `apps/mobile` — phone/tablet app. Expo SDK 57 / React Native 0.86 / React 19.2.3 / TypeScript 6.
   Expo Router (typed routes enabled), TanStack Query, Zustand-style auth store, expo-video player.
@@ -11,17 +14,21 @@ Monorepo for the Lunarr client apps. Each app is an independent Expo project wit
   Expo Router (typed routes enabled), TV-optimized UI. TanStack Query, React Context auth store,
   expo-video player.
 - `packages/api` — shared API client (generated from the Lunarr backend OpenAPI spec) plus the
-  app-agnostic API modules. No build step: the apps resolve it via `tsconfig` `paths` and a
-  Metro `resolver.alias`. Edit `packages/api/src/**`, never the per-app copies.
+  app-agnostic API modules. No build step. Declared as a `workspace:*` dependency of the apps and
+  resolved through their `node_modules` symlinks. Edit `packages/api/src/**`, never the per-app copies.
 - `packages/core` — shared app-agnostic business logic plus the TanStack query hooks and
   unified `queryKeys`: media/playback/profile modules (formatting, progress, episode/tv helpers,
   playback decision + session, profile policy) and `src/hooks/**` (query hooks + useRefreshOnFocus).
-  Same resolution mechanism as `packages/api`. Its dev-dependencies (`react`, `react-native`,
-  `@lunarr/api`) exist only for standalone typechecking — Metro resolves runtime imports from
-  each app's own `node_modules` (`nodeModulesPaths` + `disableHierarchicalLookup`), so there is no
-  duplicate-instance risk. `@tanstack/react-query`/`expo-router` in the shared hooks are mapped
-  via the apps' tsconfig `paths` (and resolve from the app's `node_modules` at runtime). Edit
-  `packages/core/src/**`, never the per-app copies.
+  Declared as a `workspace:*` dependency of the apps. Its dev-dependencies (`react`, `react-native`,
+  `@lunarr/api`, `@tanstack/react-query`, `expo-router`) exist only for standalone typechecking —
+  at runtime Metro resolves imports from each app's own `node_modules` (isolated `nodeLinker`
+  prevents duplicate instances). Edit `packages/core/src/**`, never the per-app copies.
+
+Because `nodeLinker` is `isolated`, every package must declare the packages it imports from for
+both typecheck and runtime. `@tanstack/react-query`/`expo-router` are in `packages/core`'s
+`devDependencies` for standalone typecheck but resolve from the app at runtime. The TV app's
+`react-native` tsconfig `path` maps to its own `react-native-tvos` install so TS picks up the TV
+type augmentations.
 
 React Compiler is **enabled** in both apps (see below).
 
@@ -118,22 +125,24 @@ Run this after editing any component/hook.
 
 ## Commands
 
-Run inside an app directory, or via the root helpers (both work):
+Install once from the repo root. Run inside an app directory, or via the root helpers (both work):
 
-| Task          | In-app command                | Root helper            |
-| ------------- | ----------------------------- | ---------------------- |
-| start         | `bun run start`               | `bun run mobile` / `bun run tv` |
-| typecheck     | `bun run typecheck`           | `bun run mobile:typecheck` / `bun run tv:typecheck` |
-| format        | `bun run format`              | `bun run mobile:format` / `bun run tv:format` |
-| format:check  | `bun run format:check`        | —                      |
-| gen:api       | `bun run gen:api`             | —                      |
-| gen:openapi   | `bun run gen:openapi`         | —                      |
+| Task          | In-app command                 | Root helper            |
+| ------------- | ------------------------------ | ---------------------- |
+| start         | `pnpm start`                   | `pnpm mobile` / `pnpm tv` |
+| typecheck     | `pnpm typecheck`               | `pnpm mobile:typecheck` / `pnpm tv:typecheck` |
+| format        | `pnpm format`                  | `pnpm mobile:format` / `pnpm tv:format` |
+| format:check  | `pnpm format:check`            | —                      |
+| gen:api       | `pnpm gen:api`                 | —                      |
+| gen:openapi   | `pnpm gen:openapi`             | —                      |
 
-- `bun run typecheck` — runs `tsc --noEmit --noUnusedLocals --noUnusedParameters` (run before committing)
-- `bun run format:check` — prettier check
-- `bun run format` — prettier write
-- `bun run gen:api` — regenerate the shared API client in `packages/api` (delegates from each app)
-- `bun run gen:openapi` — regenerate `packages/api/openapi.json` from the lunarr-go server (resolved via `../../../lunarr-go`)
+- `pnpm install` — install all workspace deps (run once from the repo root)
+- `pnpm --filter <pkg> <script>` — run a script in a specific workspace package
+- `pnpm typecheck` — runs `tsc --noEmit --noUnusedLocals --noUnusedParameters` (run before committing)
+- `pnpm format:check` — prettier check
+- `pnpm format` — prettier write
+- `pnpm gen:api` — regenerate the shared API client in `packages/api` (delegates from each app)
+- `pnpm gen:openapi` — regenerate `packages/api/openapi.json` from the lunarr-go server (resolved via `../../../lunarr-go`)
 
 ## Verification before committing
 

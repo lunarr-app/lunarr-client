@@ -10,44 +10,44 @@ See [RELEASE.md](./RELEASE.md) for v1 scope (what is and is not included).
 - expo-router
 - [@hey-api/openapi-ts](https://heyapi.dev) + Fetch client
 - `expo-video` for playback (AVPlayer / ExoPlayer)
-- Bun package manager
+- pnpm package manager
 
 ## Prerequisites
 
-- Bun
+- pnpm (from the repo root: `pnpm --filter lunarr-mobile <script>`)
 - Xcode (iOS) and/or Android Studio
 - A running lunarr-sveltekit server
 
 ## Setup
 
 ```bash
-bun install
-bun run gen:api   # regenerate SDK when backend OpenAPI changes
+pnpm install
+pnpm gen:api   # regenerate SDK when backend OpenAPI changes
 npx expo prebuild
 ```
 
 `gen:api` reads `openapi.json` (exported from lunarr-sveltekit). To refresh the spec:
 
 ```bash
-bun run gen:openapi
+pnpm gen:openapi
 ```
 
 Or manually:
 
 ```bash
 cd ../lunarr-sveltekit
-bun -e "import { openApiDocument } from './src/lib/server/openapi.ts'; await Bun.write('../lunarr-mobile/openapi.json', JSON.stringify(openApiDocument, null, 2));"
+node -e "import { openApiDocument } from './src/lib/server/openapi.ts'; await Bun.write('../lunarr-mobile/openapi.json', JSON.stringify(openApiDocument, null, 2));"
 cd ../lunarr-mobile
-bun run gen:api
+pnpm gen:api
 ```
 
 ## Development
 
 ```bash
-bun run start     # Metro + dev client
-bun run ios       # build & run iOS
-bun run android   # build & run Android
-bunx tsc --noEmit --noUnusedLocals --noUnusedParameters
+pnpm start     # Metro + dev client
+pnpm ios       # build & run iOS
+pnpm android   # build & run Android
+pnpm exec tsc --noEmit --noUnusedLocals --noUnusedParameters
 ```
 
 On first launch, open **Connect**:

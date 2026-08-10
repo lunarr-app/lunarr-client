@@ -17,60 +17,61 @@ iOS and tvOS apps are available in [TestFlight](https://github.com/lunarr-app/lu
 | API   | `packages/api` | Shared API client (generated from the Lunarr backend OpenAPI spec) |
 | Core  | `packages/core` | Shared app-agnostic logic + query hooks (media/playback/profile, `queryKeys`, hooks) |
 
-Each app is a fully independent Expo project with its own `package.json`, `bun.lock`,
-`node_modules`, and EAS config. They are intentionally **not** bun workspaces: the TV app
-must neutralize `react-native-reanimated` / `react-native-gesture-handler` / `react-native-worklets`
-via `overrides` for the tvOS build, which bun only supports at the root — incompatible with
-the mobile app that requires those packages. So install and run each app from its own directory.
+pnpm workspace monorepo. All deps install from the repo root into a single virtual store
+(`node_modules/.pnpm`); the apps and `packages/*` are symlinked together. Expo/Metro auto-detects
+the workspace (SDK 52+), so no manual `metro.config.js` wiring is needed. The TV app resolves
+`react-native` to `react-native-tvos` via its own dependency; `autoInstallPeers` is disabled in
+`pnpm-workspace.yaml` so the TV build does not pull in `react-native-reanimated` /
+`react-native-gesture-handler` / `react-native-worklets` (optional peers of expo-router) that the
+TV app does not use, while the mobile app still gets them as explicit dependencies.
 
-`packages/api` and `packages/core` are shared TypeScript source — no build step. The apps
-resolve them via their `tsconfig.json` `paths` (for typecheck) and `metro.config.js` resolver
-alias + `nodeModulesPaths` (for bundling). `packages/api` needs no install; `packages/core`
-has dev-dependencies (react/react-native/@lunarr/api) only so its own `bun run typecheck`
-resolves types — at bundle time everything resolves to each app's single `node_modules`.
-To (re)install the core package's dev-deps: `bun install --cwd packages/core`.
+`packages/api` and `packages/core` are shared TypeScript source — no build step. Both apps declare
+them as `workspace:*` dependencies, so they resolve through each app's `node_modules` symlink.
+`packages/core` has dev-dependencies (react/react-native/@lunarr/api/@tanstack/react-query/expo-router)
+only so its own `pnpm typecheck` resolves types — at bundle time everything resolves to each app's
+single `node_modules`.
 
 ## Requirements
 
-- [Bun](https://bun.sh) (package manager)
+- [pnpm](https://pnpm.io) (package manager)
+- [Node.js](https://nodejs.org) (LTS)
 - The Lunarr backend at `../lunarr-go` (used by `gen:openapi`)
 
 ## Quick start
 
 ```bash
-# Install dependencies (per app)
-bun install --cwd apps/mobile
-bun install --cwd apps/tv
+# Install all workspace dependencies (from the repo root)
+pnpm install
 
 # Run the mobile app (via root helpers)
-bun run mobile:start
-bun run mobile:ios
-bun run mobile:android
+pnpm mobile:start
+pnpm mobile:ios
+pnpm mobile:android
 
 # Run the TV app
-bun run tv:start
-bun run tv:ios
-bun run tv:android
+pnpm tv:start
+pnpm tv:ios
+pnpm tv:android
 ```
 
 Or from inside each app:
 
 ```bash
-cd apps/mobile && bun run start
-cd apps/tv && bun run start
+cd apps/mobile && pnpm start
+cd apps/tv && pnpm start
 ```
 
 ## Commands per app
 
 See the root `AGENTS.md` for repo conventions, typecheck, and formatting commands.
-Typical per-app workflow:
+Typical per-app workflow (or use `pnpm --filter <pkg> <script>` from the root):
 
 ```bash
-bun run typecheck      # tsc --noEmit
-bun run format:check   # prettier check
-bun run format         # prettier write
-bun run gen:api        # regenerate the shared API client (delegates to packages/api)
-bun run gen:openapi    # regenerate packages/api/openapi.json from the lunarr-go server
+pnpm typecheck      # tsc --noEmit
+pnpm format:check   # prettier check
+pnpm format         # prettier write
+pnpm gen:api        # regenerate the shared API client (delegates to packages/api)
+pnpm gen:openapi    # regenerate packages/api/openapi.json from the lunarr-go server
 ```
 
 `gen:openapi` reaches the backend at `../../../lunarr-go` (relative to `packages/api`), and both

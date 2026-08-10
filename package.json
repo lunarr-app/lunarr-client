@@ -2,19 +2,20 @@
   "name": "lunarr-clients",
   "version": "1.1.0",
   "private": true,
+  "packageManager": "pnpm@11.21.0",
   "scripts": {
-    "mobile": "cd apps/mobile && bun run start",
-    "mobile:start": "cd apps/mobile && bun run start",
-    "mobile:ios": "cd apps/mobile && bun run ios",
-    "mobile:android": "cd apps/mobile && bun run android",
-    "mobile:web": "cd apps/mobile && bun run web",
-    "mobile:format": "cd apps/mobile && bun run format",
-    "mobile:typecheck": "cd apps/mobile && bun run typecheck",
-    "tv": "cd apps/tv && bun run start",
-    "tv:start": "cd apps/tv && bun run start",
-    "tv:ios": "cd apps/tv && bun run ios",
-    "tv:android": "cd apps/tv && bun run android",
-    "tv:format": "cd apps/tv && bun run format",
-    "tv:typecheck": "cd apps/tv && bun run typecheck"
+    "mobile": "pnpm --filter lunarr-mobile start",
+    "mobile:start": "pnpm --filter lunarr-mobile start",
+    "mobile:ios": "pnpm --filter lunarr-mobile ios",
+    "mobile:android": "pnpm --filter lunarr-mobile android",
+    "mobile:web": "pnpm --filter lunarr-mobile web",
+    "mobile:format": "pnpm --filter lunarr-mobile format",
+    "mobile:typecheck": "pnpm --filter lunarr-mobile typecheck",
+    "tv": "pnpm --filter lunarr-tv start",
+    "tv:start": "pnpm --filter lunarr-tv start",
+    "tv:ios": "pnpm --filter lunarr-tv ios",
+    "tv:android": "pnpm --filter lunarr-tv android",
+    "tv:format": "pnpm --filter lunarr-tv format",
+    "tv:typecheck": "pnpm --filter lunarr-tv typecheck"
   }
 }
