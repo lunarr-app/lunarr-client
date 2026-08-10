@@ -10,6 +10,7 @@ config.resolver.unstable_enablePackageExports = true;
 config.resolver.alias = {
   "@lunarr/api": path.resolve(__dirname, "../../packages/api/src/index.ts"),
   "@lunarr/core": path.resolve(__dirname, "../../packages/core/src/index.ts"),
+  "@lunarr/mpv-player": path.resolve(__dirname, "../../packages/mpv-player/index.ts"),
 };
 
 module.exports = config;

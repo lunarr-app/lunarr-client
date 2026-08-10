@@ -9,6 +9,7 @@
       "@/src/*": ["./src/*"],
       "@lunarr/api": ["../../packages/api/src/index.ts"],
       "@lunarr/core": ["../../packages/core/src/index.ts"],
+      "@lunarr/mpv-player": ["../../packages/mpv-player/index.ts"],
       "@tanstack/react-query": ["./node_modules/@tanstack/react-query"],
       "expo-router": ["./node_modules/expo-router"]
     }

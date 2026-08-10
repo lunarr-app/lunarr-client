@@ -27,13 +27,12 @@
   "peerDependencies": {
     "expo": "*",
     "react": "*",
-    "react-native": "*",
-    "expo-modules-core": "*"
+    "react-native": "*"
   },
   "devDependencies": {
-    "@types/react": "~19.2.2",
-    "expo": "~57.0.9",
-    "expo-modules-core": "~57.0.0",
+    "@types/react": "~19.2.18",
+    "expo": "~57.0.11",
+    "expo-modules-core": "~57.0.10",
     "react": "19.2.3",
     "react-native": "0.86.2",
     "typescript": "~6.0.3"
