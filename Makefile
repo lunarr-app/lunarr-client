@@ -51,6 +51,7 @@ help:
 	@echo "  make build-mobile-android           production Android build (mobile)"
 	@echo "  make build-tv-ios                   production iOS build (tv)"
 	@echo "  make build-tv-android               production Android build (tv)"
+	@echo "  make build-mobile-ios TEAM_ID=XXXX  override Apple Developer Team ID"
 	@echo "  make dev-mobile PLATFORM=ios        dev build + install (mobile)"
 	@echo "  make dev-tv PLATFORM=ios            dev build + install (tv)"
 	@echo "  make prebuild-mobile                regenerate native projects (mobile)"
@@ -160,12 +161,14 @@ IOS_WS  := Lunarr.xcworkspace
 TV_WS   := LunarrTV.xcworkspace
 IOS_APP := Lunarr
 TV_APP  := LunarrTV
+# Apple Developer Team ID used for iOS/tvOS code signing.
+TEAM_ID ?= XXZ9FNDH73
 
 # Local production builds from source on this machine.
 #   make build-mobile-ios | build-mobile-android | build-tv-ios | build-tv-android
 .PHONY: build-mobile-ios build-tv-ios
-build-mobile-ios: ; cd $(MOBILE)/ios && xcodebuild -workspace $(IOS_WS) -scheme $(IOS_APP) -configuration Release -sdk iphoneos -derivedDataPath build/DerivedData build
-build-tv-ios: ; cd $(TV)/ios && xcodebuild -workspace $(TV_WS) -scheme $(TV_APP) -configuration Release -sdk appletvos -derivedDataPath build/DerivedData build
+build-mobile-ios: ; cd $(MOBILE)/ios && xcodebuild -workspace $(IOS_WS) -scheme $(IOS_APP) -configuration Release -sdk iphoneos -derivedDataPath build/DerivedData -allowProvisioningUpdates DEVELOPMENT_TEAM=$(TEAM_ID) build
+build-tv-ios: ; cd $(TV)/ios && xcodebuild -workspace $(TV_WS) -scheme $(TV_APP) -configuration Release -sdk appletvos -derivedDataPath build/DerivedData -allowProvisioningUpdates DEVELOPMENT_TEAM=$(TEAM_ID) build
 
 .PHONY: build-mobile-android build-tv-android
 build-mobile-android: ; cd $(MOBILE)/android && ./gradlew assembleRelease
