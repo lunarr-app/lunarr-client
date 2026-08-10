@@ -22,7 +22,8 @@
     "mkv"
   ],
   "scripts": {
-    "typecheck": "tsc --noEmit --noUnusedLocals --noUnusedParameters"
+    "typecheck": "tsc --noEmit --noUnusedLocals --noUnusedParameters",
+    "build": "tsc plugin/withLunarrPlayer.ts --ignoreConfig --outDir plugin/build --module commonjs --target es2019 --moduleResolution node --moduleDetection force --esModuleInterop --skipLibCheck --ignoreDeprecations 6.0 --types node"
   },
   "peerDependencies": {
     "expo": "*",

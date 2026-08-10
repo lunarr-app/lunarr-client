@@ -6,6 +6,10 @@ node_modules/
 build/
 dist/
 
+# plugin/build is committed: app.plugin.js requires the compiled JS at prebuild
+# time, so it must ship with the package. Keep Gradle build/ ignored above.
+!plugin/build/
+
 # macOS
 .DS_Store
 
