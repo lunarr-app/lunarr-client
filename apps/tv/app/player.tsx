@@ -4,6 +4,7 @@ import { TvVideoPlayer } from "@/src/components/player/TvVideoPlayer";
 import { savePlaybackProgress } from "@lunarr/api";
 import { PLAYBACK_PROGRESS_SAVE_INTERVAL_MS } from "@/src/lib/playback/controls";
 import { pollPlaybackUntilReady, readPlaybackPreference, type PlaybackData } from "@lunarr/core";
+import MpvPlayerModule from "@lunarr/mpv-player";
 import { useAuth } from "@/src/store/auth";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useRef, useState } from "react";
@@ -47,6 +48,7 @@ export default function PlayerScreen() {
         fileId,
         startSeconds: effectiveStartSeconds,
         forceTranscode: forceTranscodeRef.current,
+        supportsAv1HardwareDecode: MpvPlayerModule.supportsAv1HardwareDecode(),
         signal,
       });
       if (signal != null) {

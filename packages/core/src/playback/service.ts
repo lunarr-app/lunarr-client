@@ -102,6 +102,7 @@ async function fetchPlayback(
     fileId?: string;
     startSeconds?: number;
     forceTranscode?: boolean;
+    supportsAv1HardwareDecode?: boolean;
   },
 ): Promise<PlaybackData> {
   const startSeconds = options?.startSeconds && options.startSeconds > 0 ? Math.floor(options.startSeconds) : undefined;
@@ -113,7 +114,7 @@ async function fetchPlayback(
       start: startSeconds,
       transcode: options?.forceTranscode ? true : undefined,
       target: maybeNativePlaybackTarget(undefined),
-      ...clientPlaybackCapabilities(),
+      ...clientPlaybackCapabilities({ av1: options?.supportsAv1HardwareDecode }),
     },
   });
 
@@ -131,6 +132,7 @@ export async function pollPlaybackUntilReady(
     startSeconds?: number;
     forceTranscode?: boolean;
     signal?: AbortSignal;
+    supportsAv1HardwareDecode?: boolean;
   },
   maxAttempts = 30,
 ): Promise<PlaybackData> {

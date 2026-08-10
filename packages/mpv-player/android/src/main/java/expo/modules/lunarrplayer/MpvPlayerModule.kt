@@ -15,6 +15,15 @@ class MpvPlayerModule : Module() {
             "Hello from MPV Player! 👋"
         }
 
+        // Whether this device can decode AV1. Android always advertises true:
+        // mpv plays AV1 through its own decoder stack (dav1d via FFmpeg) with
+        // vo=gpu, which handles 10-bit planar output natively and has never
+        // shown the Apple-platform stall. Gating AV1 on a hardware decoder is
+        // an iOS/tvOS concern (see MpvPlayerModule.iOS).
+        Function("supportsAv1HardwareDecode") {
+            true
+        }
+
         // Defines a JavaScript function that always returns a Promise and whose native code
         // is by default dispatched on the different thread than the JavaScript runtime runs on.
         AsyncFunction("setValueAsync") { value: String ->
