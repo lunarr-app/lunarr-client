@@ -46,11 +46,17 @@ help:
 	@echo "  make release-tv [PLATFORM=all]     build + auto-submit tv"
 	@echo "  make release                       build + auto-submit mobile and tv"
 	@echo ""
-	@echo "Local build / run (PLATFORM=ios|android)"
-	@echo "  make local-mobile [PLATFORM=ios]   prebuild + build + install mobile"
-	@echo "  make local-tv [PLATFORM=ios]       prebuild + build + install tv"
-	@echo "  make prebuild-mobile               regenerate native projects (mobile)"
-	@echo "  make prebuild-tv                   regenerate native projects (tv)"
+	@echo "Local build / run (production by default)"
+	@echo "  make build-mobile-ios               production iOS build (mobile)"
+	@echo "  make build-mobile-android           production Android build (mobile)"
+	@echo "  make build-tv-ios                   production iOS build (tv)"
+	@echo "  make build-tv-android               production Android build (tv)"
+	@echo "  make dev-mobile PLATFORM=ios        dev build + install (mobile)"
+	@echo "  make dev-tv PLATFORM=ios            dev build + install (tv)"
+	@echo "  make prebuild-mobile                regenerate native projects (mobile)"
+	@echo "  make prebuild-tv                    regenerate native projects (tv)"
+	@echo "  make submit-local-mobile PLATFORM=ios PATH=app.ipa   submit local artifact"
+	@echo "  make submit-local-tv PLATFORM=ios PATH=app.ipa       submit local artifact"
 	@echo ""
 	@echo "Common"
 	@echo "  make install        bun install in mobile + tv"
@@ -146,18 +152,41 @@ submit-all: submit-mobile submit-tv
 
 ## ---------------------------------------------------------------- local build / run
 
-# Local builds (from source, on your machine). PLATFORM=ios|android.
-.PHONY: local-mobile local-tv prebuild-mobile prebuild-tv
-local-mobile: ; cd $(MOBILE) && $(BUN) run $(PLATFORM)
-local-tv: ; cd $(TV) && $(BUN) run $(PLATFORM)
+EAS := eas
+PLATFORM ?= all
+PROFILE ?= production
+
+IOS_WS  := Lunarr.xcworkspace
+TV_WS   := LunarrTV.xcworkspace
+IOS_APP := Lunarr
+TV_APP  := LunarrTV
+
+# Local production builds from source on this machine.
+#   make build-mobile-ios | build-mobile-android | build-tv-ios | build-tv-android
+.PHONY: build-mobile-ios build-tv-ios
+build-mobile-ios: ; cd $(MOBILE)/ios && xcodebuild -workspace $(IOS_WS) -scheme $(IOS_APP) -configuration Release -sdk iphoneos -derivedDataPath build/DerivedData build
+build-tv-ios: ; cd $(TV)/ios && xcodebuild -workspace $(TV_WS) -scheme $(TV_APP) -configuration Release -sdk appletvos -derivedDataPath build/DerivedData build
+
+.PHONY: build-mobile-android build-tv-android
+build-mobile-android: ; cd $(MOBILE)/android && ./gradlew assembleRelease
+build-tv-android: ; cd $(TV)/android && ./gradlew assembleRelease
+
+# Dev builds via Metro (installs to simulator/device).
+.PHONY: dev-mobile dev-tv
+dev-mobile: ; cd $(MOBILE) && $(BUN) run $(PLATFORM)
+dev-tv: ; cd $(TV) && EXPO_TV=1 $(BUN) run $(PLATFORM)
 
 # Regenerate native projects (prebuild) without building.
+.PHONY: prebuild-mobile prebuild-tv
 prebuild-mobile: ; cd $(MOBILE) && $(BUN) run prebuild
 prebuild-tv: ; cd $(TV) && EXPO_TV=1 $(BUN) run prebuild$(shell test "$(PLATFORM)" = "android" && echo ":android" || true)
 
-.PHONY: local-build-mobile local-build-tv
-local-build-mobile: ; cd $(MOBILE) && $(BUN) run $(PLATFORM) --no-install
-local-build-tv: ; cd $(TV) && EXPO_TV=1 $(BUN) run $(PLATFORM) --no-install
+# Submit a locally built artifact to the store.
+#   make submit-local-mobile PLATFORM=ios PATH=path/to/app.ipa
+#   make submit-local-mobile PLATFORM=android PATH=path/to/app.aab
+.PHONY: submit-local-mobile submit-local-tv
+submit-local-mobile: ; cd $(MOBILE) && $(EAS) submit --platform $(PLATFORM) --profile $(PROFILE) --path $(PATH)
+submit-local-tv: ; cd $(TV) && $(EAS) submit --platform $(PLATFORM) --profile $(PROFILE) --path $(PATH)
 
 ## ---------------------------------------------------------------- common
 
