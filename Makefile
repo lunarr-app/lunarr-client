@@ -46,6 +46,12 @@ help:
 	@echo "  make release-tv [PLATFORM=all]     build + auto-submit tv"
 	@echo "  make release                       build + auto-submit mobile and tv"
 	@echo ""
+	@echo "Local build / run (PLATFORM=ios|android)"
+	@echo "  make local-mobile [PLATFORM=ios]   prebuild + build + install mobile"
+	@echo "  make local-tv [PLATFORM=ios]       prebuild + build + install tv"
+	@echo "  make prebuild-mobile               regenerate native projects (mobile)"
+	@echo "  make prebuild-tv                   regenerate native projects (tv)"
+	@echo ""
 	@echo "Common"
 	@echo "  make install        bun install in mobile + tv"
 	@echo "  make clean          remove node_modules + ios/android in apps"
@@ -137,6 +143,21 @@ release: release-mobile release-tv
 .PHONY: build-all submit-all
 build-all: build-mobile build-tv
 submit-all: submit-mobile submit-tv
+
+## ---------------------------------------------------------------- local build / run
+
+# Local builds (from source, on your machine). PLATFORM=ios|android.
+.PHONY: local-mobile local-tv prebuild-mobile prebuild-tv
+local-mobile: ; cd $(MOBILE) && $(BUN) run $(PLATFORM)
+local-tv: ; cd $(TV) && $(BUN) run $(PLATFORM)
+
+# Regenerate native projects (prebuild) without building.
+prebuild-mobile: ; cd $(MOBILE) && $(BUN) run prebuild
+prebuild-tv: ; cd $(TV) && EXPO_TV=1 $(BUN) run prebuild$(shell test "$(PLATFORM)" = "android" && echo ":android" || true)
+
+.PHONY: local-build-mobile local-build-tv
+local-build-mobile: ; cd $(MOBILE) && $(BUN) run $(PLATFORM) --no-install
+local-build-tv: ; cd $(TV) && EXPO_TV=1 $(BUN) run $(PLATFORM) --no-install
 
 ## ---------------------------------------------------------------- common
 
