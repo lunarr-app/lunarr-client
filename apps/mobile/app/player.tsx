@@ -19,6 +19,7 @@ export default function PlayerScreen() {
     title: string;
     fileId?: string;
     startSeconds?: string;
+    artworkUrl?: string;
   }>();
 
   const [loading, setLoading] = useState(true);
@@ -164,6 +165,7 @@ export default function PlayerScreen() {
   return (
     <VideoPlayer
       title={params.title ?? playbackData.item.title}
+      artworkUri={params.artworkUrl}
       playback={playbackData.playback}
       startSeconds={playbackData.startSeconds}
       mediaItemId={playbackData.item.id}

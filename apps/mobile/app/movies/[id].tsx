@@ -81,6 +81,7 @@ export default function MovieDetailScreen() {
         title: movie?.title ?? "Movie",
         fileId: file.id,
         startSeconds: String(playbackStartSeconds(file.id, progressByFile)),
+        artworkUrl: posterUrl ?? backdropUrl ?? undefined,
       },
     });
   };

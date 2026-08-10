@@ -67,6 +67,7 @@ export default function ShowDetailScreen() {
         title: `${show?.title ?? "Show"} · ${episode.title}`,
         fileId: episode.fileId,
         startSeconds: String(episode.progressSeconds ?? 0),
+        artworkUrl: show?.posterUrl ?? show?.backdropUrl ?? undefined,
       },
     });
   };

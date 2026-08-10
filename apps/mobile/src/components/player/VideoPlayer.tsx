@@ -69,6 +69,7 @@ type PlayerState = {
 
 type Props = {
   title: string;
+  artworkUri?: string;
   playback: PlaybackDecision | null;
   startSeconds?: number;
   mediaItemId: string;
@@ -89,6 +90,7 @@ function getUiState(state: PlayerState): PlayerControlUiState {
 
 export function VideoPlayer({
   title,
+  artworkUri,
   playback,
   startSeconds = 0,
   mediaItemId,
@@ -633,6 +635,10 @@ export function VideoPlayer({
         ref={playerRef}
         style={styles.video}
         source={uri ? { url: uri, startPosition: toRelativeTime(startSeconds), autoplay: true } : undefined}
+        nowPlayingMetadata={{
+          title,
+          artworkUri,
+        }}
         onLoad={handleLoad}
         onPlaybackStateChange={handlePlaybackStateChange}
         onProgress={handleProgress}

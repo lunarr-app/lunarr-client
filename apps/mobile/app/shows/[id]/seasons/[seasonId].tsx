@@ -128,6 +128,7 @@ export default function SeasonDetailScreen() {
         title: `${show.title} · ${episode.title}`,
         fileId: episode.fileId,
         startSeconds: String(episode.progressSeconds ?? 0),
+        artworkUrl: show.posterUrl ?? show.backdropUrl ?? undefined,
       },
     });
   };

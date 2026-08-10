@@ -61,6 +61,7 @@ export default function EpisodeDetailScreen() {
         title: `${show?.title ?? "Show"} · ${episode?.title ?? "Episode"}`,
         fileId: file.id,
         startSeconds: String(playbackStartSeconds(file.id, progressByFile)),
+        artworkUrl: episode?.stillUrl ?? show?.backdropUrl ?? undefined,
       },
     });
   };
