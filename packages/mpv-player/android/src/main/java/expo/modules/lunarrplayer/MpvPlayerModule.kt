@@ -7,14 +7,6 @@ class MpvPlayerModule : Module() {
     override fun definition() = ModuleDefinition {
         Name("MpvPlayer")
 
-        // Defines event names that the module can send to JavaScript.
-        Events("onChange")
-
-        // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-        Function("hello") {
-            "Hello from MPV Player! 👋"
-        }
-
         // Whether this device can decode AV1. Android always advertises true:
         // mpv plays AV1 through its own decoder stack (dav1d via FFmpeg) with
         // vo=gpu, which handles 10-bit planar output natively and has never
@@ -22,12 +14,6 @@ class MpvPlayerModule : Module() {
         // an iOS/tvOS concern (see MpvPlayerModule.iOS).
         Function("supportsAv1HardwareDecode") {
             true
-        }
-
-        // Defines a JavaScript function that always returns a Promise and whose native code
-        // is by default dispatched on the different thread than the JavaScript runtime runs on.
-        AsyncFunction("setValueAsync") { value: String ->
-            sendEvent("onChange", mapOf("value" to value))
         }
 
         // Enables the module to be used as a native view.

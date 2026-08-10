@@ -6,14 +6,6 @@ public class MpvPlayerModule: Module {
   public func definition() -> ModuleDefinition {
     Name("MpvPlayer")
 
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
-
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      return "Hello from MPV Player! 👋"
-    }
-
     /// Whether this device has a hardware AV1 decoder.
     ///
     /// Apple silicon only gained AV1 decode with A17 Pro / M3, so no Apple TV
@@ -30,15 +22,6 @@ public class MpvPlayerModule: Module {
     /// means a future AV1-capable Apple TV keeps direct play automatically.
     Function("supportsAv1HardwareDecode") { () -> Bool in
       return VTIsHardwareDecodeSupported(kCMVideoCodecType_AV1)
-    }
-
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { (value: String) in
-      // Send an event to JavaScript.
-      self.sendEvent("onChange", [
-        "value": value
-      ])
     }
 
     // Enables the module to be used as a native view. Definition components that are accepted as part of the

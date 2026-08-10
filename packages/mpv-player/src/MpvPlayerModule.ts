@@ -1,10 +1,6 @@
 import { NativeModule, requireNativeModule } from "expo";
 
-import { MpvPlayerModuleEvents } from "./MpvPlayer.types";
-
-declare class MpvPlayerModule extends NativeModule<MpvPlayerModuleEvents> {
-  hello(): string;
-  setValueAsync(value: string): Promise<void>;
+declare class MpvPlayerModule extends NativeModule<Record<string, never>> {
   /**
    * Whether this device decodes AV1 without the tvOS `vo_avfoundation` stall.
    *

@@ -6,8 +6,6 @@ import { MpvPlayerViewProps, MpvPlayerViewRef } from "./MpvPlayer.types";
 
 const NativeView: React.ComponentType<MpvPlayerViewProps & { ref?: any }> = requireNativeView("MpvPlayer");
 
-const PIP_LOG = "[PiP] MpvPlayerView.tsx:";
-
 export default React.forwardRef<MpvPlayerViewRef, MpvPlayerViewProps>(function MpvPlayerView(props, ref) {
   const nativeRef = useRef<any>(null);
 
@@ -43,24 +41,16 @@ export default React.forwardRef<MpvPlayerViewRef, MpvPlayerViewProps>(function M
       return await nativeRef.current?.getDuration();
     },
     startPictureInPicture: async () => {
-      console.log(PIP_LOG, "startPictureInPicture → native");
       await nativeRef.current?.startPictureInPicture();
-      console.log(PIP_LOG, "startPictureInPicture ← native returned");
     },
     stopPictureInPicture: async () => {
-      console.log(PIP_LOG, "stopPictureInPicture → native");
       await nativeRef.current?.stopPictureInPicture();
-      console.log(PIP_LOG, "stopPictureInPicture ← native returned");
     },
     isPictureInPictureSupported: async () => {
-      const result = await nativeRef.current?.isPictureInPictureSupported();
-      console.log(PIP_LOG, "isPictureInPictureSupported =", result);
-      return result;
+      return await nativeRef.current?.isPictureInPictureSupported();
     },
     isPictureInPictureActive: async () => {
-      const result = await nativeRef.current?.isPictureInPictureActive();
-      console.log(PIP_LOG, "isPictureInPictureActive =", result);
-      return result;
+      return await nativeRef.current?.isPictureInPictureActive();
     },
     getSubtitleTracks: async () => {
       return await nativeRef.current?.getSubtitleTracks();
