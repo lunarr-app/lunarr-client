@@ -1,6 +1,6 @@
 {
   "name": "@lunarr/mpv-player",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "description": "mpv-based video player for Lunarr (Expo module, iOS + Android + tvOS)",
   "main": "index.ts",
   "types": "index.ts",
