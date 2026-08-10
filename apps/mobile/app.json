@@ -15,7 +15,9 @@
           "NSAllowsArbitraryLoads": true,
           "NSAllowsLocalNetworking": true
         },
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCameraUsageDescription": "Lunarr's video playback engine (libmpv/FFmpeg) links against the camera framework for input device support, but Lunarr itself never accesses your camera.",
+        "NSMicrophoneUsageDescription": "Lunarr's video playback engine (libmpv/FFmpeg) links against the microphone framework for input device support, but Lunarr itself never accesses your microphone."
       }
     },
     "android": {
