@@ -1019,12 +1019,21 @@ class MPVLayerRenderer(private val context: Context) : MPVLib.EventObserver {
                 }
             }
             MPVLib.MPV_EVENT_END_FILE -> {
+                // A seek that never issues a PLAYBACK_RESTART (e.g. seek-to-EOF,
+                // cancelled seek) would otherwise leave _isSeeking stuck true and
+                // bypass the progress throttle forever. Clear it on any file-end.
+                _isSeeking = false
                 // Genuine end-of-file is surfaced via the "eof-reached"
                 // property change (see eventProperty overloads), which is
                 // unambiguous. END_FILE is also emitted for
                 // MPV_END_FILE_REASON_STOP during load()'s pre-load "stop"
                 // and during teardown, so we never fire onEnded() from here.
                 Log.i(TAG, "END_FILE event")
+            }
+            MPVLib.MPV_EVENT_START_FILE -> {
+                // A new load starts; reset any stale seek flag so a previous
+                // in-flight seek that never restarted doesn't keep the throttle off.
+                _isSeeking = false
             }
             MPVLib.MPV_EVENT_SHUTDOWN -> {
                 Log.w(TAG, "MPV shutdown")

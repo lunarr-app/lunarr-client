@@ -161,6 +161,10 @@ final class MPVLayerRenderer {
     /// This KVO observer detects when the display layer status becomes `.failed`
     /// and automatically reinitializes the hardware decoder to restore video.
     private func observeDisplayLayerStatus() {
+        // start() can be called again after a destroy()/reload, which would
+        // re-arm this observer. Invalidate any prior observation first so we
+        // never stack duplicate KVO observers on the display layer.
+        statusObservation?.invalidate()
         statusObservation = displayLayer.observe(\.status, options: [.new]) { [weak self] layer, _ in
             guard let self else { return }
             
@@ -284,9 +288,13 @@ final class MPVLayerRenderer {
             let instance = Unmanaged<MPVLayerRenderer>.fromOpaque(ctx).takeUnretainedValue()
             instance.processEvents()
         }, Unmanaged.passUnretained(self).toOpaque())
+        // Re-arm the display-layer watchdog. stop() invalidates statusObservation,
+        // so a renderer recreated via destroy()/reload would otherwise lose decoder
+        // auto-recovery (black-screen/PiP fix) for the rest of its life.
+        observeDisplayLayerStatus()
         isRunning = true
     }
-    
+
     func stop() {
         if isStopping { return }
         if !isRunning, mpv == nil { return }
@@ -623,6 +631,11 @@ final class MPVLayerRenderer {
             // Detect HDR mode for tvOS display switching
             detectHDRMode()
 
+        case MPV_EVENT_START_FILE:
+            // A new load starts; reset any stale seek flag so a previous
+            // in-flight seek that never restarted doesn't keep the throttle off.
+            isSeeking = false
+
         case MPV_EVENT_SEEK:
             // Seek started - show loading indicator and enable immediate progress updates
             isSeeking = true
@@ -645,6 +658,10 @@ final class MPVLayerRenderer {
                 }
             }
         case MPV_EVENT_END_FILE:
+            // A seek that never issues a PLAYBACK_RESTART (e.g. seek-to-EOF,
+            // cancelled seek) would otherwise leave isSeeking stuck true and
+            // bypass the progress throttle forever. Clear it on any file-end.
+            isSeeking = false
             // Only a real EOF counts as "playback ended". The other reasons
             // (stop, quit, error, redirect) fire during teardown and stream
             // replacement, where an end event would incorrectly trigger the

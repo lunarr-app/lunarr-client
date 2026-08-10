@@ -503,7 +503,7 @@ export function VideoPlayer({
   };
 
   const handleProgress = (event: { nativeEvent: { position: number; duration: number; cacheSeconds: number } }) => {
-    const { position, duration, cacheSeconds } = event.nativeEvent;
+    const { position, duration } = event.nativeEvent;
     playbackRateRef.current = 1;
     const absoluteTime = toAbsoluteTime(Math.floor(position));
     const current = stateRef.current;
@@ -565,10 +565,6 @@ export function VideoPlayer({
     }
     if (timeChanged) {
       onProgressRef.current?.(absoluteTime, nextDuration, { ended: current.ended });
-    }
-
-    if (cacheSeconds > 1 && playbackRateRef.current === 0 && absoluteTime > 0) {
-      clearBufferingUi();
     }
   };
 
