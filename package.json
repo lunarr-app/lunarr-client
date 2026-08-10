@@ -16,6 +16,9 @@
     "tv:ios": "pnpm --filter lunarr-tv ios",
     "tv:android": "pnpm --filter lunarr-tv android",
     "tv:format": "pnpm --filter lunarr-tv format",
-    "tv:typecheck": "pnpm --filter lunarr-tv typecheck"
+    "tv:typecheck": "pnpm --filter lunarr-tv typecheck",
+    "release": "pnpm release:mobile && pnpm release:tv",
+    "release:mobile": "cd apps/mobile && eas build --platform all --profile production --auto-submit",
+    "release:tv": "cd apps/tv && EXPO_TV=1 eas build --platform all --profile production --auto-submit"
   }
 }
