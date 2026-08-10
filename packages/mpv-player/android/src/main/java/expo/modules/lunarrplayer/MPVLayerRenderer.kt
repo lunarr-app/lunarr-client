@@ -732,6 +732,12 @@ class MPVLayerRenderer(private val context: Context) : MPVLib.EventObserver {
         return mpv?.getPropertyInt("aid") ?: 0
     }
 
+    /// Accessibility mono downmix: collapses all channels to a single one so
+    /// both ears hear the full mix. "auto-safe" is mpv's default layout pick.
+    fun setMonoDownmix(enabled: Boolean) {
+        mpv?.setPropertyString("audio-channels", if (enabled) "mono" else "auto-safe")
+    }
+
     // MARK: - Video Scaling
 
     fun setZoomedToFill(zoomed: Boolean) {
