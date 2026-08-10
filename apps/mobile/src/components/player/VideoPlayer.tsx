@@ -353,14 +353,14 @@ export function VideoPlayer({
     const current = stateRef.current;
     if (!current) return;
     if (current.ended) {
-      setState({ play: true, ended: false });
+      setState({ play: true, ended: false, uiState: "playing" });
       void playerRef.current?.seekTo(0);
       void playerRef.current?.play();
     } else if (current.play) {
-      setState({ play: false });
+      setState({ play: false, uiState: "paused" });
       void playerRef.current?.pause();
     } else {
-      setState({ play: true, ended: false, error: null });
+      setState({ play: true, ended: false, error: null, uiState: "playing" });
       void playerRef.current?.play();
     }
     if (!options?.keepControlsHidden) {
