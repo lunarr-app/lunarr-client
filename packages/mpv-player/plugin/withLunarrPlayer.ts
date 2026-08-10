@@ -1,4 +1,7 @@
-import { type ConfigPlugin, withInfoPlist, withPodfile } from "expo/config-plugins";
+import { type ConfigPlugin, withGradleProperties, withInfoPlist, withPodfile } from "expo/config-plugins";
+
+/** NDK version required by libmpv 1.0.0 (dev.jdtech.mpv). */
+const MPV_NDK_VERSION = "29.0.14206865";
 
 const MPVKIT_POD_NAME = "MPVKit";
 const MPVKIT_PODSPEC_URL =
@@ -18,7 +21,10 @@ interface LunarrPlayerOptions {
  *   link libmpv, and (optionally) enables the `audio` background mode which
  *   Picture-in-Picture requires.
  * - Android: libmpv is pulled from Maven Central via the module's
- *   build.gradle, so no extra setup is required here.
+ *   build.gradle. The NDK version is pinned here too: the default Expo NDK
+ *   (27, clang 18) bundles a libc++_shared.so too old to satisfy libmpv.so's
+ *   undefined __from_chars_floating_point symbol, crashing on load with
+ *   UnsatisfiedLinkError. NDK 29 (clang 21) provides the matching libc++.
  */
 const withLunarrPlayer: ConfigPlugin<LunarrPlayerOptions | undefined> = (config, options) => {
   const podName = options?.podName ?? MPVKIT_POD_NAME;
@@ -26,6 +32,22 @@ const withLunarrPlayer: ConfigPlugin<LunarrPlayerOptions | undefined> = (config,
   const enablePictureInPicture = options?.enablePictureInPicture ?? true;
 
   let nextConfig = config;
+
+  nextConfig = withGradleProperties(nextConfig, (config) => {
+    const props = config.modResults;
+    const keyIdx = props.findIndex(
+      (item) => item.type === "property" && item.key === "ndkVersion",
+    );
+    const property = { type: "property" as const, key: "ndkVersion", value: MPV_NDK_VERSION };
+
+    if (keyIdx >= 0) {
+      props.splice(keyIdx, 1, property);
+    } else {
+      props.push(property);
+    }
+
+    return config;
+  });
 
   nextConfig = withPodfile(nextConfig, (config) => {
     const podfile = config.modResults.contents;
