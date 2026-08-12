@@ -14,6 +14,7 @@ import { LinearGradient } from "react-native-linear-gradient";
 import { QrCodeSvg } from "react-native-qr-svg";
 
 import { Button } from "@/src/components/ui/Button";
+import { PresetChipRow } from "@/src/components/ui/PresetChipRow";
 import { TextField } from "@/src/components/ui/TextField";
 import { darkColors } from "@/src/theme/colors";
 import { normalizeBaseUrl } from "@lunarr/api";
@@ -26,6 +27,7 @@ import { tvCardWidth, tvFontSize, tvSize, useTVScale } from "@/src/theme/tv-scal
 import { typography } from "@/src/theme/typography";
 
 type Phase = "idle" | "starting" | "waiting" | "connecting";
+type ConnectMode = "pair" | "apiKey";
 
 function defaultDeviceName() {
   const appName = Constants.expoConfig?.name ?? "Lunarr";
@@ -34,8 +36,11 @@ function defaultDeviceName() {
 }
 
 export default function TvConnectScreen() {
-  const { connect, serverUrl: savedServerUrl } = useAuth();
+  const { connect, serverUrl: savedServerUrl, apiKey: savedApiKey } = useAuth();
   const [serverUrl, setServerUrl] = useState(savedServerUrl);
+  const [apiKey, setApiKey] = useState(savedApiKey);
+  const [mode, setMode] = useState<ConnectMode>("pair");
+  const [connecting, setConnecting] = useState(false);
   const [phase, setPhase] = useState<Phase>("idle");
   const [session, setSession] = useState<DevicePairingStartResponse | null>(null);
   const [error, setError] = useState("");
@@ -107,6 +112,23 @@ export default function TvConnectScreen() {
     }
   };
 
+  const onConnect = async () => {
+    const normalizedUrl = normalizeBaseUrl(serverUrl);
+    if (!normalizedUrl) {
+      setError("Enter your Lunarr server URL");
+      return;
+    }
+    setError("");
+    setConnecting(true);
+    try {
+      await checkServerHealth(normalizedUrl);
+      await connect(normalizedUrl, apiKey);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Connection failed");
+    }
+    setConnecting(false);
+  };
+
   const cardWidth = tvCardWidth(scale);
   const allowFontScaling = Platform.isTVOS;
 
@@ -150,29 +172,103 @@ export default function TvConnectScreen() {
             >
               Connect to Lunarr
             </Text>
-            <Text
-              style={[
-                styles.help,
-                {
-                  fontSize: tvFontSize(typography.fontSize.body, scale),
-                  lineHeight: tvSize(typography.lineHeight.relaxed, scale),
-                },
+            <PresetChipRow<ConnectMode>
+              value={mode}
+              options={[
+                { value: "pair", label: "Pair device" },
+                { value: "apiKey", label: "API key" },
               ]}
-              allowFontScaling={allowFontScaling}
-            >
-              Enter your server URL, then approve this device in Lunarr web under Profile → Devices.
-            </Text>
-            <TextField
-              label="Server URL"
-              value={serverUrl}
-              onChangeText={setServerUrl}
-              placeholder="https://lunarr.example.com"
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="url"
-              scale={scale}
-              allowFontScaling={allowFontScaling}
+              onValueChange={(next) => {
+                setMode(next);
+                setError("");
+              }}
+              style={styles.modeSwitch}
             />
+            {mode === "pair" ? (
+              <>
+                <Text
+                  style={[
+                    styles.help,
+                    {
+                      fontSize: tvFontSize(typography.fontSize.body, scale),
+                      lineHeight: tvSize(typography.lineHeight.relaxed, scale),
+                    },
+                  ]}
+                  allowFontScaling={allowFontScaling}
+                >
+                  Enter your server URL, then approve this device in Lunarr web under Profile → Devices.
+                </Text>
+                <TextField
+                  label="Server URL"
+                  value={serverUrl}
+                  onChangeText={setServerUrl}
+                  placeholder="https://lunarr.example.com"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="url"
+                  scale={scale}
+                  allowFontScaling={allowFontScaling}
+                />
+                <Button
+                  mode="contained"
+                  onPress={() => void startPairing()}
+                  block
+                  scale={scale}
+                  allowFontScaling={allowFontScaling}
+                  disabled={!serverUrl.trim()}
+                >
+                  Pair this device
+                </Button>
+              </>
+            ) : (
+              <>
+                <Text
+                  style={[
+                    styles.help,
+                    {
+                      fontSize: tvFontSize(typography.fontSize.body, scale),
+                      lineHeight: tvSize(typography.lineHeight.relaxed, scale),
+                    },
+                  ]}
+                  allowFontScaling={allowFontScaling}
+                >
+                  Enter your server URL and a personal API key from Lunarr web Profile → API Keys.
+                </Text>
+                <TextField
+                  label="Server URL"
+                  value={serverUrl}
+                  onChangeText={setServerUrl}
+                  placeholder="https://lunarr.example.com"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="url"
+                  scale={scale}
+                  allowFontScaling={allowFontScaling}
+                />
+                <TextField
+                  label="API key"
+                  value={apiKey}
+                  onChangeText={setApiKey}
+                  placeholder="lunarr_..."
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  secureTextEntry
+                  scale={scale}
+                  allowFontScaling={allowFontScaling}
+                />
+                <Button
+                  mode="contained"
+                  onPress={() => void onConnect()}
+                  loading={connecting}
+                  disabled={connecting || !serverUrl.trim() || !apiKey.trim()}
+                  block
+                  scale={scale}
+                  allowFontScaling={allowFontScaling}
+                >
+                  Connect
+                </Button>
+              </>
+            )}
             {error ? (
               <Text
                 style={[styles.error, { fontSize: tvFontSize(typography.fontSize.body, scale) }]}
@@ -181,15 +277,6 @@ export default function TvConnectScreen() {
                 {error}
               </Text>
             ) : null}
-            <Button
-              mode="contained"
-              onPress={() => void startPairing()}
-              block
-              scale={scale}
-              allowFontScaling={allowFontScaling}
-            >
-              Pair this device
-            </Button>
           </View>
         ) : phase === "starting" ? (
           <View style={[styles.card, cardStyle]}>
@@ -258,6 +345,9 @@ const styles = StyleSheet.create({
     backgroundColor: darkColors.surface,
     borderColor: darkColors.border,
     alignItems: "center",
+  },
+  modeSwitch: {
+    alignSelf: "stretch",
   },
   title: {
     color: darkColors.text,

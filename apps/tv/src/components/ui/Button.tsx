@@ -42,7 +42,7 @@ export function Button({
   const baseSizeStyle = { minHeight: (compact ? 48 : 64) * scale, borderRadius: radii.control * scale };
   const contentSizeStyle = {
     paddingHorizontal: (compact ? spacing.lg : spacing.xl) * scale,
-    paddingVertical: spacing.sm * scale,
+    paddingVertical: (compact ? spacing.xs : spacing.sm) * scale,
   };
   const labelSizeStyle = { fontSize: labelFontSize, lineHeight: labelFontSize * 1.25 };
 
@@ -103,6 +103,8 @@ const styles = StyleSheet.create({
   },
   contained: {
     backgroundColor: darkColors.accentStrong,
+    borderWidth: 2,
+    borderColor: darkColors.accentStrong,
   },
   outlined: {
     backgroundColor: darkColors.surfaceStrong,
