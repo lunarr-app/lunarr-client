@@ -14,3 +14,6 @@ nodeLinker: hoisted
 # app uses the real packages and lists them as explicit dependencies, so they
 # are installed there regardless.
 autoInstallPeers: false
+
+minimumReleaseAgeExclude:
+  - '@lunarr/mpv-player@1.1.0'

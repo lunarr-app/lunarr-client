@@ -20,8 +20,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/core
       '@lunarr/mpv-player':
-        specifier: workspace:*
-        version: link:../../packages/mpv-player
+        specifier: 1.1.0
+        version: 1.1.0(expo@57.0.11)(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
       '@react-native-community/slider':
         specifier: 5.2.0
         version: 5.2.0
@@ -120,8 +120,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/core
       '@lunarr/mpv-player':
-        specifier: workspace:*
-        version: link:../../packages/mpv-player
+        specifier: 1.1.0
+        version: 1.1.0(expo@57.0.11)(react-native-tvos@0.86.0-2)(react@19.2.3)
       '@tanstack/react-query':
         specifier: 5.101.4
         version: 5.101.4(react@19.2.3)
@@ -219,30 +219,6 @@ importers:
       expo-router:
         specifier: ~57.0.11
         version: 57.0.11(0f00c9bc7ae105cdd306785457a62c9c)
-      react:
-        specifier: 19.2.3
-        version: 19.2.3
-      react-native:
-        specifier: 0.86.2
-        version: 0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
-      typescript:
-        specifier: ~6.0.3
-        version: 6.0.3
-
-  packages/mpv-player:
-    devDependencies:
-      '@types/node':
-        specifier: 22.20.1
-        version: 22.20.1
-      '@types/react':
-        specifier: ~19.2.18
-        version: 19.2.18
-      expo:
-        specifier: ~57.0.11
-        version: 57.0.11(@babel/core@7.29.7(supports-color@8.1.1))(@expo/metro-runtime@57.0.8)(expo-router@57.0.11)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native-worklets@0.10.1(@babel/core@7.29.7(supports-color@8.1.1))(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1))(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1)(typescript@6.0.3)
-      expo-modules-core:
-        specifier: ~57.0.10
-        version: 57.0.10(react-native-worklets@0.10.1(@babel/core@7.29.7(supports-color@8.1.1))(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1))(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -885,6 +861,13 @@ packages:
     resolution: {integrity: sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==}
     engines: {node: '>=8'}
 
+  '@lunarr/mpv-player@1.1.0':
+    resolution: {integrity: sha512-crk0k6ozvmwker9cIYzcTHq7sB5FdLNBwTM9EfJ03WbevoxX3GNb6vDfEL/GX3Qm+3Uzt3Sm3G8qefgTrYWx5A==}
+    peerDependencies:
+      expo: '*'
+      react: '*'
+      react-native: '*'
+
   '@radix-ui/primitive@1.1.7':
     resolution: {integrity: sha512-rqWnm76nYT8HoNNqEjpgJ7Pw/DrBj5iBTrmEPo6HTX5+VJyBNOqTdv4g89G63HuR5g0AaENoAcH7Is5fF2kZ8Q==}
 
@@ -1268,9 +1251,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/node@22.20.1':
-    resolution: {integrity: sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q==}
 
   '@types/node@26.2.0':
     resolution: {integrity: sha512-5IviulTZeRNp2vAJ514cc/HUlY5nZ9fCbq9DMyC52BrhFZACo3nI0R7qBxhQmo/d27NFe96ur/b7Wwxklda+kg==}
@@ -3177,9 +3157,6 @@ packages:
     resolution: {integrity: sha512-LbBDqdIC5s8iROCUjMbW1f5dJQTEFB1+KO9ogbvlb3nm9n4YHa5p4KTvFPWvh2Hs8gZMBuiB1/8+pdfe/tDPug==}
     hasBin: true
 
-  undici-types@6.21.0:
-    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
-
   undici-types@8.3.0:
     resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
@@ -4455,6 +4432,18 @@ snapshots:
 
   '@lukeed/ms@2.0.2': {}
 
+  '@lunarr/mpv-player@1.1.0(expo@57.0.11)(react-native-tvos@0.86.0-2)(react@19.2.3)':
+    dependencies:
+      expo: 57.0.11(@babel/core@7.29.7(supports-color@8.1.1))(@expo/metro-runtime@57.0.8)(expo-router@57.0.11)(react-dom@19.2.3(react@19.2.3))(react-native-tvos@0.86.0-2)(react-native-web@0.21.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native-worklets@0.10.1(@babel/core@7.29.7(supports-color@8.1.1))(react-native-tvos@0.86.0-2)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1)(typescript@6.0.3)
+      react: 19.2.3
+      react-native: react-native-tvos@0.86.0-2(@types/react@19.2.18)(react-native-tvos@0.86.0-2)(react@19.2.3)(supports-color@8.1.1)
+
+  '@lunarr/mpv-player@1.1.0(expo@57.0.11)(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)':
+    dependencies:
+      expo: 57.0.11(@babel/core@7.29.7(supports-color@8.1.1))(@expo/metro-runtime@57.0.8)(expo-router@57.0.11)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native-worklets@0.10.1(@babel/core@7.29.7(supports-color@8.1.1))(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1))(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1)(typescript@6.0.3)
+      react: 19.2.3
+      react-native: 0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1)
+
   '@radix-ui/primitive@1.1.7': {}
 
   '@radix-ui/react-collection@1.1.15(@types/react@19.2.18)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
@@ -4846,10 +4835,6 @@ snapshots:
       '@types/istanbul-lib-report': 3.0.3
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/node@22.20.1':
-    dependencies:
-      undici-types: 6.21.0
 
   '@types/node@26.2.0':
     dependencies:
@@ -7142,8 +7127,6 @@ snapshots:
   typescript@6.0.3: {}
 
   ua-parser-js@1.0.41: {}
-
-  undici-types@6.21.0: {}
 
   undici-types@8.3.0: {}
 
