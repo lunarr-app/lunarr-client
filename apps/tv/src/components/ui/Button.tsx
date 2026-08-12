@@ -17,8 +17,6 @@ type Props = {
   block?: boolean;
   loading?: boolean;
   disabled?: boolean;
-  /** @deprecated Button now scales itself via useTVScale(); prop kept for compatibility. */
-  scale?: number;
   allowFontScaling?: boolean;
 };
 
@@ -30,7 +28,6 @@ export function Button({
   block = false,
   loading = false,
   disabled = false,
-  scale: _scale,
   allowFontScaling = true,
 }: Props) {
   const isDisabled = disabled || loading;

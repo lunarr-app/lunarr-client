@@ -206,14 +206,12 @@ export default function TvConnectScreen() {
                   autoCapitalize="none"
                   autoCorrect={false}
                   keyboardType="url"
-                  scale={scale}
                   allowFontScaling={allowFontScaling}
                 />
                 <Button
                   mode="contained"
                   onPress={() => void startPairing()}
                   block
-                  scale={scale}
                   allowFontScaling={allowFontScaling}
                   disabled={!serverUrl.trim()}
                 >
@@ -242,7 +240,6 @@ export default function TvConnectScreen() {
                   autoCapitalize="none"
                   autoCorrect={false}
                   keyboardType="url"
-                  scale={scale}
                   allowFontScaling={allowFontScaling}
                 />
                 <TextField
@@ -253,7 +250,6 @@ export default function TvConnectScreen() {
                   autoCapitalize="none"
                   autoCorrect={false}
                   secureTextEntry
-                  scale={scale}
                   allowFontScaling={allowFontScaling}
                 />
                 <Button
@@ -262,7 +258,6 @@ export default function TvConnectScreen() {
                   loading={connecting}
                   disabled={connecting || !serverUrl.trim() || !apiKey.trim()}
                   block
-                  scale={scale}
                   allowFontScaling={allowFontScaling}
                 >
                   Connect
@@ -322,7 +317,7 @@ export default function TvConnectScreen() {
             >
               Approve this code in Lunarr web under Profile → Devices before it expires.
             </Text>
-            <Button mode="outlined" onPress={cancel} block scale={scale} allowFontScaling={allowFontScaling}>
+            <Button mode="outlined" onPress={cancel} block allowFontScaling={allowFontScaling}>
               Cancel
             </Button>
           </View>

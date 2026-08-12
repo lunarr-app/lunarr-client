@@ -20,8 +20,6 @@ type Props = Omit<TextInputProps, "style"> & {
   label?: string;
   containerStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<ViewStyle>;
-  /** @deprecated TextField now scales itself via useTVScale(); prop kept for compatibility. */
-  scale?: number;
   allowFontScaling?: boolean;
 };
 
@@ -29,7 +27,6 @@ export function TextField({
   label,
   containerStyle,
   style,
-  scale: _scale,
   allowFontScaling = true,
   placeholderTextColor = darkColors.muted,
   onFocus,
