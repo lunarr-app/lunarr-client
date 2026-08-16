@@ -1,15 +1,14 @@
 import { getApiConfig, normalizeBaseUrl } from "@lunarr/api";
-import { getPlayback, type PlaybackDataResponse, type PlaybackSegment, type SegmentSkipPreferences } from "@lunarr/api";
+import {
+  getPlayback,
+  type AudioTrack,
+  type PlaybackDataResponse,
+  type PlaybackSegment,
+  type SegmentSkipPreferences,
+  type SubtitleTrack,
+} from "@lunarr/api";
 import { readApiError } from "@lunarr/api";
 import { clientPlaybackCapabilities, maybeNativePlaybackTarget } from "./capabilities";
-
-export type PlaybackSubtitleTrack = {
-  id: string;
-  label: string;
-  language: string;
-  src: string;
-  default: boolean;
-};
 
 export const DEFAULT_SEGMENT_SKIP_PREFERENCES: SegmentSkipPreferences = {
   enabled: true,
@@ -27,7 +26,8 @@ export type PlaybackDecision = {
   durationSeconds: number | null;
   message: string | null;
   mediaFileId: string | null;
-  tracks: PlaybackSubtitleTrack[];
+  tracks: SubtitleTrack[];
+  audioTracks: AudioTrack[];
 };
 
 export type PlaybackData = {
@@ -58,16 +58,6 @@ export function readPlaybackPreference(
   return undefined;
 }
 
-function parseSubtitleTracks(tracks: PlaybackDataResponse["playback"]["tracks"]): PlaybackSubtitleTrack[] {
-  return tracks.map((track) => ({
-    id: track.id,
-    label: track.label,
-    language: track.language,
-    src: track.src,
-    default: track.default,
-  }));
-}
-
 function parsePlaybackPayload(payload: PlaybackDataResponse): PlaybackData {
   const { item, playback } = payload;
   return {
@@ -88,7 +78,8 @@ function parsePlaybackPayload(payload: PlaybackDataResponse): PlaybackData {
           : null,
       message: playback.message,
       mediaFileId: playback.file.id,
-      tracks: parseSubtitleTracks(playback.tracks),
+      tracks: playback.tracks,
+      audioTracks: playback.audioTracks ?? [],
     },
     startSeconds: Math.max(0, Math.floor(payload.startSeconds)),
     segments: payload.segments,
@@ -194,7 +185,7 @@ export function resolvePlayableUri(playback: PlaybackDecision): string {
   return resolveSignedMediaUri(playback.streamUrl);
 }
 
-export function resolveSubtitleUri(track: PlaybackSubtitleTrack): string {
+export function resolveSubtitleUri(track: SubtitleTrack): string {
   if (!track.src) {
     throw new Error("Missing subtitle URL");
   }

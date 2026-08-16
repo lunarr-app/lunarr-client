@@ -780,6 +780,15 @@ export type SubtitleTrack = {
     default: boolean;
 };
 
+export type AudioTrack = {
+    id: number;
+    label: string;
+    language: string;
+    channels: number | null;
+    codec: string;
+    default: boolean;
+};
+
 export type PlayableFileSummary = {
     id: string;
     basename: string;
@@ -809,6 +818,7 @@ export type PlaybackDecision = {
     streamUrl: string | null;
     streamStartSeconds: number;
     tracks: Array<SubtitleTrack>;
+    audioTracks?: Array<AudioTrack>;
     message: string | null;
 };
 

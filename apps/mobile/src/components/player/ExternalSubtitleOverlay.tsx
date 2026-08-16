@@ -1,4 +1,5 @@
-import { resolveMediaUri, type PlaybackSubtitleTrack } from "@lunarr/core";
+import { resolveMediaUri } from "@lunarr/core";
+import type { SubtitleTrack } from "@lunarr/api";
 import {
   createSubtitleIndex,
   parseSubtitleDocument,
@@ -11,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 type Props = {
-  track: PlaybackSubtitleTrack | null;
+  track: SubtitleTrack | null;
   currentTimeSeconds: number;
   controlsVisible?: boolean;
 };

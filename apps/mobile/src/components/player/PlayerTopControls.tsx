@@ -1,8 +1,8 @@
-import { type PlaybackSubtitleTrack } from "@lunarr/core";
+import { type AudioTrack, type SubtitleTrack } from "@lunarr/api";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
 import { typography } from "@/src/theme/typography";
-import { Captions, Ratio } from "lucide-react-native";
+import { AudioLines, Captions, Ratio } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 export type PlayerContentFit = "contain" | "cover";
@@ -17,11 +17,16 @@ const playerTheme = {
 };
 
 type Props = {
-  subtitleTracks: PlaybackSubtitleTrack[];
+  subtitleTracks: SubtitleTrack[];
   selectedSubtitleId: string;
   subtitleMenuOpen: boolean;
   onToggleSubtitleMenu: () => void;
   onSubtitleSelect: (id: string) => void;
+  audioTracks: AudioTrack[];
+  selectedAudioId: number | null;
+  audioMenuOpen: boolean;
+  onToggleAudioMenu: () => void;
+  onAudioSelect: (id: number) => void;
   contentFit: PlayerContentFit;
   contentFitLabel: string;
   onCycleContentFit: () => void;
@@ -33,6 +38,11 @@ export function PlayerTopControls({
   subtitleMenuOpen,
   onToggleSubtitleMenu,
   onSubtitleSelect,
+  audioTracks,
+  selectedAudioId,
+  audioMenuOpen,
+  onToggleAudioMenu,
+  onAudioSelect,
   contentFit,
   contentFitLabel,
   onCycleContentFit,
@@ -83,6 +93,39 @@ export function PlayerTopControls({
                   accessibilityState={{
                     selected: selectedSubtitleId === track.id,
                   }}
+                >
+                  <Text style={styles.subtitleOptionText}>{track.label}</Text>
+                </Pressable>
+              ))}
+            </View>
+          ) : null}
+        </View>
+      ) : null}
+
+      {audioTracks.length > 1 ? (
+        <View style={styles.subtitleControl}>
+          <Pressable
+            onPress={onToggleAudioMenu}
+            style={({ pressed }) => [styles.controlButton, pressed && styles.controlPressed]}
+            accessibilityRole="button"
+            accessibilityLabel="Audio track"
+            accessibilityState={{ expanded: audioMenuOpen }}
+          >
+            <AudioLines color={playerTheme.text} size={20} />
+          </Pressable>
+          {audioMenuOpen ? (
+            <View style={styles.subtitleMenu}>
+              {audioTracks.map((track) => (
+                <Pressable
+                  key={track.id}
+                  onPress={() => onAudioSelect(track.id)}
+                  style={({ pressed }) => [
+                    styles.subtitleOption,
+                    selectedAudioId === track.id && styles.subtitleOptionActive,
+                    pressed && styles.controlPressed,
+                  ]}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: selectedAudioId === track.id }}
                 >
                   <Text style={styles.subtitleOptionText}>{track.label}</Text>
                 </Pressable>

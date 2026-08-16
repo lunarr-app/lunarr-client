@@ -2,7 +2,7 @@ import { darkColors } from "@/src/theme/colors";
 import { radii, spacing, tvSafe } from "@/src/theme/spacing";
 import { useTVScale } from "@/src/theme/tv-scale";
 import { typography } from "@/src/theme/typography";
-import { Pause, Play, Ratio, Subtitles } from "lucide-react-native";
+import { AudioLines, Pause, Play, Ratio, Subtitles } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, TVFocusGuideView, View } from "react-native";
 
 import { TvSlider } from "./TvSlider";
@@ -21,6 +21,8 @@ type Props = {
   hasSubtitles: boolean;
   subtitlesActive: boolean;
   onToggleSubtitleMenu: () => void;
+  hasAudio: boolean;
+  onToggleAudioMenu: () => void;
   zoomLabel: string;
   zoomActive: boolean;
   onCycleZoom: () => void;
@@ -39,6 +41,8 @@ export function TvPlayerControls({
   hasSubtitles,
   subtitlesActive,
   onToggleSubtitleMenu,
+  hasAudio,
+  onToggleAudioMenu,
   zoomLabel,
   zoomActive,
   onCycleZoom,
@@ -114,6 +118,18 @@ export function TvPlayerControls({
               accessibilityLabel="Subtitles"
             >
               <Subtitles color={subtitlesActive ? darkColors.accent : darkColors.text} size={toolIconSize} />
+            </Pressable>
+          ) : null}
+
+          {hasAudio ? (
+            <Pressable
+              onPress={onToggleAudioMenu}
+              focusable
+              style={({ focused }) => [styles.controlButton, controlButtonStyle, focused && styles.controlFocused]}
+              accessibilityRole="button"
+              accessibilityLabel="Audio track"
+            >
+              <AudioLines color={darkColors.text} size={toolIconSize} />
             </Pressable>
           ) : null}
 

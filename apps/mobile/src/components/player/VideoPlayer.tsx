@@ -25,6 +25,7 @@ import {
   resolveMediaUri,
   shouldShowCustomControls,
   uiStateAfterSeek,
+  useAudioSelection,
   usePlaybackSession,
   type PlaybackDecision,
   type PlayerControlUiState,
@@ -116,6 +117,8 @@ export function VideoPlayer({
   const seekSettleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [controlsActivityTick, setControlsActivityTick] = useState(0);
   const subtitleTracks = playback?.tracks ?? [];
+  const audioTracks = playback?.audioTracks ?? [];
+  const isDirectPlay = playback?.mode === "direct";
   const [selectedSubtitleId, setSelectedSubtitleId] = useState(() =>
     subtitleTracks.length > 0 ? (subtitleTracks.find((track) => track.default)?.id ?? "off") : "off",
   );
@@ -269,6 +272,17 @@ export function VideoPlayer({
     setControlsActivityTick((tick) => (Number.isFinite(tick) ? tick + 1 : 1));
   };
 
+  const { selectedAudioId, audioMenuOpen, setAudioMenuOpen, handleAudioSelect, applyDefaultAudioSelection } =
+    useAudioSelection({
+      audioTracks: isDirectPlay ? audioTracks : [],
+      resetKey: uri,
+      showControls,
+      onApply: (trackId) => {
+        void playerRef.current?.setAudioTrack(trackId);
+        showControls();
+      },
+    });
+
   const toggleControlsVisibility = () => {
     const current = stateRef.current;
     if (!current) return;
@@ -282,6 +296,7 @@ export function VideoPlayer({
     if (chromeVisible && uiState !== "seeking" && uiState !== "error") {
       setState({ controls: false });
       setSubtitleMenuOpen(false);
+      setAudioMenuOpen(false);
       return;
     }
 
@@ -400,7 +415,7 @@ export function VideoPlayer({
     if (now - lastTapTimeRef.current < SURFACE_SINGLE_CLICK_DELAY_MS) {
       clearSurfaceSingleClickTimeout();
       lastTapTimeRef.current = 0;
-      if (!subtitleMenuOpen) {
+      if (!subtitleMenuOpen && !audioMenuOpen) {
         applySurfaceControl(locationX);
       }
       return;
@@ -408,6 +423,10 @@ export function VideoPlayer({
     lastTapTimeRef.current = now;
     if (subtitleMenuOpen) {
       scheduleSingleClickAction(() => setSubtitleMenuOpen(false));
+      return;
+    }
+    if (audioMenuOpen) {
+      scheduleSingleClickAction(() => setAudioMenuOpen(false));
       return;
     }
     scheduleSingleClickAction(toggleControlsVisibility);
@@ -447,15 +466,25 @@ export function VideoPlayer({
     showControls();
   };
 
+  const toggleAudioMenu = () => {
+    if (audioTracks.length <= 1) return;
+    setAudioMenuOpen((open) => !open);
+    showControls();
+  };
+
+  const handleTracksReady = () => {
+    applyDefaultAudioSelection();
+  };
+
   useEffect(() => {
-    if (uiState === "playing" && state.controls && !subtitleMenuOpen) {
+    if (uiState === "playing" && state.controls && !subtitleMenuOpen && !audioMenuOpen) {
       const timeout = setTimeout(() => {
         setState({ controls: false });
       }, CONTROLS_AUTO_HIDE_MS);
       return () => clearTimeout(timeout);
     }
     return undefined;
-  }, [controlsActivityTick, state.controls, uiState, subtitleMenuOpen]);
+  }, [controlsActivityTick, state.controls, uiState, subtitleMenuOpen, audioMenuOpen]);
 
   useEffect(() => {
     initialSeekAppliedRef.current = false;
@@ -640,6 +669,7 @@ export function VideoPlayer({
           artworkUri,
         }}
         onLoad={handleLoad}
+        onTracksReady={handleTracksReady}
         onPlaybackStateChange={handlePlaybackStateChange}
         onProgress={handleProgress}
         onError={handleError}
@@ -679,6 +709,11 @@ export function VideoPlayer({
             subtitleMenuOpen={subtitleMenuOpen}
             onToggleSubtitleMenu={toggleSubtitleMenu}
             onSubtitleSelect={applySubtitleTrack}
+            audioTracks={isDirectPlay ? audioTracks : []}
+            selectedAudioId={selectedAudioId}
+            audioMenuOpen={audioMenuOpen}
+            onToggleAudioMenu={toggleAudioMenu}
+            onAudioSelect={handleAudioSelect}
             contentFit={contentFit}
             contentFitLabel={({ contain: "Fit video", cover: "Fill screen" } as Record<ContentFit, string>)[contentFit]}
             onCycleContentFit={cycleContentFit}

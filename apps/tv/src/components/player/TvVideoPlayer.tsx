@@ -12,7 +12,7 @@ import {
   useTVEventHandler,
 } from "react-native";
 
-import { usePlaybackSession } from "@lunarr/core";
+import { useAudioSelection, usePlaybackSession } from "@lunarr/core";
 import { DEFAULT_SEGMENT_SKIP_PREFERENCES, resolvePlayableUri, type PlaybackDecision } from "@lunarr/core";
 import { darkColors } from "@/src/theme/colors";
 import { spacing } from "@/src/theme/spacing";
@@ -30,6 +30,7 @@ import {
   useSubtitleSelection,
   type ContentFit,
 } from "./hooks";
+import { TvAudioMenu } from "./TvAudioMenu";
 import { TvPlayerControls } from "./TvPlayerControls";
 import { TvPlayerOverlay } from "./TvPlayerOverlay";
 import { TvSegmentSkipOverlay } from "./TvSegmentSkipOverlay";
@@ -111,6 +112,19 @@ export function TvVideoPlayer({
 
   const { selectedTrackId, selectedTrack, subtitleMenuOpen, setSubtitleMenuOpen, handleSubtitleSelect } =
     useSubtitleSelection({ tracks: subtitleTracks, showControls });
+
+  const isDirectPlay = playback?.mode === "direct";
+  const audioTracks = playback?.audioTracks ?? [];
+  const handleTracksReady = () => {
+    applyDefaultAudioSelection();
+  };
+  const { selectedAudioId, audioMenuOpen, setAudioMenuOpen, handleAudioSelect, applyDefaultAudioSelection } =
+    useAudioSelection({
+      audioTracks: isDirectPlay ? audioTracks : [],
+      resetKey: uri,
+      showControls,
+      onApply: (trackId) => void playerRef.current?.setAudioTrack(trackId),
+    });
 
   const seekToRelative = (relativeSeconds: number) => {
     void playerRef.current?.seekTo(relativeSeconds);
@@ -354,6 +368,7 @@ export function TvVideoPlayer({
         style={styles.video}
         source={uri ? { url: uri, startPosition: toRelativeTime(startSeconds), autoplay: true } : undefined}
         onLoad={handleLoad}
+        onTracksReady={handleTracksReady}
         onPlaybackStateChange={handlePlaybackStateChange}
         onProgress={handleProgress}
         onError={handleError}
@@ -379,6 +394,8 @@ export function TvVideoPlayer({
             hasSubtitles={subtitleTracks.length > 0}
             subtitlesActive={selectedTrackId != null}
             onToggleSubtitleMenu={() => setSubtitleMenuOpen((prev) => !prev)}
+            hasAudio={isDirectPlay && audioTracks.length > 1}
+            onToggleAudioMenu={() => setAudioMenuOpen((prev) => !prev)}
             zoomLabel={CONTENT_FIT_LABELS[contentFit]}
             zoomActive={contentFit !== "contain"}
             onCycleZoom={cycleContentFit}
@@ -401,6 +418,15 @@ export function TvVideoPlayer({
           selectedTrackId={selectedTrackId}
           onSelect={handleSubtitleSelect}
           onClose={() => setSubtitleMenuOpen(false)}
+        />
+      ) : null}
+
+      {audioMenuOpen ? (
+        <TvAudioMenu
+          tracks={audioTracks}
+          selectedTrackId={selectedAudioId}
+          onSelect={handleAudioSelect}
+          onClose={() => setAudioMenuOpen(false)}
         />
       ) : null}
 

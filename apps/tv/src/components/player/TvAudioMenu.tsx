@@ -1,20 +1,20 @@
-import type { SubtitleTrack } from "@lunarr/api";
+import type { AudioTrack } from "@lunarr/api";
 import { darkColors } from "@/src/theme/colors";
 import { spacing, tvSafe } from "@/src/theme/spacing";
 import { useTVScale } from "@/src/theme/tv-scale";
 import { typography } from "@/src/theme/typography";
-import { Check, Subtitles } from "lucide-react-native";
+import { Check, Volume2 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Animated, Easing, Modal, Pressable, ScrollView, StyleSheet, Text, TVFocusGuideView, View } from "react-native";
 
 type Props = {
-  tracks: SubtitleTrack[];
-  selectedTrackId: string | null;
-  onSelect: (id: string | null) => void;
+  tracks: AudioTrack[];
+  selectedTrackId: number | null;
+  onSelect: (id: number) => void;
   onClose: () => void;
 };
 
-export function TvSubtitleMenu({ tracks, selectedTrackId, onSelect, onClose }: Props) {
+export function TvAudioMenu({ tracks, selectedTrackId, onSelect, onClose }: Props) {
   const { scale } = useTVScale();
   const panelWidth = 440 * scale;
   const [slide] = useState(() => new Animated.Value(panelWidth));
@@ -49,7 +49,7 @@ export function TvSubtitleMenu({ tracks, selectedTrackId, onSelect, onClose }: P
   const panelTitleStyle = { fontSize: typography.fontSize.heading * scale };
   const panelDividerStyle = { height: Math.max(1, 1 * scale) };
   const listContentStyle = { gap: spacing.sm * scale, paddingBottom: spacing.xl * scale };
-  const subtitlesIconSize = Math.round(30 * scale);
+  const audioIconSize = Math.round(30 * scale);
 
   return (
     <Modal visible transparent animationType="none" onRequestClose={onClose}>
@@ -61,22 +61,16 @@ export function TvSubtitleMenu({ tracks, selectedTrackId, onSelect, onClose }: P
         <Animated.View style={[styles.panel, panelStyle, { transform: [{ translateX: slide }] }]}>
           <View style={[styles.panelHeader, panelHeaderStyle]}>
             <View style={[styles.panelTitleRow, panelTitleRowStyle]}>
-              <Subtitles color={darkColors.accent} size={subtitlesIconSize} />
-              <Text style={[styles.panelTitle, panelTitleStyle]}>Subtitles</Text>
+              <Volume2 color={darkColors.accent} size={audioIconSize} />
+              <Text style={[styles.panelTitle, panelTitleStyle]}>Audio</Text>
             </View>
             <View style={[styles.panelDivider, panelDividerStyle]} />
           </View>
 
           <TVFocusGuideView autoFocus style={styles.listGuide}>
             <ScrollView style={styles.list} contentContainerStyle={listContentStyle}>
-              <SubtitleRow
-                label="Off"
-                selected={selectedTrackId === null}
-                onPress={() => onSelect(null)}
-                scale={scale}
-              />
               {tracks.map((track) => (
-                <SubtitleRow
+                <AudioRow
                   key={track.id}
                   label={track.label}
                   selected={selectedTrackId === track.id}
@@ -92,7 +86,7 @@ export function TvSubtitleMenu({ tracks, selectedTrackId, onSelect, onClose }: P
   );
 }
 
-function SubtitleRow({
+function AudioRow({
   label,
   selected,
   onPress,

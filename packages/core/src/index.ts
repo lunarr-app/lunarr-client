@@ -16,6 +16,7 @@ export * from "./profile/policy";
 export * from "./profile/preferences";
 export * from "./query-keys";
 export * from "./hooks/useRefreshOnFocus";
+export * from "./hooks/useAudioSelection";
 export * from "./hooks/queries/use-health";
 export * from "./hooks/queries/use-movie-detail";
 export * from "./hooks/queries/use-show-detail";

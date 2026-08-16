@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Lunarr API",
-    "version": "0.9.2",
+    "version": "0.9.3",
     "description": "HTTP API for Lunarr catalog, playback, and administration."
   },
   "servers": [
@@ -8810,6 +8810,41 @@
           }
         }
       },
+      "AudioTrack": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "language",
+          "codec",
+          "default",
+          "channels"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "label": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "channels": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "codec": {
+            "type": "string"
+          },
+          "default": {
+            "type": "boolean"
+          }
+        }
+      },
       "PlayableFileSummary": {
         "type": "object",
         "required": [
@@ -8973,6 +9008,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/SubtitleTrack"
+            }
+          },
+          "audioTracks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AudioTrack"
             }
           },
           "message": {
