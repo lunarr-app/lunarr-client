@@ -20,8 +20,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/core
       '@lunarr/mpv-player':
-        specifier: 1.1.0
-        version: 1.1.0(expo@57.0.13)(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
+        specifier: 1.1.1
+        version: 1.1.1(expo@57.0.13)(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)
       '@react-native-community/slider':
         specifier: 5.2.0
         version: 5.2.0
@@ -120,8 +120,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/core
       '@lunarr/mpv-player':
-        specifier: 1.1.0
-        version: 1.1.0(expo@57.0.13)(react-native-tvos@0.86.0-2)(react@19.2.3)
+        specifier: 1.1.1
+        version: 1.1.1(expo@57.0.13)(react-native-tvos@0.86.0-2)(react@19.2.3)
       '@tanstack/react-query':
         specifier: 5.101.4
         version: 5.101.4(react@19.2.3)
@@ -889,8 +889,8 @@ packages:
     resolution: {integrity: sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==}
     engines: {node: '>=8'}
 
-  '@lunarr/mpv-player@1.1.0':
-    resolution: {integrity: sha512-crk0k6ozvmwker9cIYzcTHq7sB5FdLNBwTM9EfJ03WbevoxX3GNb6vDfEL/GX3Qm+3Uzt3Sm3G8qefgTrYWx5A==}
+  '@lunarr/mpv-player@1.1.1':
+    resolution: {integrity: sha512-skv53D2PSU3sf4yKk7y45MccpiMUJaZufSHtFnTQzgMic0wC56jmBdtoQJoIWIoYXKjLG9hq5a4GksJ/nclOZQ==}
     peerDependencies:
       expo: '*'
       react: '*'
@@ -4622,13 +4622,13 @@ snapshots:
 
   '@lukeed/ms@2.0.2': {}
 
-  '@lunarr/mpv-player@1.1.0(expo@57.0.13)(react-native-tvos@0.86.0-2)(react@19.2.3)':
+  '@lunarr/mpv-player@1.1.1(expo@57.0.13)(react-native-tvos@0.86.0-2)(react@19.2.3)':
     dependencies:
       expo: 57.0.13(@babel/core@7.29.7(supports-color@8.1.1))(@expo/metro-runtime@57.0.10)(expo-router@57.0.13)(react-dom@19.2.3(react@19.2.3))(react-native-tvos@0.86.0-2)(react-native-web@0.21.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native-worklets@0.10.1(@babel/core@7.29.7(supports-color@8.1.1))(react-native-tvos@0.86.0-2)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1)(typescript@6.0.3)
       react: 19.2.3
       react-native: react-native-tvos@0.86.0-2(@types/react@19.2.18)(react-native-tvos@0.86.0-2)(react@19.2.3)(supports-color@8.1.1)
 
-  '@lunarr/mpv-player@1.1.0(expo@57.0.13)(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)':
+  '@lunarr/mpv-player@1.1.1(expo@57.0.13)(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)':
     dependencies:
       expo: 57.0.13(@babel/core@7.29.7(supports-color@8.1.1))(@expo/metro-runtime@57.0.10)(expo-router@57.0.13)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native-worklets@0.10.1(@babel/core@7.29.7(supports-color@8.1.1))(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1))(react-native@0.86.2(@types/react@19.2.18)(react@19.2.3)(supports-color@8.1.1))(react@19.2.3)(supports-color@8.1.1)(typescript@6.0.3)
       react: 19.2.3

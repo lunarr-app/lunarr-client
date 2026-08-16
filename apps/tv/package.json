@@ -21,7 +21,7 @@
     "@expo-google-fonts/inter": "0.4.2",
     "@lunarr/api": "workspace:*",
     "@lunarr/core": "workspace:*",
-    "@lunarr/mpv-player": "1.1.0",
+    "@lunarr/mpv-player": "1.1.1",
     "@tanstack/react-query": "5.101.4",
     "expo": "~57.0.13",
     "expo-build-properties": "~57.0.11",
